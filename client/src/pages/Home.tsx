@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.svg';
-import '../styles/App.css';
+import '../styles/Home.css';
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/status')
+      .then((response) => {
+        console.log("FOund: ", response);
+        return response.json()
+      })
+      .then(data => setData(data.message));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,7 +29,15 @@ function App() {
         >
           Learn React
         </a>
+
+        {/* From Backend */}
+        <div>
+          <h1>Backend Response</h1>
+          <p>{data}</p>
+        </div>
+
       </header>
+
     </div>
   );
 }
