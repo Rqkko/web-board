@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.svg';
+import { api } from '../utils/api';
 import '../styles/Home.css';
 
 function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('/api/status')
+    api.get('/api/status')
       .then((response) => {
         console.log("FOund: ", response);
-        return response.json()
+        return response.data
       })
       .then(data => setData(data.message));
   }, []);
