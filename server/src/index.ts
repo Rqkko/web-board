@@ -4,10 +4,18 @@ import { config } from "./config";
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import { setupSwagger } from "./swagger";
+const path = require('path');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Handle requests by serving index.html for all routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
 
 // Routes
 app.use('/api/user', userRoutes);
