@@ -8,5 +8,7 @@ export const config = {
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY || "",
     port: process.env.PORT || 3001,
     nodeEnv: process.env.NODE_ENV || "",
-    hostName: process.env.HOST_NAME || os.hostname(),
+    // hostName: process.env.HOST_NAME || os.hostname(),
+    hostName: process.env.NODE_ENV === 'development' ? 'localhost' : os.hostname(),
+    protocol: process.env.NODE_ENV === 'development' ? 'http' : 'https',
 };

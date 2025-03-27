@@ -11,7 +11,7 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for my project',
     },
-    servers: [{ url: `${config.hostName}:${config.port}` }],
+    servers: [{ url: `${config.protocol}://${config.hostName}:${config.port}` }],
   },
   apis: ['./src/routes/*.ts'], // Read all route files
 };
