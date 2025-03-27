@@ -2,15 +2,24 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/src/index.ts",
+      "src": "server/dist/index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "client/build" }
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "server/dist/index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "server/src/index.ts"
+      "dest": "client/build/$1"
     }
   ],
-  "buildCommand": "npm install --prefix server && npm install --prefix client && npm run build --prefix client"
+  "buildCommand": "npm install --prefix server && npm run build --prefix server && npm install --prefix client && npm run build --prefix client"
 }
