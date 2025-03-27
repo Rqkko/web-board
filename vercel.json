@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "client/src/index.tsx"
+      "dest": "client/build/index.html"
     }
   ],
   "buildCommand": "npm install --prefix server && npm install --prefix client && npm run build --prefix client && npm run build --prefix server"
