@@ -12,13 +12,17 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server/dist/index.js"
-    },
+    // {
+    //   "src": "/api/(.*)",
+    //   "dest": "server/dist/index.js"
+    // },
+    // {
+    //   "src": "/(.*)",
+    //   "dest": "client/build/$1"
+    // }
     {
       "src": "/(.*)",
-      "dest": "client/build/$1"
+      "dest": "server/dist/index.js"
     }
   ],
   "buildCommand": "npm install --prefix server && npm run build --prefix server && npm install --prefix client && npm run build --prefix client"
