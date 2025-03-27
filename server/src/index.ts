@@ -18,6 +18,7 @@ setupSwagger(app);
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
+    console.log(`The port is: "${config.port}"`);
     if (config.nodeEnv === "development") {
         console.log(`For Dev: http://localhost:${config.port}/api-docs`);
     }
