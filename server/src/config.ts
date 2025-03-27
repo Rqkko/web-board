@@ -9,6 +9,7 @@ export const config = {
     port: process.env.PORT || 3001,
     nodeEnv: process.env.NODE_ENV || "",
     // hostName: process.env.HOST_NAME || os.hostname(),
-    hostName: process.env.NODE_ENV === 'development' ? 'localhost' : os.hostname(),
+    hostName: process.env.RAILWAY_PUBLIC_DOMAIN || process.env.HOSTNAME || 'localhost',
+    // hostName: process.env.NODE_ENV === 'development' ? 'localhost' : os.hostname(),
     protocol: process.env.NODE_ENV === 'development' ? 'http' : 'https',
 };
