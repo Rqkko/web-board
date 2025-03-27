@@ -1,6 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';
+import { config } from "./config";
 
 const options = {
   definition: {
@@ -10,7 +11,7 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for my project',
     },
-    servers: [{ url: 'http://localhost:3001' }],
+    servers: [{ url: `${config.hostName}:${config.port}` }],
   },
   apis: ['./src/routes/*.ts'], // Read all route files
 };
