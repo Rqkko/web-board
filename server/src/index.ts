@@ -7,16 +7,9 @@ import { setupSwagger } from "./swagger";
 import path from "path";
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+// app.use(cors());
+// app.use(express.json());
 
-// Serve React frontend for non-API routes
-const clientBuildPath = path.join(__dirname, '../../client/build');
-app.use(express.static(clientBuildPath)); // Serve static files from React build directory
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
-});
 
 // Routes
 app.use('/api/user', userRoutes);
@@ -25,6 +18,13 @@ app.use('/api/post', postRoutes);
 // Setup Swagger
 setupSwagger(app);
 
+// Serve React frontend for non-API routes
+const clientBuildPath = path.join(__dirname, '../../client/build');
+app.use(express.static(clientBuildPath)); // Serve static files from React build directory
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
+});
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
