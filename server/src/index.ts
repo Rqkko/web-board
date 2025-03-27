@@ -14,13 +14,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Handle requests by serving index.html for all routes
+// Routes
+app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
-// Routes
-app.use('/api/user', userRoutes);
-app.use('/api/post', postRoutes);
 
 // Setup Swagger
 setupSwagger(app);
