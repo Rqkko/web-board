@@ -28,6 +28,6 @@ app.get('*', (req, res) => {
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
     if (config.nodeEnv === "development") {
-        console.log(`For Dev: http://localhost:${config.port}/api-docs`);
+        console.log(`For Dev: http://localhost:${config.port}/api/docs`);
     }
 });
