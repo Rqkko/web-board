@@ -4,24 +4,12 @@
     {
       "src": "server/src/index.ts",
       "use": "@vercel/node"
-    },
-    {
-      "src": "client/build/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "(.*)",
       "dest": "server/src/index.ts"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "client/build/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "client/build/index.html"
     }
   ],
   "buildCommand": "npm install --prefix server && npm install --prefix client && npm run build --prefix client && npm run build --prefix server"
