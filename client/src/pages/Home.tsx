@@ -7,7 +7,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    api.get('/api/status')
+    api.get('/api/user/getUsername')
       .then((response) => {
         console.log("FOund: ", response);
         return response.data
