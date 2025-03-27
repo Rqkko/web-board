@@ -10,11 +10,11 @@ const app = express();
 app.use(cors());
 
 // Serve the static files from the React app
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Handle requests by serving index.html for all routes
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 // Routes
