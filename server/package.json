@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.ts",
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "start": "node index.js",
+    "start": "ts-node dist/index.ts",
     "postinstall": "cd ../client && npm install && npm run build"
   },
   "keywords": [],
