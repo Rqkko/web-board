@@ -12,17 +12,17 @@ const app = express();
 
 
 // Routes
-app.use('/api/user', userRoutes);
-app.use('/api/post', postRoutes);
+// app.use('/api/user', userRoutes);
+// app.use('/api/post', postRoutes);
 
 // Setup Swagger
-setupSwagger(app);
+// setupSwagger(app);
 
 // Serve React frontend for non-API routes
 const clientBuildPath = path.join(__dirname, '../../client/build');
 app.use(express.static(clientBuildPath)); // Serve static files from React build directory
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
 });
 
