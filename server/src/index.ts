@@ -12,8 +12,8 @@ const app = express();
 
 
 // Routes
-// app.use('/api/user', userRoutes);
-// app.use('/api/post', postRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
 
 // Setup Swagger
 // setupSwagger(app);
