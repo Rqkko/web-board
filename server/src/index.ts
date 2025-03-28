@@ -7,8 +7,8 @@ import { setupSwagger } from "./swagger";
 import path from "path";
 
 const app = express();
-// app.use(cors());
-// app.use(express.json());
+app.use(cors());
+app.use(express.json());
 
 
 // Routes
@@ -16,7 +16,10 @@ app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 
 // Setup Swagger
-// setupSwagger(app);
+if (config.nodeEnv === "development") {
+    console.log("Setting up Swagger...");
+    setupSwagger(app);
+}
 
 // Serve React frontend for non-API routes
 const clientBuildPath = path.join(__dirname, '../../client/build');
