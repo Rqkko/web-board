@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import { setupSwagger } from "./swagger";
 import path from "path";
+import { TextDecoder } from "util";
 
 const app = express();
 if (config.nodeEnv === "development") {
