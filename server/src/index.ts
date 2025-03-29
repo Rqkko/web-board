@@ -7,7 +7,9 @@ import { setupSwagger } from "./swagger";
 import path from "path";
 
 const app = express();
-// app.use(cors());
+if (config.nodeEnv === "development") {
+    app.use(cors());
+}
 app.use(express.json());
 
 
@@ -21,13 +23,24 @@ if (config.nodeEnv === "development") {
     setupSwagger(app);
 }
 
-// Serve React frontend for non-API routes
-const clientBuildPath = path.join(__dirname, '../../client/build');
-app.use(express.static(clientBuildPath)); // Serve static files from React build directory
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
-});
+// Serve React frontend for non-API routes (if not in development)
+if (config.nodeEnv !== "development") {
+    const clientBuildPath = path.join(__dirname, '../../client/build');
+    app.use(express.static(clientBuildPath)); // Serve static files from React build directory
+    
+    app.get('/*', (req, res) => {
+        res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
+    });
+// Use CORS for development
+} 
+// else {
+//     console.log("Setting up CORS for development...");
+//     app.use(cors({
+//         origin: 'http://localhost:3000',
+//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//         allowedHeaders: ['Content-Type', 'Authorization'],
+//     }));
+// }
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
