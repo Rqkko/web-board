@@ -12,7 +12,6 @@ if (config.nodeEnv === "development") {
 }
 app.use(express.json());
 
-
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
@@ -31,16 +30,7 @@ if (config.nodeEnv !== "development") {
     app.get('/*', (req, res) => {
         res.sendFile(path.join(clientBuildPath, 'index.html')); // Serve React's index.html for all other routes
     });
-// Use CORS for development
-} 
-// else {
-//     console.log("Setting up CORS for development...");
-//     app.use(cors({
-//         origin: 'http://localhost:3000',
-//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//         allowedHeaders: ['Content-Type', 'Authorization'],
-//     }));
-// }
+}
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
