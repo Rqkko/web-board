@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { User } from '../types/types';
 import { PostgrestError } from '@supabase/supabase-js';
+import { config } from '../config';
 
 const router = express.Router();
 
