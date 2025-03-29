@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { User } from '../types/types';
+import { PostgrestError } from '@supabase/supabase-js';
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.get('/getUsername', async (_: Request, res: Response) => {
     .select('username')
     .limit(1)
     .single<User>()
-  .then(({ data, error }: { data: User | null; error: any }) => {
+  .then(({ data, error }: { data: User | null; error: PostgrestError | null }) => {
     if (error) {
       res.status(500).json({ error: error.message });
     } else if (data) {
@@ -32,23 +33,6 @@ router.get('/getUsername', async (_: Request, res: Response) => {
       res.status(404).json({ message: 'User not found' });
     }
   });
-
-  // const { data, error } = await supabase
-  //   .from('users')
-  //   .select('username')
-  //   .limit(1)
-  //   .single<User>();
-
-  // if (error) {
-  //   res.status(500).json({ error: error.message });
-  // }
-
-  // if (data) {
-  //   res.json({ message: data.username });
-  // }
-  // console.log("I'm still here");
-
-  // res.status(404).json({ message: 'User not found' });
 });
 
 /**
