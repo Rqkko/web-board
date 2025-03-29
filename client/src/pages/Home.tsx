@@ -3,7 +3,7 @@ import logo from '../assets/logo.svg';
 import { api } from '../utils/api';
 import '../styles/Home.css';
 
-function App() {
+function Home() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
