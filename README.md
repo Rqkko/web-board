@@ -11,8 +11,8 @@ cd web-board
 ### 2. Setup & Start Backend
 #### 2.1 Create .env & populate with the following:
 ```.env
-SUPABASE_URL=https://axpqjbtxdkqnijupbqdx.supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4cHFqYnR4ZGtxbmlqdXBicWR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5NTc5MDUsImV4cCI6MjA1ODUzMzkwNX0.B__RkAOaHx75uhpcoxyOrvX-QsLBcmXgUQVrhJImgss
+SUPABASE_URL=*REDACTED*
+SUPABASE_ANON_KEY=*REDACTED*
 PORT=3001
 NODE_ENV=development
 ```
