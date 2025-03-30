@@ -16,6 +16,7 @@ SUPABASE_ANON_KEY=*REDACTED*
 PORT=3001
 NODE_ENV=development
 ```
+To obtain supabase keys, please contact the administrator
 #### 2.2 Install Dependencies
 ```bash
 cd server
