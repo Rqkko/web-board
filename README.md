@@ -38,3 +38,18 @@ npm i
 ```bash
 npm start
 ```
+
+## Contribution
+### 1. Clone the repository
+
+### 2. Create a new branch (branch from dev branch)
+- Make sure to use the following naming convention: 
+<br>
+`dev-{frontend|backend}-{feature|bugfix}`
+- Example: dev-frontend-loginpage
+
+### 3. Make your changes and commit them
+- Check your code for errors and make sure to follow the coding conventions
+
+### 4. Open a pull request to the dev branch
+- Write a description of your changes before submitting the pull request  
