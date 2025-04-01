@@ -1,7 +1,7 @@
 # web-board
 Web board web application
 
-## Setup for Development (I will make a full tutorial later)
+## Setup for Development
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Rqkko/web-board.git
@@ -9,14 +9,14 @@ cd web-board
 ```
 
 ### 2. Setup & Start Backend
-#### 2.1 Create .env & populate with the following:
+#### 2.1 Create `.env` & populate with the following:
 ```.env
 SUPABASE_URL=*REDACTED*
 SUPABASE_ANON_KEY=*REDACTED*
 PORT=3001
 NODE_ENV=development
 ```
-To obtain supabase keys, please contact the administrator
+* To obtain supabase credentials, please contact the administrator
 #### 2.2 Install Dependencies
 ```bash
 cd server
@@ -26,7 +26,7 @@ npm i
 ```bash
 npm run dev
 ```
-Go to path `localhost:3001/api-docs` for API documentation
+Go to path `localhost:3001/api/docs` for API documentation
 
 ### 3. Setup & Start Frontend
 #### 3.1 Install Dependencies
@@ -38,6 +38,7 @@ npm i
 ```bash
 npm start
 ```
+Web browser should open automatically, if not, go to `localhost:3000`
 
 ## Contribution
 ### 1. Clone the repository
