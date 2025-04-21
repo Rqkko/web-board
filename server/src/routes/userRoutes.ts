@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { User } from '../types/types';
 import { PostgrestError } from '@supabase/supabase-js';
@@ -37,7 +37,7 @@ router.get('/getUsername', async (_: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/user/createAccount:
+ * /api/user/signup:
  *   post:
  *     summary: Create a new user
  *     requestBody:
@@ -47,14 +47,34 @@ router.get('/getUsername', async (_: Request, res: Response) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+*                  type: string
  *     responses:
  *       201:
  *         description: User created successfully
  */
-// router.post('/createAccount', (req, res) => {
-//   // TODO
-// });
+router.post('/signup', async (req: Request, res: Response) => {
+  const { username, email, password } = req.body;
+
+  supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        username
+      }
+    }
+  }).then(({ data, error }) => {
+    if (error) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(201).json({ user: data });
+    }
+  });
+});
 
 export default router;
