@@ -77,4 +77,38 @@ router.post('/signup', async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @swagger
+ * /api/user/login:
+ *   post:
+ *     summary: Login a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ */
+router.post('/login', async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  supabase.auth.signInWithPassword({
+    email,
+    password
+  }).then(({ data, error }) => {
+    if (error) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(200).json({ user: data });
+    }
+  });
+});
+
 export default router;
