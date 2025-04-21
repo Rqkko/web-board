@@ -1,7 +1,5 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
-import { User } from '../types/types';
-import { PostgrestError } from '@supabase/supabase-js';
 
 const router = express.Router();
 
@@ -18,19 +16,22 @@ const router = express.Router();
  *       500:
  *         description: Internal server error 
  */
-router.get('/getUsername', async (_: Request, res: Response) => {
-  supabase
-    .from('users')
-    .select('username')
-    .limit(1)
-    .single<User>()
-  .then(({ data, error }: { data: User | null; error: PostgrestError | null }) => {
+router.get('/getUsername', async (req: Request, res: Response) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  if (!token) {
+    res.status(401).json({ error: 'No token provided' });
+    return;
+  }
+
+  supabase.auth.getUser(token)
+  .then(({ data, error }) => {
     if (error) {
       res.status(500).json({ error: error.message });
-    } else if (data) {
-      res.json({ message: data.username });
+    } else if (!data.user) {
+      res.status(404).json({ error: 'User not found' });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(200).json({ displayName: data.user.user_metadata.display_name });
     }
   });
 });
@@ -65,7 +66,7 @@ router.post('/signup', async (req: Request, res: Response) => {
     password,
     options: {
       data: {
-        username
+        display_name: username
       }
     }
   }).then(({ data, error }) => {
@@ -106,7 +107,11 @@ router.post('/login', async (req: Request, res: Response) => {
     if (error) {
       res.status(400).json({ error: error.message });
     } else {
-      res.status(200).json({ user: data });
+      res.status(200).json({
+        access_token: data.session?.access_token,
+        refresh_token: data.session?.refresh_token,
+        user: data.user
+      });
     }
   });
 });
