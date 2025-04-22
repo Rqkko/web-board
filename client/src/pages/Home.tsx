@@ -7,12 +7,18 @@ function Home() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    api.get('/api/user/getUsername')
-      .then((response) => {
-        console.log("FOund: ", response);
-        return response.data
-      })
-      .then(data => setData(data.message));
+    api.get('/api/user/getUsername', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => setData(data.message))
+      .catch((error) => {
+        if (error.response.status === 401) {
+          window.location.href = '/login';
+        } else {
+          alert("Error fetching data: " + error);
+        }
+      });
   }, []);
 
   return (
