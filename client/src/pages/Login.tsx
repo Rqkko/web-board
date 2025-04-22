@@ -12,15 +12,16 @@ function Login() {
       { withCredentials: true }
     )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.data.access_token) {
           window.location.href = '/';
-        } else {
-          alert('Login failed. Please try again.');
         }
       })
       .catch((error) => {
-        console.error('Error during login:', error);
-        alert('An error occurred. Please try again later.');
+        if (error.response && error.response.status === 400) {
+          alert('Invalid credentials. Please try again.');
+        } else {
+          alert('Error: '+ error.message);
+        }
       });
   };
 
