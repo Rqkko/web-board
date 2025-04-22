@@ -1,16 +1,5 @@
 import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
-// import '../types/express-session'
-// import { SessionData } from 'express-session';
-
-import 'express-session';  // Importing this will augment the types globally
-
-declare module 'express-session' {
-  interface SessionData {
-    userId?: string;
-    accessToken?: string;
-  }
-}
 
 const router = express.Router();
 
