@@ -17,7 +17,7 @@ const router = express.Router();
  *         description: Internal server error 
  */
 router.get('/getUsername', (req: Request, res: Response) => {
-  const token = req.session.accessToken;
+  const token = req.cookies.accessToken;
 
   if (!token) {
     res.status(401).json({ error: 'No token provided' });
@@ -111,13 +111,12 @@ router.post('/login', async (req: Request, res: Response) => {
     if (error) {
       res.status(400).json({ error: error.message });
     } else {
-      req.session.accessToken = data.session.access_token;
-      req.session.userId = data.user.id;
-
-      res.status(200).json({
-        access_token: req.session.accessToken,
-        user: req.session.userId
+      res.cookie('accessToken', data.session.access_token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
       });
+      res.sendStatus(200);
     }
   });
 });

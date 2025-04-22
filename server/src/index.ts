@@ -6,6 +6,7 @@ import postRoutes from './routes/postRoutes';
 import { setupSwagger } from "./swagger";
 import path from "path";
 import session from "express-session";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 if (config.nodeEnv === "development") {
@@ -27,6 +28,7 @@ app.use(session({
         sameSite: 'lax',
     },
 }));
+app.use(cookieParser());
 
 // Routes
 app.use('/api/user', userRoutes);

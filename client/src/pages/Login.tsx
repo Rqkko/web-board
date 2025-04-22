@@ -13,7 +13,7 @@ function Login() {
       { withCredentials: true }
     )
       .then((response) => {
-        if (response.data.access_token) {
+        if (response.status === 200) {
           window.location.href = '/';
         }
       })
