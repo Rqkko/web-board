@@ -39,7 +39,7 @@ function Home() {
 
         {/* From Backend */}
         <div>
-          <h1>Backend Response</h1>
+          <h1>Your Username (Response from Backend)</h1>
           <p>{data}</p>
         </div>
 
