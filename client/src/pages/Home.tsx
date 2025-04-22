@@ -16,7 +16,7 @@ function Home() {
       .then(response => response.data)
       .then(data => setData(data.message))
       .catch((error) => {
-        alert("Error fetching data: " + error);
+        console.log("Error fetching data: " + error);
       });
   }, [navigate]);
 
