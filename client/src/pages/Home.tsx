@@ -16,11 +16,7 @@ function Home() {
       .then(response => response.data)
       .then(data => setData(data.message))
       .catch((error) => {
-        if (error.response.status === 401) {
-          alert("Session expired. Please log in again.");
-        } else {
-          alert("Error fetching data: " + error);
-        }
+        alert("Error fetching data: " + error);
       });
   }, [navigate]);
 
