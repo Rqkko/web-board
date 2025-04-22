@@ -16,7 +16,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error 
  */
-router.get('/getUsername', async (req: Request, res: Response) => {
+router.get('/getUsername', (req: Request, res: Response) => {
   const token = req.session.accessToken;
 
   if (!token) {
