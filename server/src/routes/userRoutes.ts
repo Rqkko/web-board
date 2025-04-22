@@ -1,5 +1,16 @@
 import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
+// import '../types/express-session'
+// import { SessionData } from 'express-session';
+
+import 'express-session';  // Importing this will augment the types globally
+
+declare module 'express-session' {
+  interface SessionData {
+    userId?: string;
+    accessToken?: string;
+  }
+}
 
 const router = express.Router();
 
@@ -17,7 +28,7 @@ const router = express.Router();
  *         description: Internal server error 
  */
 router.get('/getUsername', async (req: Request, res: Response) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+  const token = req.session.accessToken;
 
   if (!token) {
     res.status(401).json({ error: 'No token provided' });
@@ -31,7 +42,7 @@ router.get('/getUsername', async (req: Request, res: Response) => {
     } else if (!data.user) {
       res.status(404).json({ error: 'User not found' });
     } else {
-      res.status(200).json({ displayName: data.user.user_metadata.display_name });
+      res.status(200).json({ message: data.user.user_metadata.display_name });
     }
   });
 });
@@ -107,10 +118,12 @@ router.post('/login', async (req: Request, res: Response) => {
     if (error) {
       res.status(400).json({ error: error.message });
     } else {
+      req.session.accessToken = data.session.access_token;
+      req.session.userId = data.user.id;
+
       res.status(200).json({
-        access_token: data.session?.access_token,
-        refresh_token: data.session?.refresh_token,
-        user: data.user
+        access_token: req.session.accessToken,
+        user: req.session.userId
       });
     }
   });
