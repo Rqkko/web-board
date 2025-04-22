@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express';
 import supabase from '../supabaseClient';
-import { User } from '../types/types';
-import { PostgrestError } from '@supabase/supabase-js';
 
 const router = express.Router();
 
@@ -18,26 +16,29 @@ const router = express.Router();
  *       500:
  *         description: Internal server error 
  */
-router.get('/getUsername', async (_: Request, res: Response) => {
-  supabase
-    .from('users')
-    .select('username')
-    .limit(1)
-    .single<User>()
-  .then(({ data, error }: { data: User | null; error: PostgrestError | null }) => {
+router.get('/getUsername', (req: Request, res: Response) => {
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    res.status(401).json({ error: 'No token provided' });
+    return;
+  }
+
+  supabase.auth.getUser(token)
+  .then(({ data, error }) => {
     if (error) {
       res.status(500).json({ error: error.message });
-    } else if (data) {
-      res.json({ message: data.username });
+    } else if (!data.user) {
+      res.status(404).json({ error: 'User not found' });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(200).json({ message: data.user.user_metadata.display_name });
     }
   });
 });
 
 /**
  * @swagger
- * /api/user/createAccount:
+ * /api/user/signup:
  *   post:
  *     summary: Create a new user
  *     requestBody:
@@ -47,14 +48,77 @@ router.get('/getUsername', async (_: Request, res: Response) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+*                  type: string
  *     responses:
  *       201:
  *         description: User created successfully
  */
-// router.post('/createAccount', (req, res) => {
-//   // TODO
-// });
+router.post('/signup', async (req: Request, res: Response) => {
+  const { username, email, password } = req.body;
+
+  supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        display_name: username
+      }
+    }
+  }).then(({ data, error }) => {
+    if (error) {
+      res.status(400).json({ error: error.message });
+    } else if (!data || !data.session || !data.user) {
+      res.status(400).json({ error: 'User creation failed' });
+    } else {
+      req.session.accessToken = data.session.access_token;
+      req.session.userId = data.user.id;
+      res.status(201).json({ user: data });
+    }
+  });
+});
+
+/**
+ * @swagger
+ * /api/user/login:
+ *   post:
+ *     summary: Login a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ */
+router.post('/login', async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  supabase.auth.signInWithPassword({
+    email,
+    password
+  }).then(({ data, error }) => {
+    if (error) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.cookie('accessToken', data.session.access_token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
+      });
+      res.sendStatus(200);
+    }
+  });
+});
 
 export default router;

@@ -5,12 +5,17 @@ import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import { setupSwagger } from "./swagger";
 import path from "path";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 if (config.nodeEnv === "development") {
-    app.use(cors());
+    app.use(cors({
+        origin: "http://localhost:3000",
+        credentials: true
+    }));
 }
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/user', userRoutes);
