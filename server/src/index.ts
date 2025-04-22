@@ -5,7 +5,6 @@ import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import { setupSwagger } from "./swagger";
 import path from "path";
-import session from "express-session";
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -16,18 +15,6 @@ if (config.nodeEnv === "development") {
     }));
 }
 app.use(express.json());
-
-app.use(session({
-    secret: config.sessionKey,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 60 * 60 * 1000, // Session expires after 1 hour
-        httpOnly: true,
-        secure: false, // Set to true if using HTTPS
-        sameSite: 'lax',
-    },
-}));
 app.use(cookieParser());
 
 // Routes
