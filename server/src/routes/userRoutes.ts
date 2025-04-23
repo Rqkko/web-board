@@ -95,6 +95,16 @@ router.post('/signup', async (req: Request, res: Response) => {
     } else if (!data || !data.session || !data.user) {
       res.status(400).json({ error: 'User creation failed' });
     } else {
+      res.cookie('accessToken', data.session.access_token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
+      });
+      res.cookie('userId', data.user.id, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
+      });
       res.status(201).json({ user: data });
     }
   });
