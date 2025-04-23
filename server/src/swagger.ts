@@ -12,15 +12,6 @@ const options = {
       description: 'API documentation for OrcaBoard',
     },
     servers: [{ url: `http://localhost:${config.port}` }],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
     security: [
       {
         bearerAuth: [],
@@ -33,26 +24,5 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 export const setupSwagger = (app: Express) => {
-  app.use(
-    '/api/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(
-      swaggerSpec,
-      {
-        swaggerOptions: {
-          authAction: {
-            Bearer: {
-              name: 'Authorization',
-              schema: {
-                type: 'apiKey',
-                in: 'header',
-                name: 'Authorization',
-                description: 'Enter your Bearer token',
-              },
-              value: 'Bearer ',
-            },
-          }
-        }
-      }
-    ));
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
