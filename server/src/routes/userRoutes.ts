@@ -75,8 +75,6 @@ router.post('/signup', async (req: Request, res: Response) => {
     } else if (!data || !data.session || !data.user) {
       res.status(400).json({ error: 'User creation failed' });
     } else {
-      req.session.accessToken = data.session.access_token;
-      req.session.userId = data.user.id;
       res.status(201).json({ user: data });
     }
   });
