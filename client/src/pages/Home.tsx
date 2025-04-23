@@ -54,6 +54,7 @@ function Home() {
             <p>{username}</p>
           </div>
         ) : (
+          <>
             <Button 
             style={{
               marginTop: '20px',
@@ -68,6 +69,21 @@ function Home() {
             >
             Login
             </Button>
+            <Button 
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              borderRadius: '8px',
+              backgroundColor: '#1976d2',
+              color: '#fff',
+              textTransform: 'none',
+            }} 
+            onClick={() => navigate('/signup')}
+            >
+            Signup
+            </Button>
+          </>
         )}
         {userId && (
           <div>
