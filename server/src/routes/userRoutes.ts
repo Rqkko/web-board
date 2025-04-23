@@ -38,6 +38,26 @@ router.get('/getUsername', (req: Request, res: Response) => {
 
 /**
  * @swagger
+ * /api/user/getUserId:
+ *  get:
+ *    summary: Get the ID of user
+ *    responses:
+ *     200:
+ *      description: Successfully retrieved user ID
+ *     404:
+ *      description: User not found
+ */
+router.get('/getUserId', (req: Request, res: Response) => {
+  const userId = req.cookies.userId;
+  if (!userId) {
+    res.status(401).json({ error: 'No user ID provided' });
+    return;
+  }
+  res.status(200).json({ message: userId });
+});
+
+/**
+ * @swagger
  * /api/user/signup:
  *   post:
  *     summary: Create a new user
@@ -110,6 +130,11 @@ router.post('/login', async (req: Request, res: Response) => {
       res.status(400).json({ error: error.message });
     } else {
       res.cookie('accessToken', data.session.access_token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
+      });
+      res.cookie('userId', data.user.id, {
         httpOnly: true,
         secure: true,
         maxAge: 3600000 // 1 hour
