@@ -6,7 +6,8 @@ import '../styles/Home.css';
 import { Button } from '@mui/material';
 
 function Home() {
-  const [data, setData] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +15,17 @@ function Home() {
       withCredentials: true,
     })
       .then(response => response.data)
-      .then(data => setData(data.message))
+      .then(data => setUsername(data.message))
+      .catch((error) => {
+        console.log("Error fetching data: " + error);
+      });
+    api.get('/api/user/getUserId', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => {
+        setUserId(data.message);
+      })
       .catch((error) => {
         console.log("Error fetching data: " + error);
       });
@@ -36,11 +47,11 @@ function Home() {
           Learn React
         </a>
 
-        {data ? (
+        {username ? (
           <div>
             {/* From Backend */}
             <h1>Your Username (Response from Backend)</h1>
-            <p>{data}</p>
+            <p>{username}</p>
           </div>
         ) : (
             <Button 
@@ -58,7 +69,13 @@ function Home() {
             Login
             </Button>
         )}
-
+        {userId && (
+          <div>
+            {/* From Backend */}
+            <h1>Your User ID (Response from Backend)</h1>
+            <p>{userId}</p>
+          </div>
+        )}
 
       </header>
 
