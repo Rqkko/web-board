@@ -7,12 +7,13 @@ import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
+import Dashboard from './pages/Dashboard';
 
-function PostWrapper() {
-  const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
+// function PostWrapper() {
+//   const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
 
-  return <Post postId={postId} />;
-}
+//   return <Post postId={postId} />;
+// }
 
 function App() {
   const location = useLocation();
@@ -26,9 +27,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/post/:postId" element={<PostWrapper />} />
+        {/* <Route path="/post/:postId" element={<PostWrapper />} /> */}
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/post/:id" element={<Post />} />
       </Routes>
     </>
   );
