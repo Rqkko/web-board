@@ -1,17 +1,21 @@
-// This is just a test page, you can use it or delete it
-import React from 'react'
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import '../index.css'; // ✅ Correct path
 
-interface PostProps {
-  postId: string | undefined;
-}
+function Post(): React.JSX.Element {
+  const { id } = useParams<{ id: string }>();
 
-function Post({ postId }: PostProps): React.JSX.Element {
   return (
-    <div>
-      <div>Post</div>
-      <div>Id is {postId}</div>
+    <div className="container">
+      <div className="main">
+        <h2>Post Page</h2>
+        <p>Displaying post with ID:</p>
+        <div className="roomCard">
+          <p>{id}</p>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Post
+export default Post;
