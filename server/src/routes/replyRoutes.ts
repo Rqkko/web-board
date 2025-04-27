@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { createReply, getReplies } from '../controllers/replyController';
-import { authenticateUser } from '../middleware/authMiddleware';
+import { getReplies } from '../controllers/replyController';
+import { asyncHandler } from '../utils/asyncHandler';
 
 const router = Router();
 
-router.post('/:postId', authenticateUser, createReply);
-router.get('/:postId', getReplies);
+// router.post('/:postId', asyncHandler(createReply));
+router.get('/:postId', asyncHandler(getReplies));
 
 export default router;
