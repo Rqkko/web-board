@@ -12,6 +12,11 @@ const options = {
       description: 'API documentation for OrcaBoard',
     },
     servers: [{ url: `http://localhost:${config.port}` }],
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./src/routes/*.ts'], // Read all route files
 };

@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.svg';
 import { api } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
+import { Button } from '@mui/material';
 
 function Home() {
-  const [data, setData] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/api/user/getUsername')
-      .then((response) => {
-        console.log("FOund: ", response);
-        return response.data
+    api.get('/api/user/getUsername', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => setUsername(data.message))
+      .catch((error) => {
+        console.log("Error fetching data: " + error);
+      });
+    api.get('/api/user/getUserId', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => {
+        setUserId(data.message);
       })
-      .then(data => setData(data.message));
-  }, []);
+      .catch((error) => {
+        console.log("Error fetching data: " + error);
+      });
+  }, [navigate]);
 
   return (
     <div className="App">
@@ -31,11 +47,51 @@ function Home() {
           Learn React
         </a>
 
-        {/* From Backend */}
-        <div>
-          <h1>Backend Response</h1>
-          <p>{data}</p>
-        </div>
+        {username ? (
+          <div>
+            {/* From Backend */}
+            <h1>Your Username (Response from Backend)</h1>
+            <p>{username}</p>
+          </div>
+        ) : (
+          <>
+            <Button 
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              borderRadius: '8px',
+              backgroundColor: '#1976d2',
+              color: '#fff',
+              textTransform: 'none',
+            }} 
+            onClick={() => navigate('/login')}
+            >
+            Login
+            </Button>
+            <Button 
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              borderRadius: '8px',
+              backgroundColor: '#1976d2',
+              color: '#fff',
+              textTransform: 'none',
+            }} 
+            onClick={() => navigate('/signup')}
+            >
+            Signup
+            </Button>
+          </>
+        )}
+        {userId && (
+          <div>
+            {/* From Backend */}
+            <h1>Your User ID (Response from Backend)</h1>
+            <p>{userId}</p>
+          </div>
+        )}
 
       </header>
 
