@@ -32,6 +32,25 @@ const router = Router();
  *         description: Bad request
  */
 router.post('/:postId', asyncHandler(createReply));
+
+/**
+ * @swagger
+ * /api/reply/{postId}:
+ *   get:
+ *     summary: Get all replies for a post
+ *     parameters:
+ *       - name: postId
+ *         in: path
+ *         required: true
+ *         description: ID of the post to get replies for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved replies
+ *       400:
+ *         description: Bad request
+ */
 router.get('/:postId', asyncHandler(getReplies));
 
 export default router;
