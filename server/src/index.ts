@@ -3,6 +3,7 @@ import cors from "cors";
 import { config } from "./config";
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
+import replyRoutes from "../routes/replyRoutes";
 import { setupSwagger } from "./swagger";
 import path from "path";
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
+app.use("/api/replies", replyRoutes);
 
 // Setup Swagger
 if (config.nodeEnv === "development") {
