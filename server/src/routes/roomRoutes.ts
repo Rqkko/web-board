@@ -1,17 +1,23 @@
-// src/routes/roomRoutes.ts
+import express from 'express';
+import asyncHandler from '../utils/asyncHandler'; // import the async handler
+import { getAllRooms, getPostsInRoom } from '../controllers/roomController';
 
-import { Router, Request, Response } from 'express';
-import supabase from '../supabaseClient';
+const router = express.Router();
 
-const router = Router();
+/**
+ * @swagger
+ * /api/room:
+ *   get:
+ *     summary: Get all rooms
+ */
+router.get('/', asyncHandler(getAllRooms));
 
-// GET /api/room → Get all rooms
-router.get('/', async (req: Request, res: Response) => {
-  const { data, error } = await supabase.from('rooms').select('*').order('created_at', { ascending: false });
-
-  if (error) return res.status(400).json({ error: error.message });
-
-  res.status(200).json({ data });
-});
+/**
+ * @swagger
+ * /api/post/room/{roomId}:
+ *   get:
+ *     summary: Get all posts in a room
+ */
+router.get('/room/:roomId', asyncHandler(getPostsInRoom));
 
 export default router;
