@@ -9,3 +9,8 @@ export const config = {
     nodeEnv: process.env.NODE_ENV || "",
     sessionKey: process.env.SESSION_KEY || "default_session_key",
 };
+
+export default {
+    port: process.env.PORT || 3000,
+    nodeEnv: process.env.NODE_ENV || 'development',
+  };
