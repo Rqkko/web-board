@@ -9,6 +9,7 @@ const router = Router();
  * /api/reply/{postId}:
  *   post:
  *     summary: Create a reply to a post
+ *     tags: [Replies]
  *     parameters:
  *       - name: postId
  *         in: path
@@ -38,6 +39,7 @@ router.post('/:postId', asyncHandler(createReply));
  * /api/reply/{postId}:
  *   get:
  *     summary: Get all replies for a post
+ *     tags: [Replies]
  *     parameters:
  *       - name: postId
  *         in: path

@@ -9,6 +9,7 @@ const router = express.Router();
  * /api/post/createPost:
  *   post:
  *     summary: Create a new post
+ *     tags: [Posts]
  */
 router.post('/createPost', asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
 
@@ -17,6 +18,7 @@ router.post('/createPost', asyncHandler(createPost)); // ✅ WRAP IN asyncHandle
  * /api/post/room/{roomId}:
  *   get:
  *     summary: Get all posts in a room
+ *     tags: [Posts]
  */
 router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncHandler
 
@@ -25,6 +27,7 @@ router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncH
  * /api/post/search:
  *   get:
  *     summary: Search posts across all rooms
+ *     tags: [Posts]
  */
 router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
 
@@ -33,6 +36,7 @@ router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
  * /api/post/room/{roomId}/search:
  *   get:
  *     summary: Search posts in a specific room
+ *     tags: [Posts]
  */
 router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom)); // ✅ WRAP IN asyncHandler
 
