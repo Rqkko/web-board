@@ -4,12 +4,15 @@ import { createPost, getPostsInRoom, searchPosts, searchPostsInRoom } from '../c
 
 const router = express.Router();
 
+// TODO: hardest part right here
 /**
  * @swagger
  * /api/post/createPost:
  *   post:
  *     summary: Create a new post
  *     tags: [Posts]
+ *     requestBody:
+ *     
  */
 router.post('/createPost', asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
 
@@ -19,6 +22,16 @@ router.post('/createPost', asyncHandler(createPost)); // ✅ WRAP IN asyncHandle
  *   get:
  *     summary: Get all posts in a room
  *     tags: [Posts]
+ *     parameters:
+ *       - name: roomId
+ *         in: path
+ *         required: true
+ *         description: ID of the room to get posts from
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
  */
 router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncHandler
 

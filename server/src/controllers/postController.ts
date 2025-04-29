@@ -30,7 +30,7 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
   const { data, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('room', roomId)
+    .eq('room_id', roomId)
     .order('created_at', { ascending: false });
 
   if (error) {
