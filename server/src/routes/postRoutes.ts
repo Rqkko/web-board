@@ -60,6 +60,22 @@ router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
  *   get:
  *     summary: Search posts in a specific room
  *     tags: [Posts]
+ *     parameters:
+ *       - name: roomId
+ *         in: path
+ *         required: true
+ *         description: ID of the room to search in
+ *         schema:
+ *           type: string
+ *       - name: query
+ *         in: query
+ *         required: true
+ *         description: Search query
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
  */
 router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom)); // ✅ WRAP IN asyncHandler
 

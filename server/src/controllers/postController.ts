@@ -77,7 +77,7 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
   const { data, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('room', roomId)
+    .eq('room_id', roomId)
     .ilike('title', `%${query}%`)
     .order('created_at', { ascending: false });
 
