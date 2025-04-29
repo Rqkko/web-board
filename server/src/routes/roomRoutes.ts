@@ -1,6 +1,6 @@
 import express from 'express';
 import asyncHandler from '../utils/asyncHandler'; // import the async handler
-import { getAllRooms, getPostsInRoom } from '../controllers/roomController';
+import { getAllRooms } from '../controllers/roomController';
 
 const router = express.Router();
 
@@ -9,15 +9,8 @@ const router = express.Router();
  * /api/room:
  *   get:
  *     summary: Get all rooms
+ *     tags: [Rooms]
  */
 router.get('/', asyncHandler(getAllRooms));
-
-/**
- * @swagger
- * /api/post/room/{roomId}:
- *   get:
- *     summary: Get all posts in a room
- */
-router.get('/room/:roomId', asyncHandler(getPostsInRoom));
 
 export default router;
