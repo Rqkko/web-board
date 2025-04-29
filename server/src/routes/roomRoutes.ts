@@ -10,6 +10,9 @@ const router = express.Router();
  *   get:
  *     summary: Get all rooms
  *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved rooms
  */
 router.get('/', asyncHandler(getAllRooms));
 
