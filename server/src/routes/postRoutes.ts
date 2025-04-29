@@ -41,6 +41,16 @@ router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncH
  *   get:
  *     summary: Search posts across all rooms
  *     tags: [Posts]
+ *     parameters:
+ *       - name: query
+ *         in: query
+ *         required: true
+ *         description: Search query
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
  */
 router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
 
