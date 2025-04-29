@@ -8,8 +8,6 @@ import roomRoutes from "./routes/roomRoutes";
 import { setupSwagger } from "./swagger";
 import path from "path";
 import cookieParser from 'cookie-parser';
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
 const app = express();
 if (config.nodeEnv === "development") {
@@ -33,21 +31,6 @@ if (config.nodeEnv === "development") {
     setupSwagger(app);
 }
 
-// Set up Swagger UI
-const swaggerSpec = swaggerJsdoc({
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Orca Board API',
-        version: '1.0.0',
-      },
-    },
-    apis: ['./routes/*.ts'], // Ensure this points to your route files
-  });
-  
-  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  
-
 // Serve React frontend for non-API routes (if not in development)
 if (config.nodeEnv !== "development") {
     const clientBuildPath = path.join(__dirname, '../../client/build');
@@ -65,10 +48,4 @@ app.listen(config.port, () => {
     }
 });
 
-
-// Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.status(500).json({ error: 'Something went wrong!' });
-  });
-  
-  export default app;
+export default app;
