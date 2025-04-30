@@ -3,16 +3,42 @@ import supabase from '../supabaseClient';
 
 // ✅ Create a new post
 export const createPost = async (req: Request, res: Response): Promise<void> => {
-  const { title, body, image, user, room } = req.body;
+  const { title, content, room_id } = req.body;
+  const imageFile = req.file;
+  const user_id = req.cookies.userId;
 
-  if (!title || !user || room === undefined) {
-    res.status(400).json({ error: 'Missing required fields: title, user, room' });
+  console.log("Received data:", req.body);
+  console.log('Received file:', imageFile);
+
+  if (!title || room_id === undefined) {
+    res.status(400).json({ error: 'Missing required fields: title, room' });
     return;
+  }
+
+  let imagePath: string | null = null;
+
+  // Upload image (if provided)
+  if (imageFile) {
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.jpg`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('post-image')
+      .upload(fileName, imageFile.buffer, {
+        contentType: imageFile.mimetype,
+      });
+
+    if (uploadError) {
+      res.status(400).json({ error: uploadError.message });
+      return;
+    }
+
+    imagePath = uploadData?.path;
+    console.log('Image uploaded to:', imagePath);
   }
 
   const { data, error } = await supabase
     .from('posts')
-    .insert([{ title, body, image, user, room }])
+    .insert([{ user_id, room_id, title, content, image: imagePath }])
     .select();
 
   if (error) {

@@ -1,10 +1,11 @@
 import express from 'express';
+import multer from 'multer';
 import asyncHandler from '../utils/asyncHandler'; // ✅ Import asyncHandler
 import { createPost, getPostsInRoom, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
 
 const router = express.Router();
+const upload = multer();
 
-// TODO: hardest part right here
 /**
  * @swagger
  * /api/post/createPost:
@@ -12,9 +13,29 @@ const router = express.Router();
  *     summary: Create a new post
  *     tags: [Posts]
  *     requestBody:
- *     
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Title of the post
+ *               content:
+ *                 type: string
+ *                 description: Body content of the post
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *               room_id:
+ *                 type: integer
+ *                 description: ID of the room or category
+ *     responses:
+ *       200:
+ *         description: Post created successfully
  */
-router.post('/createPost', asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
+router.post('/createPost', upload.single('image'), asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
 
 /**
  * @swagger
