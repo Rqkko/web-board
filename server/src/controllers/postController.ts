@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import supabase from '../supabaseClient';
+import { generatePublicUrl } from '../utils/publicUrlGenerator';
 
 // ✅ Create a new post
 export const createPost = async (req: Request, res: Response): Promise<void> => {
@@ -53,7 +54,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
-  const { data, error } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
     .eq('room_id', roomId)
@@ -64,7 +65,15 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
     return;
   }
 
-  res.status(200).json({ data });
+  const postsWithImageUrls = posts.map(post => {
+    const imageUrl = post.image
+      ? generatePublicUrl('post-image', post.image)
+      : null;
+
+    return { ...post, imageUrl };
+  });
+
+  res.status(200).json({ data: postsWithImageUrls });
 };
 
 // ✅ Search posts across all rooms
@@ -76,7 +85,7 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  const { data, error } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
     .ilike('title', `%${query}%`) // ilike = case-insensitive search
@@ -87,7 +96,15 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  res.status(200).json({ data });
+  const postsWithImageUrls = posts.map(post => {
+    const imageUrl = post.image
+      ? generatePublicUrl('post-image', post.image)
+      : null;
+
+    return { ...post, imageUrl };
+  });
+
+  res.status(200).json({ data: postsWithImageUrls });
 };
 
 // ✅ Search posts inside a specific room
@@ -100,7 +117,7 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
     return;
   }
 
-  const { data, error } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
     .eq('room_id', roomId)
@@ -112,5 +129,13 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
     return;
   }
 
-  res.status(200).json({ data });
+  const postsWithImageUrls = posts.map(post => {
+    const imageUrl = post.image
+      ? generatePublicUrl('post-image', post.image)
+      : null;
+
+    return { ...post, imageUrl };
+  });
+
+  res.status(200).json({ data: postsWithImageUrls });
 };
