@@ -10,7 +10,7 @@ export const createReply = async (req: Request, res: Response): Promise<void> =>
     .from('replies')
     .insert([{ content, post_id: postId, user_id: userId }]);
 
-  if (error) return res.status(400).json({ error: error.message });
+  if (error) {res.status(400).json({ error: error.message })}
 
   res.status(201).json({ message: 'Reply added successfully', data });
 };
@@ -24,7 +24,7 @@ export const getReplies = async (req: Request, res: Response): Promise<void> => 
     .eq('post_id', postId)
     .order('created_at', { ascending: false});
 
-  if (error) return res.status(400).json({ error: error.message });
+  if (error) {res.status(400).json({ error: error.message })}
 
   res.status(200).json({ data });
 };
