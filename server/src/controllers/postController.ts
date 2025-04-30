@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
 
-// ✅ Create a new post
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
@@ -50,7 +49,6 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
   res.status(201).json({ message: 'Post created successfully', post: data?.[0] });
 };
 
-// ✅ Get all posts in a room
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
@@ -76,7 +74,6 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
   res.status(200).json({ data: postsWithImageUrls });
 };
 
-// ✅ Search posts across all rooms
 export const searchPosts = async (req: Request, res: Response): Promise<void> => {
   const query = req.query.query as string;
 
@@ -107,7 +104,6 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
   res.status(200).json({ data: postsWithImageUrls });
 };
 
-// ✅ Search posts inside a specific room
 export const searchPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
   const query = req.query.query as string;
