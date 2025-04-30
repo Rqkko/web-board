@@ -8,6 +8,7 @@ const router = express.Router();
  * /api/user/getUsername:
  *   get:
  *     summary: Get the name of user
+ *     tags: [Users]
  *     responses:
  *       200:
  *         description: Successfully retrieved users
@@ -41,6 +42,7 @@ router.get('/getUsername', (req: Request, res: Response) => {
  * /api/user/getUserId:
  *  get:
  *    summary: Get the ID of user
+ *    tags: [Users]
  *    responses:
  *     200:
  *      description: Successfully retrieved user ID
@@ -61,6 +63,7 @@ router.get('/getUserId', (req: Request, res: Response) => {
  * /api/user/signup:
  *   post:
  *     summary: Create a new user
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
@@ -115,6 +118,7 @@ router.post('/signup', async (req: Request, res: Response) => {
  * /api/user/login:
  *   post:
  *     summary: Login a user
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
