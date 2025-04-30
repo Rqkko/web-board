@@ -47,5 +47,3 @@ app.listen(config.port, () => {
         console.log(`For Dev: http://localhost:${config.port}/api/docs`);
     }
 });
-
-export default app;
