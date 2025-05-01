@@ -8,6 +8,9 @@ import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
 import logoImg from '../assets/SIIT.png';
+import hottopic from '../assets/hottopic.png';
+import design from '../assets/designclub.png';
+import back from '../assets/backtoschool.png';
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -15,7 +18,10 @@ const rooms = [
   { name: 'Knowledge', image: knowledgeImg },
   { name: 'Clubs', image: clubsImg },
   { name: 'Projects', image: projectsImg },
-];
+  // { name: 'Hottopic' , image: hottp},
+  // { name: 'Design', image: design},
+  // { name: 'backto', image: back}
+]
 
 const Dashboard = () => {
   return (
@@ -51,6 +57,39 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className={styles.fourthPanel}>
+        <div className={styles.topiccard}>
+          <div className={styles.event}>
+            <img src={hottopic} alt="" />
+            <div className={styles.topicLabel}>
+              <span>Events</span>
+              <h3>SIIT Back to School</h3>
+            </div>
+          </div>
+          <div className={styles.clubs}>
+            <img src={design} alt="" />
+            <div className={styles.topicLabel}>
+              <span>Clubs</span>
+              <h4>UI/UX Design Club</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.fifthPanel}>
+        <div className={styles.title}>
+          <h5>Hot Topics</h5>
+          <span>Explore</span>
+        </div>
+        <div className={styles.hotpic}>
+        <img src={hottopic} alt="" />
+        </div>
+          <div className={styles.label}> 
+            <span>Announcements</span>
+            <h5>Last Day of Withdraw</h5>
+          </div>
       </div>
     </div>
   );

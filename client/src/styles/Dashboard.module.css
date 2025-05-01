@@ -136,3 +136,106 @@
   font-weight: 500;
   color: #333;
 }
+
+
+.fourthPanel {
+  padding: 1rem;
+  justify-items: center;
+}
+
+.topiccard {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.event,
+.clubs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.event img,
+.clubs img {
+  width: 300px;
+  height: 300px;
+  border-radius: 30px;
+  object-fit: cover;
+}
+
+.topicLabel {
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.topicLabel span {
+  font-size: 0.85rem;
+  color: #999;
+  display: block;
+  margin-bottom: 0.25rem;
+  text-align: left;
+}
+
+.topicLabel h3,
+.topicLabel h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.fifthPanel {
+  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title h5 {
+  font-size: 1.1rem;
+  margin: 0;
+  text-align: left;
+}
+
+.title span {
+  font-size: 0.95rem;
+  color: #0077cc;
+  cursor: pointer;
+  text-align: left;
+}
+
+.hotpic img {
+  border-radius: 30px;
+  width: 370px;
+  height: 370px;
+}
+
+.label {
+  margin-top: 0.75rem;
+}
+
+.label span {
+  font-size: 0.85rem;
+  color: #888;
+  display: block;
+  margin-bottom: 0.25rem;
+  text-align: left;
+}
+
+.label h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  text-align: left;
+}
