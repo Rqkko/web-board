@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Dashboard from './pages/Dashboard';
+// import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
 
 // function PostWrapper() {
 //   const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
@@ -28,13 +29,14 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
         {/* <Route path="/post/:postId" element={<PostWrapper />} /> */}
+        {/* <Route path="/" element={<Prioritized />} /> Prioritized route */}
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/post/:id" element={<Post />} />
       </Routes>
     </>
   );
-}
+};
 
 export default App;
