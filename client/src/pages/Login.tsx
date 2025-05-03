@@ -41,7 +41,7 @@ function Login() {
           backgroundColor: '#FFFFFF',
         }}
       >
-        <Typography style={{ color: 'black', fontSize: '64px', fontWeight: 'bold', marginBottom: '20px' }}>Login</Typography>
+        <Typography style={{ color: 'black', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>Login</Typography>
 
         <AuthTextField
           label="Email"
@@ -63,7 +63,7 @@ function Login() {
           style={{
             marginTop: '20px',
             padding: '10px 100px',
-            fontSize: '32px',
+            fontSize: '24px',
             fontWeight: 'bold',
             borderRadius: '8px',
             backgroundColor: '#F08A5D',
@@ -74,7 +74,7 @@ function Login() {
           Login
         </Button>
 
-        <Typography style={{ color: 'black', fontSize: '24px', marginTop: '20px' }}>
+        <Typography style={{ color: 'black', fontSize: '20px', marginTop: '20px' }}>
           Don't have an account? 
           <Button 
             onClick={() => {window.location.href="/signup"}}

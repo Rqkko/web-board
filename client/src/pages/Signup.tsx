@@ -46,7 +46,7 @@ function Signup() {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <Typography style={{ color: 'black', fontSize: '64px', fontWeight: 'bold', marginBottom: '20px' }}>Signup</Typography>
+      <Typography style={{ color: 'black', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>Signup</Typography>
 
       <AuthTextField
         label="Username"
@@ -82,7 +82,7 @@ function Signup() {
         style={{
           marginTop: '20px',
           padding: '10px 100px',
-          fontSize: '32px',
+          fontSize: '24px',
           fontWeight: 'bold',
           borderRadius: '8px',
           backgroundColor: '#F08A5D',
@@ -93,7 +93,7 @@ function Signup() {
         Signup
       </Button>
 
-      <Typography style={{ color: 'black', fontSize: '24px', marginTop: '20px' }}>
+      <Typography style={{ color: 'black', fontSize: '20px', marginTop: '20px' }}>
         Already have an account? 
         <Button 
           onClick={() => {window.location.href="/login"}}

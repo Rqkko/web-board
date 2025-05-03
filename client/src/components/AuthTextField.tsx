@@ -35,13 +35,13 @@ export default function AuthTextField({ label, type, value, onChange }: AuthText
       type={type}
       value={value}
       onChange={onChange}
-      style={{ margin: '30px', width: '700px' }}
+      style={{ margin: '20px', width: '600px' }}
       slotProps={{
         inputLabel: {
-          style: { fontSize: '32px' }
+          style: { fontSize: '24px' }
         },
         input: {
-          style: { fontSize: '32px' }
+          style: { fontSize: '24px' }
         }
       }}
     />   
