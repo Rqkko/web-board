@@ -73,6 +73,7 @@ function CreatePost() {
       alignItems: 'center',
       backgroundColor: '#FFFFFF',
       paddingTop: '100px',
+      minHeight: '100vh'
     }}
     >
       <Typography style={{ color: 'black', fontSize: '50px', fontWeight: 'bold', marginBottom: '15px' }}>What's on your mind?</Typography>
