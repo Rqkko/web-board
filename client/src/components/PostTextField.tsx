@@ -28,10 +28,10 @@ export default function PostTextField({ type, value, onChange, multiline }: Post
       style={{ margin: '20px', width: '50%' }}
       slotProps={{
         inputLabel: {
-          style: { fontSize: '24px' }
+          style: { fontSize: '16px' }
         },
         input: {
-          style: { fontSize: '24px' }
+          style: { fontSize: '16px' }
         }
       }}
       multiline={multiline}
