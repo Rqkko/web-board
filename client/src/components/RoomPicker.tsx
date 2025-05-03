@@ -1,10 +1,10 @@
 import React from 'react'
 
-import announcementsImg from '../assets/announcements.png';
-import eventsImg from '../assets/events.png';
-import knowledgeImg from '../assets/knowledge.png';
-import clubsImg from '../assets/clubs.png';
-import projectsImg from '../assets/projects.png';
+import announcementsImg from '../assets/announcements.jpg';
+import eventsImg from '../assets/events.jpg';
+import knowledgeImg from '../assets/knowledges.jpg';
+import clubsImg from '../assets/clubs.jpg';
+import projectsImg from '../assets/projects.jpg';
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
