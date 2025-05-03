@@ -85,7 +85,7 @@ function CreatePost() {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setTitle(e.target.value)}}
       />
 
-      <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '40px' }}>Description</Typography>
+      <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '40px' }}>Content</Typography>
       <PostTextField
         type="text"
         value={content}
