@@ -33,14 +33,14 @@ export default function RoomPicker({ selectedRoom, setSelectedRoom }: RoomPicker
           justifyContent: 'center',
         }}>
           {rooms.map((room, idx) => (
-            <div key={idx} style={{
+            <div key={idx+1} style={{
               width: '120px',
-              background: selectedRoom === idx ? '#f0f0f0' : 'white',
+              background: selectedRoom === idx+1 ? '#f0f0f0' : 'white',
               padding: '15px',
               borderRadius: '16px',
               textAlign: 'center',
               boxShadow:
-                selectedRoom === idx
+                selectedRoom === idx+1
                   ? '0 6px 16px rgba(0, 0, 0, 0.12)'
                   : '0 4px 12px rgba(0, 0, 0, 0.08)',
               transform: selectedRoom === idx ? 'translateY(-4px)' : 'translateY(0)',
@@ -48,20 +48,20 @@ export default function RoomPicker({ selectedRoom, setSelectedRoom }: RoomPicker
               cursor: 'pointer',
               }}
               onMouseEnter={(e) => {
-                if (selectedRoom !== idx) {
+                if (selectedRoom !== idx+1) {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
                   (e.currentTarget as HTMLDivElement).style.boxShadow =
                     '0 6px 16px rgba(0, 0, 0, 0.12)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (selectedRoom !== idx) {
+                if (selectedRoom !== idx+1) {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
                   (e.currentTarget as HTMLDivElement).style.boxShadow =
                     '0 4px 12px rgba(0, 0, 0, 0.08)';
                 }
               }}
-              onClick={() => setSelectedRoom(idx)}
+              onClick={() => setSelectedRoom(idx+1 )}
             >
               <img src={room.image} alt={room.name} style={{
                 width: '100%',
