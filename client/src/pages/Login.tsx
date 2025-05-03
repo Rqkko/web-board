@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../utils/api';
-import { Button, styled, TextField, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AuthTextField from 'components/AuthTextField';
 
 function Login() {
