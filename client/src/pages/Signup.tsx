@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../utils/api';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import AuthTextField from 'components/AuthTextField';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -42,110 +43,55 @@ function Signup() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
+        backgroundColor: '#FFFFFF',
       }}
     >
-      <div
+      <Typography style={{ color: 'black', fontSize: '64px', fontWeight: 'bold', marginBottom: '20px' }}>Signup</Typography>
+
+      <AuthTextField
+        label="Username"
+        type="text"
+        value={username}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+      />
+
+      <AuthTextField
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+      />
+
+      <AuthTextField 
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+      />
+
+      <AuthTextField 
+        label="Confirm Password"
+        type="password"
+        value={confirmPassword}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+      />
+
+      <Button
+        variant="contained"
+        onClick={handleSignup}
         style={{
-          padding: '30px',
-          borderRadius: '10px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          backgroundColor: '#fff',
-          width: '100%',
-          maxWidth: '400px',
+          marginTop: '20px',
+          padding: '10px 100px',
+          fontSize: '32px',
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          backgroundColor: '#F08A5D',
+          color: '#fff',
+          textTransform: 'none',
         }}
       >
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Signup</h2>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>
-            Username:
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>
-            Password:
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="confirmPassword" style={{ display: 'block', marginBottom: '5px' }}>
-            Confirm Password:
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
-        <Button
-          style={{
-            width: '100%',
-            padding: '10px 20px',
-            fontSize: '16px',
-            borderRadius: '8px',
-            backgroundColor: '#1976d2',
-            color: '#fff',
-            textTransform: 'none',
-          }}
-          onClick={handleSignup}
-        >
-          Signup
-        </Button>
-      </div>
+        Signup
+      </Button>
     </div>
   );
 }
