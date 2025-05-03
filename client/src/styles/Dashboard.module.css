@@ -7,27 +7,6 @@
   background: linear-gradient(135deg, #f2f6ff, #ffffff);
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  padding:0 20px;
-  height: 70px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo img {
-  height: 40px;
-}
-
 .avatarContainer {
   display: flex;
   justify-content: flex-end;
