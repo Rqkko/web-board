@@ -5,6 +5,7 @@ import Post from "pages/Post";
 import NotFound from "./pages/NotFound";
 import { AppBar } from "@mui/material";
 import Signup from "pages/Signup";
+import CreatePost from "pages/CreatePost";
 
 function PostWrapper() {
   const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post/:postId" element={<PostWrapper />} />
+        <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
