@@ -63,9 +63,10 @@ const Prioritized = (): React.JSX.Element => {
       <p className={styles.description}>{currentSlide.description}</p>
 
       <div className={styles.navigation}>
-        <span className={styles.skip} onClick={() => setCurrentIndex(slides.length - 1)}>
+        <span className={styles.skip} onClick={() => navigate('/dashboard')}>
           Skip
         </span>
+
 
         {/* Dots Indicator */}
         <div className={styles.dots}>

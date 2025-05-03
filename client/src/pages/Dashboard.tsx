@@ -11,6 +11,7 @@ import logoImg from '../assets/SIIT.png';
 import hottopic from '../assets/hottopic.png';
 import design from '../assets/designclub.png';
 import back from '../assets/backtoschool.png';
+import HeaderBar from '../pages/HeaderBar';
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -18,20 +19,14 @@ const rooms = [
   { name: 'Knowledge', image: knowledgeImg },
   { name: 'Clubs', image: clubsImg },
   { name: 'Projects', image: projectsImg },
-  // { name: 'Hottopic' , image: hottp},
-  // { name: 'Design', image: design},
-  // { name: 'backto', image: back}
+
 ]
 
 const Dashboard = () => {
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <img src={logoImg} alt="SIIT" />
-          <h1>WebBoard</h1>
-        </div>
-      </header>
+      <HeaderBar />
+
 
       {/* Second Panel: Greeting, search bar, and avatar in one row */}
       <div className={styles.secondPanel}>
@@ -62,7 +57,7 @@ const Dashboard = () => {
       <div className={styles.fourthPanel}>
         <div className={styles.topiccard}>
           <div className={styles.event}>
-            <img src={hottopic} alt="" />
+            <img src={back} alt="" />
             <div className={styles.topicLabel}>
               <span>Events</span>
               <h3>SIIT Back to School</h3>
