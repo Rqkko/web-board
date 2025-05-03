@@ -92,6 +92,16 @@ function Signup() {
       >
         Signup
       </Button>
+
+      <Typography style={{ color: 'black', fontSize: '24px', marginTop: '20px' }}>
+        Already have an account? 
+        <Button 
+          onClick={() => {window.location.href="/login"}}
+          style={{ color: '#305CDE', fontSize: '20px', textTransform: 'none' }}
+        >
+          Login Here
+        </Button>
+      </Typography>
     </div>
   );
 }
