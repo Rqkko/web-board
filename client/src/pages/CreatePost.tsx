@@ -76,16 +76,16 @@ function CreatePost() {
       minHeight: '100vh'
     }}
     >
-      <Typography style={{ color: 'black', fontSize: '50px', fontWeight: 'bold', marginBottom: '15px' }}>What's on your mind?</Typography>
+      <Typography style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', marginBottom: '15px' }}>What's on your mind?</Typography>
       
-      <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '20px' }}>Title</Typography>
+      <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '20px' }}>Title</Typography>
       <PostTextField
         type="text"
         value={title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setTitle(e.target.value)}}
       />
 
-      <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '40px' }}>Content</Typography>
+      <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px' }}>Content</Typography>
       <PostTextField
         type="text"
         value={content}
@@ -93,24 +93,24 @@ function CreatePost() {
         multiline={true}
       />
 
-      <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '40px', marginBottom: '20px' }}>Room</Typography>
+      <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px', marginBottom: '24px' }}>Room</Typography>
       <RoomPicker 
         selectedRoom={room}
         setSelectedRoom={setRoom}
       />
 
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '40px' }}>
-        <Typography style={{ color: 'black', fontSize: '24px', fontWeight: 'bold', marginLeft: '25%', alignSelf: 'center' }}>Image</Typography>
+        <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', marginLeft: '25%', alignSelf: 'center' }}>Image</Typography>
         <IconButton 
           style={{ display: 'flex', flexDirection: 'row' }}
           onClick={() => fileInputRef.current?.click()}
         >
-          <AddPhotoAlternateIcon style={{ fontSize: '40px' }} />
+          <AddPhotoAlternateIcon style={{ fontSize: '32px' }} />
         </IconButton>
         {image && (
           <IconButton>
             <DeleteIcon
-              style={{ fontSize: '40px', color: 'red' }}
+              style={{ fontSize: '32px', color: 'red' }}
               onClick={() => {
                 setImage(null);
                 if (fileInputRef.current) {
@@ -130,7 +130,7 @@ function CreatePost() {
       </div>
 
       {image && (
-        <div style={{ marginTop: '20px', marginLeft: '25%', marginRight: '25%', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ marginTop: '16px', marginLeft: '25%', marginRight: '25%', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
           <img
             src={URL.createObjectURL(image)}
             alt="Selected"
@@ -144,9 +144,9 @@ function CreatePost() {
         style={{
           backgroundColor: '#F08A5D',
           color: 'white',
-          fontSize: '24px',
+          fontSize: '16px',
           fontWeight: 'bold',
-          marginTop: '50px',
+          marginTop: '32px',
           padding: '10px 20px',
           marginBottom: '50px',
         }}
