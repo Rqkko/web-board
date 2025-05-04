@@ -2,10 +2,10 @@ import { Routes, Route, useParams } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "pages/Post";
-import NotFound from "./pages/NotFound";
-import { AppBar } from "@mui/material";
 import Signup from "pages/Signup";
 import CreatePost from "pages/CreatePost";
+import NotFound from "./pages/NotFound";
+import CustomAppBar from "components/CustomAppBar";
 
 function PostWrapper() {
   const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
@@ -16,7 +16,7 @@ function PostWrapper() {
 function App() {
   return (
     <>
-      <AppBar>This is the App Bar, this will stay on every page</AppBar>
+      <CustomAppBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
