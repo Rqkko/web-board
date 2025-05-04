@@ -3,7 +3,7 @@ import { api } from 'utils/api'
 
 function Logout() {
   useEffect(() => {
-    api.post('/api/user/logout', {
+    api.post('/api/user/logout',{}, {
       withCredentials: true
     })
       .then((response) => {
