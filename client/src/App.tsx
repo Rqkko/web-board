@@ -1,4 +1,4 @@
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "pages/Post";
@@ -14,9 +14,12 @@ function PostWrapper() {
 }
 
 function App() {
+  const location = useLocation();
+  const hideAppBar = location.pathname === "/login" || location.pathname === "/signup";
+
   return (
     <>
-      <CustomAppBar />
+      {!hideAppBar && <CustomAppBar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
