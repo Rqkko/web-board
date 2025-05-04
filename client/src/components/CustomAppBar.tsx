@@ -1,14 +1,26 @@
-import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase } from '@mui/material';
+import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useRef, useState } from 'react';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
 
 export default function CustomAppBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const appBarRef = useRef<HTMLElement | null>(null);
+
+  function handleMenuOpen() {
+    setIsMenuOpen(true);
+  }
+  function handleMenuClose() {
+    setIsMenuOpen(false);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar 
         position="absolute"
+        ref={appBarRef}
         style={{
           marginTop: '20px',
           marginRight: '2.5%',
@@ -23,9 +35,27 @@ export default function CustomAppBar() {
             edge="start"
             aria-label="menu"
             sx={{ mr: 2, color: "#000" }}
+            onClick={handleMenuOpen}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            sx={{ mt: '20px' }}
+            anchorEl={appBarRef.current}
+            keepMounted
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+          >
+            Test
+          </Menu>
           
           <div style={{ 
             flexGrow: 1,
