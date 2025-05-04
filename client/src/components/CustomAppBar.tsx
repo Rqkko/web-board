@@ -1,13 +1,15 @@
 import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu, MenuItem, Typography } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
+import { api } from 'utils/api';
 
 const menuItems = [
   { text: 'Home', icon: HomeIcon, link: '/' },
@@ -19,6 +21,7 @@ const menuItems = [
 export default function CustomAppBar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const appBarRef = useRef<HTMLElement | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   function handleMenuOpen() {
     setIsMenuOpen(true);
@@ -26,6 +29,17 @@ export default function CustomAppBar() {
   function handleMenuClose() {
     setIsMenuOpen(false);
   }
+
+  useEffect(() => {
+    api.get('/api/user/getUsername', {
+      withCredentials: true,
+    })
+      .then((response) => { setUsername(response.data.message); })
+      .catch((error) => {
+        console.error('User not logged in', error);
+      });
+  })
+    
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -67,6 +81,7 @@ export default function CustomAppBar() {
           >
             {menuItems.map((item) => (
               <MenuItem 
+                key={item.text}
                 onClick={() => {window.location.href=item.link}}
                 sx={{ display: 'flex', justifyContent: 'start' }}
               >
@@ -136,7 +151,33 @@ export default function CustomAppBar() {
               />
             </ButtonBase>
           </div>
-          <Button sx={{ color: "#000" }}>Login</Button>
+
+          {username ? (
+            <>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#000',
+                  fontSize: 16,
+                  marginLeft: 'auto',
+                  marginRight: '6px',
+                }}
+              >
+                {username}
+              </Typography>
+              <Box sx={{ color: '#000' }} >
+                  <PersonIcon />
+              </Box>
+              
+            </>
+          ) :
+            <Button 
+              sx={{ color: "#000" }}
+              onClick={() => {window.location.href='/login'}}  
+            >
+              Login
+            </Button>
+          }
         </Toolbar>
       </AppBar>
     </Box>
