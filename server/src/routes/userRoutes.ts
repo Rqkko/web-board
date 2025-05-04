@@ -158,4 +158,28 @@ router.post('/login', async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @swagger
+ * /api/user/logout:
+ *   post:
+ *     summary: Logout a user
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ */
+router.post('/logout', async (req: Request, res: Response) => {
+  supabase.auth.signOut()
+    .then(({ error }) => {
+      if (error) {
+        res.status(500).json({ error: error.message });
+      } else {
+        res.clearCookie('accessToken');
+        res.clearCookie('userId');
+        res.sendStatus(200);
+      }
+    });
+  }
+);
+
 export default router;
