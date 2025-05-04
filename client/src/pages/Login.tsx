@@ -29,8 +29,6 @@ function Login() {
 
   return (
     <>
-      {/* TODO: Put AppBar Here */}
-
       <div
         style={{
           display: 'flex',
