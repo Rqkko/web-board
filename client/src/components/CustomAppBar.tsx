@@ -1,9 +1,20 @@
-import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu, MenuItem, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
+
+const menuItems = [
+  { text: 'Home', icon: HomeIcon, link: '/' },
+  { text: 'Create Post', icon: PostAddIcon, link: '/create-post' },
+  { text: 'Profile', icon: AccountCircleIcon, link: '/profile' },
+  { text: 'Logout', icon: LogoutIcon, link: '/logout' },
+]
 
 export default function CustomAppBar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -54,7 +65,34 @@ export default function CustomAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            Test
+            {menuItems.map((item) => (
+              <MenuItem 
+                onClick={() => {window.location.href=item.link}}
+                sx={{ display: 'flex', justifyContent: 'start' }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#000',
+                    fontSize: 24,
+                  }}
+                >
+                  <item.icon />
+                </Box>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    marginLeft: 2,
+                    color: '#000',
+                    fontSize: 16,
+                  }}
+                >
+                  {item.text}
+                </Typography>
+              </MenuItem>
+            ))}
           </Menu>
           
           <div style={{ 
