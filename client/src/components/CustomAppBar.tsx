@@ -26,6 +26,7 @@ export default function CustomAppBar() {
   function handleMenuOpen() {
     setIsMenuOpen(true);
   }
+
   function handleMenuClose() {
     setIsMenuOpen(false);
   }
@@ -39,7 +40,6 @@ export default function CustomAppBar() {
         console.error('User not logged in', error);
       });
   })
-    
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -53,8 +53,9 @@ export default function CustomAppBar() {
           width: '95%',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
           backgroundColor: '#FFFFFF',
-      }}>
-        <Toolbar>
+        }}
+      >
+        <Toolbar sx= {{ display: 'flex', justifyContent: 'space-between' }}>
           <IconButton
             size="large"
             edge="start"
@@ -110,20 +111,24 @@ export default function CustomAppBar() {
             ))}
           </Menu>
           
-          <div style={{ 
-            flexGrow: 1,
-            justifyContent: 'center',
-            justifyItems: 'center',
+          <Box sx={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
             alignItems: 'center',
-            display: 'flex'
-            }}
-          >
+          }}>
             <ButtonBase
               sx={{
                 '&:hover': {
                   backgroundColor: 'rgba(0, 0, 0, 0.05)',
                   borderRadius: '8px',
                   padding: '5px',
+                  position: 'absolute',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  display: 'flex',
+                  alignItems: 'center',
                 }
               }}
               onClick={() => {
@@ -150,7 +155,7 @@ export default function CustomAppBar() {
                 }}
               />
             </ButtonBase>
-          </div>
+          </Box>
 
           {username ? (
             <>
@@ -168,12 +173,11 @@ export default function CustomAppBar() {
               <Box sx={{ color: '#000' }} >
                   <PersonIcon />
               </Box>
-              
             </>
           ) :
-            <Button 
+            <Button
               sx={{ color: "#000" }}
-              onClick={() => {window.location.href='/login'}}  
+              onClick={() => {window.location.href='/login'}}
             >
               Login
             </Button>
