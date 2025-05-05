@@ -1,102 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import logo from '../assets/logo.svg';
-import { api } from '../utils/api';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Home.css';
-import { Button } from '@mui/material';
+import React from 'react';
+import styles from '../styles/Dashboard.module.css';
 
-function Home() {
-  const [username, setUsername] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
+import announcementsImg from '../assets/announcements.png';
+import eventsImg from '../assets/events.png';
+import knowledgeImg from '../assets/knowledge.png';
+import clubsImg from '../assets/clubs.png';
+import projectsImg from '../assets/projects.png';
+import avatarImg from '../assets/Sara.jpg';
 
-  useEffect(() => {
-    api.get('/api/user/getUsername', {
-      withCredentials: true,
-    })
-      .then(response => response.data)
-      .then(data => setUsername(data.message))
-      .catch((error) => {
-        console.log("Error fetching data: " + error);
-      });
-    api.get('/api/user/getUserId', {
-      withCredentials: true,
-    })
-      .then(response => response.data)
-      .then(data => {
-        setUserId(data.message);
-      })
-      .catch((error) => {
-        console.log("Error fetching data: " + error);
-      });
-  }, [navigate]);
+import HeaderBar from './HeaderBar';
+import Post from './Post'; // ← make sure the path is correct
+import PostFeed from './PostFeed'; 
 
+const rooms = [
+  { name: 'Announcements', image: announcementsImg },
+  { name: 'Events', image: eventsImg },
+  { name: 'Knowledge', image: knowledgeImg },
+  { name: 'Clubs', image: clubsImg },
+  { name: 'Projects', image: projectsImg },
+];
+
+const samplePosts = [
+  {
+    id: '1',
+    username: 'alice',
+    profilePic: require('../assets/alice.jpg'),
+    title: 'Beautiful View',
+    description: 'I went hiking and saw this amazing view!',
+    image: require('../assets/mountain.jpg'),
+  },
+];
+
+const Home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className={styles.container}>
+      <HeaderBar />
 
-        {username ? (
-          <div>
-            {/* From Backend */}
-            <h1>Your Username (Response from Backend)</h1>
-            <p>{username}</p>
-          </div>
-        ) : (
-          <>
-            <Button 
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              borderRadius: '8px',
-              backgroundColor: '#1976d2',
-              color: '#fff',
-              textTransform: 'none',
-            }} 
-            onClick={() => navigate('/login')}
-            >
-            Login
-            </Button>
-            <Button 
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              borderRadius: '8px',
-              backgroundColor: '#1976d2',
-              color: '#fff',
-              textTransform: 'none',
-            }} 
-            onClick={() => navigate('/signup')}
-            >
-            Signup
-            </Button>
-          </>
-        )}
-        {userId && (
-          <div>
-            {/* From Backend */}
-            <h1>Your User ID (Response from Backend)</h1>
-            <p>{userId}</p>
-          </div>
-        )}
+      {/* Greeting section */}
+      <div className={styles.secondPanel}>
+        <div className={styles.greeting}>
+          <h2>Hi Sara!</h2>
+          <p>What do you want to do today?</p>
+        </div>
+        <div className={styles.avatarContainer}>
+          <img className={styles.avatar} src={avatarImg} alt="Sara" />
+        </div>
+      </div>
 
-      </header>
+      <input type="text" placeholder="Search..." className={styles.search} />
 
+      {/* Rooms section */}
+      <div className={styles.thirdPanel}>
+        <h3>Rooms</h3>
+        <div className={styles.rooms}>
+          {rooms.map((room, idx) => (
+            <div key={idx} className={styles.roomCard}>
+              <img src={room.image} alt={room.name} />
+              <p>{room.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Posts section */}
+      <div className={styles.postWrapper}>
+        <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
+        <PostFeed />
+      </div>
     </div>
   );
-}
+};
 
 export default Home;
