@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
-import PostFeed from './pages/PostFeed';
+import PostFeed from './components/PostCard';
 import PostDetail from './pages/PostDetail';
 // import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
 

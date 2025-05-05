@@ -1,6 +1,6 @@
 // src/pages/PostFeed.tsx
 import React from 'react';
-import Post from './Post'; // ← adjusted path
+import Post from '../pages/Post';
 import alicePic from '../assets/alice.jpg';
 import bobPic from '../assets/bob.jpg';
 import mountainImg from '../assets/mountain.jpg';
