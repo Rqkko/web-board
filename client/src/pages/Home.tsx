@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from '../styles/Dashboard.module.css';
+import Post from './Post';
+import PostFeed from './PostFeed'; 
 
 import announcementsImg from '../assets/announcements.png';
 import eventsImg from '../assets/events.png';
@@ -8,9 +10,6 @@ import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
 
-import HeaderBar from './HeaderBar';
-import Post from './Post'; // ← make sure the path is correct
-import PostFeed from './PostFeed'; 
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -34,7 +33,6 @@ const samplePosts = [
 const Home = () => {
   return (
     <div className={styles.container}>
-      <HeaderBar />
 
       {/* Greeting section */}
       <div className={styles.secondPanel}>
