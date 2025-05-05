@@ -1,6 +1,4 @@
-import React from 'react';
 import styles from '../styles/Dashboard.module.css';
-import Post from './Post';
 import PostCard from '../components/PostCard'; 
 
 import announcementsImg from '../assets/announcements.png';
@@ -9,7 +7,10 @@ import knowledgeImg from '../assets/knowledge.png';
 import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
-
+import alicePic from '../assets/alice.jpg';
+import bobPic from '../assets/bob.jpg';
+import mountainImg from '../assets/mountain.jpg';
+import reactImg from '../assets/reactcode.jpg';
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -17,6 +18,25 @@ const rooms = [
   { name: 'Knowledge', image: knowledgeImg },
   { name: 'Clubs', image: clubsImg },
   { name: 'Projects', image: projectsImg },
+];
+
+const samplePosts = [
+  {
+    id: '1',
+    username: 'alice',
+    profilePic: alicePic,
+    title: 'Beautiful View',
+    description: 'I went hiking and saw this amazing view!',
+    image: mountainImg,
+  },
+  {
+    id: '2',
+    username: 'bob123',
+    profilePic: bobPic,
+    title: 'Why React is Awesome',
+    description: 'Hooks, JSX, and components are just 🤯',
+    image: reactImg,
+  },
 ];
 
 const Home = () => {
@@ -52,7 +72,11 @@ const Home = () => {
       {/* Posts section */}
       <div className={styles.postWrapper}>
         <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
-        <PostCard />
+        <div style={{ padding: '20px', marginTop: '60px' }}>
+          {samplePosts.map(post => (
+            <PostCard key={post.id} {...post} />
+          ))}
+        </div>
       </div>
     </div>
   );

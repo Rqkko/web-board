@@ -1,41 +1,34 @@
-// src/pages/PostFeed.tsx
 import React from 'react';
-import Post from '../pages/Post';
-import alicePic from '../assets/alice.jpg';
-import bobPic from '../assets/bob.jpg';
-import mountainImg from '../assets/mountain.jpg';
-import reactImg from '../assets/reactcode.jpg';
+import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Post.module.css';
 
-const samplePosts = [
-  {
-    id: '1',
-    username: 'alice',
-    profilePic: alicePic,
-    title: 'Beautiful View',
-    description: 'I went hiking and saw this amazing view!',
-    image: mountainImg,
-  },
-  {
-    id: '2',
-    username: 'bob123',
-    profilePic: bobPic,
-    title: 'Why React is Awesome',
-    description: 'Hooks, JSX, and components are just 🤯',
-    image: reactImg,
-  },
-];
+type PostProps = {
+  id: string;
+  username: string;
+  profilePic: string;
+  title: string;
+  description: string;
+  image: string;
+};
 
-const PostFeed: React.FC = () => {
-    return (
-      <>
-  
-        <div style={{ padding: '20px', marginTop: '60px' }}>
-          {samplePosts.map(post => (
-            <Post key={post.id} {...post} />
-          ))}
-        </div>
-      </>
-    );
+const Post: React.FC<PostProps> = ({ id, username, profilePic, title, description, image }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/posts/${id}`);
   };
 
-export default PostFeed;
+  return (
+    <div className={styles.postContainer} onClick={handleClick}>
+      <div className={styles.header}>
+        <img src={profilePic} alt={`${username}'s profile`} className={styles.profilePic} />
+        <span className={styles.username}>{username}</span>
+      </div>
+      <h3 className={styles.title}>{title}</h3>
+      <p className={styles.description}>{description}</p>
+      <img src={image} alt={title} className={styles.postImage} />
+    </div>
+  );
+};
+
+export default Post;
