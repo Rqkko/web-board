@@ -1,8 +1,7 @@
-import { Routes, Route, useParams, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
-import Post from "./components/PostCard";
 import Signup from "./pages/Signup";
-import CreatePost from "./pages/CreatePost";
+import CreatePost from "./pages/CreatePost"; 
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
