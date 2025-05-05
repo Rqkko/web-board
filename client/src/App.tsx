@@ -9,6 +9,7 @@ import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Dashboard from './pages/Dashboard';
 import PostFeed from './pages/PostFeed';
+import PostDetail from './pages/PostDetail';
 // import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
 
 // function PostWrapper() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/posts" element={<PostFeed />} />
         {/* <Route path="/post/:id" element={<Post />} /> */}
+        <Route path="/posts/:id" element={<PostDetail />} /> 
       </Routes>
     </>
   );

@@ -1,7 +1,6 @@
 // src/pages/PostFeed.tsx
 import React from 'react';
 import Post from './Post'; // ← adjusted path
-import HeaderBar from '../pages/HeaderBar'; 
 import alicePic from '../assets/alice.jpg';
 import bobPic from '../assets/bob.jpg';
 import mountainImg from '../assets/mountain.jpg';
@@ -29,7 +28,6 @@ const samplePosts = [
 const PostFeed: React.FC = () => {
     return (
       <>
-        <HeaderBar />
   
         <div style={{ padding: '20px', marginTop: '60px' }}>
           {samplePosts.map(post => (
