@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Dashboard.module.css';
 import PostCard from '../components/PostCard'; 
 
@@ -40,6 +42,8 @@ const samplePosts = [
 ];
 
 const Home = () => {
+  const [room, setRoom] = useState<number | null>(null);
+
   return (
     <div className={styles.container}>
 
@@ -57,17 +61,11 @@ const Home = () => {
       <input type="text" placeholder="Search..." className={styles.search} />
 
       {/* Rooms section */}
-      <div className={styles.thirdPanel}>
-        <h3>Rooms</h3>
-        <div className={styles.rooms}>
-          {rooms.map((room, idx) => (
-            <div key={idx} className={styles.roomCard}>
-              <img src={room.image} alt={room.name} />
-              <p>{room.name}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <RoomPicker
+        selectedRoom={room}
+        setSelectedRoom={setRoom} 
+      />
+      {room}
 
       {/* Posts section */}
       <div className={styles.postWrapper}>
