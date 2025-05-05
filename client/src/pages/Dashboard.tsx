@@ -64,7 +64,8 @@ const Dashboard = () => {
 
       {/* Posts section */}
       <div className={styles.postWrapper}>
-      <PostFeed />
+        <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
+        <PostFeed />
       </div>
     </div>
   );
