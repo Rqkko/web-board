@@ -7,10 +7,8 @@ import knowledgeImg from '../assets/knowledge.png';
 import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
-import hottopic from '../assets/hottopic.png';
-import design from '../assets/designclub.png';
-import back from '../assets/backtoschool.png';
 import HeaderBar from '../pages/HeaderBar';
+import PostFeed from './PostFeed'; // 👈 Add this line
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -18,16 +16,14 @@ const rooms = [
   { name: 'Knowledge', image: knowledgeImg },
   { name: 'Clubs', image: clubsImg },
   { name: 'Projects', image: projectsImg },
-
-]
+];
 
 const Dashboard = () => {
   return (
     <div className={styles.container}>
       <HeaderBar />
 
-
-      {/* Second Panel: Greeting, search bar, and avatar in one row */}
+      {/* Second Panel: Greeting, search bar, and avatar */}
       <div className={styles.secondPanel}>
         <div className={styles.greeting}>
           <h2>Hi Sara!</h2>
@@ -53,37 +49,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className={styles.fourthPanel}>
-        <div className={styles.topiccard}>
-          <div className={styles.event}>
-            <img src={back} alt="" />
-            <div className={styles.topicLabel}>
-              <span>Events</span>
-              <h3>SIIT Back to School</h3>
-            </div>
-          </div>
-          <div className={styles.clubs}>
-            <img src={design} alt="" />
-            <div className={styles.topicLabel}>
-              <span>Clubs</span>
-              <h4>UI/UX Design Club</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.fifthPanel}>
-        <div className={styles.title}>
-          <h5>Hot Topics</h5>
-          <span>Explore</span>
-        </div>
-        <div className={styles.hotpic}>
-        <img src={hottopic} alt="" />
-        </div>
-          <div className={styles.label}> 
-            <span>Announcements</span>
-            <h5>Last Day of Withdraw</h5>
-          </div>
+      {/* 👇 Post Feed Section at the Bottom */}
+      <div className={styles.postFeedSection}>
+        <h2 className={styles.postFeedTitle}>Posts in Knowledge</h2>
+        <PostFeed />
       </div>
     </div>
   );
