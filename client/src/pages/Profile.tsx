@@ -23,14 +23,21 @@ function Profile() {
   };
 
   async function handleSubmit() {
-    //todo
+    
 
     const formData = new FormData();
-    if (image) { formData.append('image', image); }
+    formData.append('username', username);
+    formData.append('email', email);
+    if (room !== null) {
+        formData.append('room', room.toString());
+    }
+    if (image) { 
+        formData.append('image', image); 
+    }
 
     try {
       const response = await api.post(
-        '/api/post/createPost',
+        '/api/user/updateProfile',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -39,7 +46,7 @@ function Profile() {
       );
 
       if (response.status === 200 || response.status === 201) {
-        alert('Your infos changed successfully!');
+        alert('Your infos updated successfully!');
         window.location.href = '/';
       }
     } catch (error) {
@@ -53,8 +60,10 @@ function Profile() {
       withCredentials: true,
     })
       .then(response => response.data)
+      .then(data => 
+        setUsername(data.message))
       .catch((error) => {
-        alert("Please login to access.");
+        alert("Please login to see your Profile Data.");
         window.location.href = '/login';
       });
   });
@@ -134,8 +143,9 @@ function Profile() {
 
         </Avatar>
         
+        
         <Typography style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', marginBottom: '15px' }}>
-          todo: how to get username from backend here
+          {username || 'Loading...'}
         </Typography>
 
         
