@@ -15,18 +15,18 @@ const Post: React.FC<PostProps> = ({ id, username, profilePic, title, descriptio
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/posts/${id}`); // Go to post detail page
+    navigate(`/posts/${id}`);
   };
 
   return (
-    <div className={styles.post} onClick={handleClick}>
+    <div className={styles.postContainer} onClick={handleClick}>
       <div className={styles.header}>
-        <img src={profilePic} alt={`${username}'s profile`} className={styles.avatar} />
+        <img src={profilePic} alt={`${username}'s profile`} className={styles.profilePic} />
         <span className={styles.username}>{username}</span>
       </div>
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.description}>{description}</p>
-      <img src={image} alt={title} className={styles.image} />
+      <img src={image} alt={title} className={styles.postImage} />
     </div>
   );
 };

@@ -126,3 +126,8 @@
 .postFeedTitle {
   text-align: center;
 }
+
+.postWrapper {
+  margin-top: 40px;
+  padding: 0 20px;
+}

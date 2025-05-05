@@ -7,8 +7,10 @@ import knowledgeImg from '../assets/knowledge.png';
 import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
+
 import HeaderBar from '../pages/HeaderBar';
-import PostFeed from './PostFeed'; // 👈 Add this line
+import Post from '../pages/Post'; // ← make sure the path is correct
+import PostFeed from './PostFeed'; 
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -18,12 +20,23 @@ const rooms = [
   { name: 'Projects', image: projectsImg },
 ];
 
+const samplePosts = [
+  {
+    id: '1',
+    username: 'alice',
+    profilePic: require('../assets/alice.jpg'),
+    title: 'Beautiful View',
+    description: 'I went hiking and saw this amazing view!',
+    image: require('../assets/mountain.jpg'),
+  },
+];
+
 const Dashboard = () => {
   return (
     <div className={styles.container}>
       <HeaderBar />
 
-      {/* Second Panel: Greeting, search bar, and avatar */}
+      {/* Greeting section */}
       <div className={styles.secondPanel}>
         <div className={styles.greeting}>
           <h2>Hi Sara!</h2>
@@ -36,7 +49,7 @@ const Dashboard = () => {
 
       <input type="text" placeholder="Search..." className={styles.search} />
 
-      {/* Third Panel: Rooms */}
+      {/* Rooms section */}
       <div className={styles.thirdPanel}>
         <h3>Rooms</h3>
         <div className={styles.rooms}>
@@ -49,10 +62,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* 👇 Post Feed Section at the Bottom */}
-      <div className={styles.postFeedSection}>
-        <h2 className={styles.postFeedTitle}>Posts in Knowledge</h2>
-        <PostFeed />
+      {/* Posts section */}
+      <div className={styles.postWrapper}>
+      <PostFeed />
       </div>
     </div>
   );
