@@ -11,8 +11,6 @@ import alicePic from '../assets/alice.jpg';
 import bobPic from '../assets/bob.jpg';
 import mountainImg from '../assets/mountain.jpg';
 import reactImg from '../assets/reactcode.jpg';
-import RoomPicker from 'components/RoomPicker';
-import { useState } from 'react';
 
 const rooms = [
   { name: 'Announcements', image: announcementsImg },
@@ -41,9 +39,7 @@ const samplePosts = [
   },
 ];
 
-const Home = () => {  
-  const [room, setRoom] = useState<number | null>(null);
-
+const Home = () => {
   return (
     <div className={styles.container}>
 
@@ -61,11 +57,17 @@ const Home = () => {
       <input type="text" placeholder="Search..." className={styles.search} />
 
       {/* Rooms section */}
-      <RoomPicker
-        selectedRoom={room}
-        setSelectedRoom={setRoom} 
-      />
-      {room}
+      <div className={styles.thirdPanel}>
+        <h3>Rooms</h3>
+        <div className={styles.rooms}>
+          {rooms.map((room, idx) => (
+            <div key={idx} className={styles.roomCard}>
+              <img src={room.image} alt={room.name} />
+              <p>{room.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Posts section */}
       <div className={styles.postWrapper}>
