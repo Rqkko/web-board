@@ -1,13 +1,12 @@
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
-import Post from "./pages/Post";
+import Post from "./components/PostCard";
 import Signup from "./pages/Signup";
 import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
-import PostFeed from './components/PostCard';
 import PostDetail from './pages/PostDetail';
 // import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
 
@@ -33,7 +32,6 @@ function App() {
         {/* <Route path="/" element={<Prioritized />} /> Prioritized route */}
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/posts" element={<PostFeed />} />
         {/* <Route path="/post/:id" element={<Post />} /> */}
         <Route path="/posts/:id" element={<PostDetail />} /> 
       </Routes>
