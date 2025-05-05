@@ -1,5 +1,4 @@
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Signup from "./pages/Signup";
@@ -7,7 +6,7 @@ import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
-import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
 import PostFeed from './pages/PostFeed';
 import PostDetail from './pages/PostDetail';
 // import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
@@ -34,7 +33,6 @@ function App() {
         {/* <Route path="/" element={<Prioritized />} /> Prioritized route */}
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/posts" element={<PostFeed />} />
         {/* <Route path="/post/:id" element={<Post />} /> */}
         <Route path="/posts/:id" element={<PostDetail />} /> 
