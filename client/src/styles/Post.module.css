@@ -14,6 +14,7 @@
   
   .postContainer:hover {
     transform: scale(1.01);
+    background-color: rgba(0, 0, 0, 0.12)
   }
   
   .header {
@@ -33,6 +34,15 @@
   .username {
     font-weight: 600;
     font-size: 1rem;
+  }
+
+  .room {
+    margin-left: auto;
+    font-size: 0.9rem;
+    align-self: flex-start;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: underline;
   }
   
   .title {
