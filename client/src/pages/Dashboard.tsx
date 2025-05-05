@@ -7,7 +7,6 @@ import knowledgeImg from '../assets/knowledge.png';
 import clubsImg from '../assets/clubs.png';
 import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
-import logoImg from '../assets/SIIT.png';
 import hottopic from '../assets/hottopic.png';
 import design from '../assets/designclub.png';
 import back from '../assets/backtoschool.png';

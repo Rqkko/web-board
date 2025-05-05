@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Dashboard from './pages/Dashboard';
+import PostFeed from './pages/PostFeed';
 // import Prioritized from './pages/Prioritized'; // Make sure this matches the filename casing
 
 // function PostWrapper() {
@@ -33,7 +34,8 @@ function App() {
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/post/:id" element={<Post />} />
+        <Route path="/posts" element={<PostFeed />} />
+        {/* <Route path="/post/:id" element={<Post />} /> */}
       </Routes>
     </>
   );
