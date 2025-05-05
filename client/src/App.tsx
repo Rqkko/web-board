@@ -7,6 +7,7 @@ import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
 import PostDetails from './pages/PostDetails';
+import Profile from "pages/Profile"
 
 function App() {
   const location = useLocation();
@@ -23,6 +24,7 @@ function App() {
         <Route path="/posts/:id" element={<PostDetails />} /> 
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );
