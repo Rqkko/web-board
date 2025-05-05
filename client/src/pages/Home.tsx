@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/Dashboard.module.css';
 import Post from './Post';
-import PostFeed from './PostFeed'; 
+import PostCard from '../components/PostCard'; 
 
 import announcementsImg from '../assets/announcements.png';
 import eventsImg from '../assets/events.png';
@@ -17,17 +17,6 @@ const rooms = [
   { name: 'Knowledge', image: knowledgeImg },
   { name: 'Clubs', image: clubsImg },
   { name: 'Projects', image: projectsImg },
-];
-
-const samplePosts = [
-  {
-    id: '1',
-    username: 'alice',
-    profilePic: require('../assets/alice.jpg'),
-    title: 'Beautiful View',
-    description: 'I went hiking and saw this amazing view!',
-    image: require('../assets/mountain.jpg'),
-  },
 ];
 
 const Home = () => {
@@ -63,7 +52,7 @@ const Home = () => {
       {/* Posts section */}
       <div className={styles.postWrapper}>
         <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
-        <PostFeed />
+        <PostCard />
       </div>
     </div>
   );
