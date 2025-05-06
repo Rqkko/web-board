@@ -73,7 +73,6 @@ const Home = () => {
 
       {/* Posts section */}
       <div className={styles.postWrapper}>
-        <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
         <div style={{ padding: '20px', marginTop: '60px' }}>
           {posts.map(post => (
             <PostCard 
