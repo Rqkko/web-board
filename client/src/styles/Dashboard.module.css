@@ -31,7 +31,10 @@
   justify-content: center;
   gap: 20px;
   max-width: 400px;
-  margin: 40px auto;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
 }
 
 .secondPanel .greeting {
@@ -52,6 +55,7 @@
   align-items: center;
   width: 35%;
   justify-self: center;
+  margin-top: 30px;
 }
 
 .search {
@@ -84,7 +88,7 @@
 
 /* Third Panel: Rooms */
 .thirdPanel {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .thirdPanel h3 {
@@ -146,6 +150,6 @@
 }
 
 .postWrapper {
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 0 20px;
 }

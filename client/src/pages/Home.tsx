@@ -70,6 +70,12 @@ const Home = () => {
           <img className={styles.avatar} src={profilePicture} alt="Sara" />
         </div>
       </div>
+        
+      {/* Rooms section */}
+      <RoomPicker
+        selectedRoom={room}
+        setSelectedRoom={setRoom} 
+      />
 
       <div className={styles.searchContainer}>
         <input 
@@ -89,16 +95,9 @@ const Home = () => {
         )}
       </div>
 
-      {/* Rooms section */}
-      <RoomPicker
-        selectedRoom={room}
-        setSelectedRoom={setRoom} 
-      />
-      {room}
-
       {/* Posts section */}
       <div className={styles.postWrapper}>
-        <div style={{ padding: '20px', marginTop: '60px' }}>
+        <div style={{ padding: '20px', marginTop: '20px' }}>
           {filteredPosts.map(post => (
             <PostCard 
               key={post.id}
