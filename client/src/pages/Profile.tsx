@@ -166,7 +166,7 @@ function Profile() {
         
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '20px' }}>
-          Username
+          Edit Username
         </Typography>
         <PostTextField
           type="text"
@@ -175,7 +175,7 @@ function Profile() {
         />
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px' }}>
-          E-Mail
+          Edit E-Mail
         </Typography>
         <PostTextField
           type="text"
