@@ -66,7 +66,22 @@ function Profile() {
         alert("Please login to see your Profile Data.");
         window.location.href = '/login';
       });
-  });
+  }, []);
+
+  useEffect(() => {
+    api.get('/api/user/getEmail', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => 
+        setEmail(data.message))
+      .catch((error) => {
+        alert("Could not load email. Please login again.");
+        window.location.href = '/login';
+      });
+  }, []);
+  
+
 
   return (
     <div
@@ -151,7 +166,7 @@ function Profile() {
         
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '20px' }}>
-          Username
+          Edit Username
         </Typography>
         <PostTextField
           type="text"
@@ -160,7 +175,7 @@ function Profile() {
         />
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px' }}>
-          E-Mail
+          Edit E-Mail
         </Typography>
         <PostTextField
           type="text"
