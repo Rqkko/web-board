@@ -2,6 +2,24 @@ import { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
 
+async function getUsername(userId: string): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('users')
+    .select('username')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching username:', error.message);
+    return null;
+  }
+
+  const displayName = data?.username || 'Unknown User';
+  console.log('Display Name:', displayName);
+
+  return data?.username || null;
+}
+
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
@@ -49,6 +67,45 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
   res.status(201).json({ message: 'Post created successfully', post: data?.[0] });
 };
 
+export const getPosts = async (_: Request, res: Response): Promise<void> => {
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+
+  try {
+    const decoratedPosts = await Promise.all(
+      posts.map(async (post) => {
+        let username;
+
+        try {
+          username = await getUsername(post.user_id) || 'Unknown User';
+        } catch (err) {
+          console.error('Error fetching username:', err);
+        } finally {
+          const imageUrl = post.image
+            ? generatePublicUrl('post-image', post.image)
+            : null;
+
+          post.imageUrl = imageUrl;
+        }
+        console.log('username:', username);
+        return { ...post, username, imageUrl: post.imageUrl };
+      })
+    );
+
+    res.status(200).json({ data: decoratedPosts });
+  } catch (err) {
+    console.error('Error decorating posts:', err);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+};
+
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
@@ -63,15 +120,32 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
     return;
   }
 
-  const postsWithImageUrls = posts.map(post => {
-    const imageUrl = post.image
-      ? generatePublicUrl('post-image', post.image)
-      : null;
+  try {
+    const decoratedPosts = await Promise.all(
+      posts.map(async (post) => {
+        let username;
 
-    return { ...post, imageUrl };
-  });
+        try {
+          username = await getUsername(post.user_id) || 'Unknown User';
+        } catch (err) {
+          console.error('Error fetching username:', err);
+        } finally {
+          const imageUrl = post.image
+            ? generatePublicUrl('post-image', post.image)
+            : null;
 
-  res.status(200).json({ data: postsWithImageUrls });
+          post.imageUrl = imageUrl;
+        }
+        console.log('username:', username);
+        return { ...post, username, imageUrl: post.imageUrl };
+      })
+    );
+
+    res.status(200).json({ data: decoratedPosts });
+  } catch (err) {
+    console.error('Error decorating posts:', err);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
 };
 
 export const searchPosts = async (req: Request, res: Response): Promise<void> => {
@@ -93,15 +167,32 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  const postsWithImageUrls = posts.map(post => {
-    const imageUrl = post.image
-      ? generatePublicUrl('post-image', post.image)
-      : null;
+  try {
+    const decoratedPosts = await Promise.all(
+      posts.map(async (post) => {
+        let username;
 
-    return { ...post, imageUrl };
-  });
+        try {
+          username = await getUsername(post.user_id) || 'Unknown User';
+        } catch (err) {
+          console.error('Error fetching username:', err);
+        } finally {
+          const imageUrl = post.image
+            ? generatePublicUrl('post-image', post.image)
+            : null;
 
-  res.status(200).json({ data: postsWithImageUrls });
+          post.imageUrl = imageUrl;
+        }
+        console.log('username:', username);
+        return { ...post, username, imageUrl: post.imageUrl };
+      })
+    );
+
+    res.status(200).json({ data: decoratedPosts });
+  } catch (err) {
+    console.error('Error decorating posts:', err);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
 };
 
 export const searchPostsInRoom = async (req: Request, res: Response): Promise<void> => {
@@ -125,13 +216,30 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
     return;
   }
 
-  const postsWithImageUrls = posts.map(post => {
-    const imageUrl = post.image
-      ? generatePublicUrl('post-image', post.image)
-      : null;
+  try {
+    const decoratedPosts = await Promise.all(
+      posts.map(async (post) => {
+        let username;
 
-    return { ...post, imageUrl };
-  });
+        try {
+          username = await getUsername(post.user_id) || 'Unknown User';
+        } catch (err) {
+          console.error('Error fetching username:', err);
+        } finally {
+          const imageUrl = post.image
+            ? generatePublicUrl('post-image', post.image)
+            : null;
 
-  res.status(200).json({ data: postsWithImageUrls });
+          post.imageUrl = imageUrl;
+        }
+        console.log('username:', username);
+        return { ...post, username, imageUrl: post.imageUrl };
+      })
+    );
+
+    res.status(200).json({ data: decoratedPosts });
+  } catch (err) {
+    console.error('Error decorating posts:', err);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
 };

@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import asyncHandler from '../utils/asyncHandler'; // ✅ Import asyncHandler
-import { createPost, getPostsInRoom, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
+import { createPost, getPosts, getPostsInRoom, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
 
 const router = express.Router();
 const upload = multer();
@@ -36,6 +36,18 @@ const upload = multer();
  *         description: Post created successfully
  */
 router.post('/createPost', upload.single('image'), asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
+
+/**
+ * @swagger
+ * /api/post:
+ *   get:
+ *     summary: Get all posts
+ *     tags: [Posts]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
+ */
+router.get('/', asyncHandler(getPosts));
 
 /**
  * @swagger

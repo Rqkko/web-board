@@ -1,6 +1,6 @@
 import express from 'express';
 import asyncHandler from '../utils/asyncHandler'; // import the async handler
-import { getAllRooms } from '../controllers/roomController';
+import { getAllRooms, getRoomById } from '../controllers/roomController';
 
 const router = express.Router();
 
@@ -15,5 +15,24 @@ const router = express.Router();
  *         description: Successfully retrieved rooms
  */
 router.get('/', asyncHandler(getAllRooms));
+
+/**
+ * @swagger
+ * /api/room/{id}:
+ *   get:
+ *     summary: Get a room by ID
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the room to retrieve
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved room
+ */
+router.get('/:id', asyncHandler(getRoomById));
 
 export default router;

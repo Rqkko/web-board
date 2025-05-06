@@ -1,20 +1,14 @@
-import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
-import Post from "./pages/Post";
 import Signup from "./pages/Signup";
-import CreatePost from "./pages/CreatePost";
+import CreatePost from "./pages/CreatePost"; 
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Profile from "pages/Profile"
 import Community from "pages/Community";
 import Logout from "./pages/Logout";
-
-function PostWrapper() {
-  const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
-
-  return <Post postId={postId} />;
-}
+import Home from './pages/Home';
+import PostDetail from './pages/PostDetail';
 
 function App() {
   const location = useLocation();
@@ -28,7 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/post/:postId" element={<PostWrapper />} />
+        <Route path="/posts/:id" element={<PostDetail />} /> 
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={<Profile />} />
@@ -36,6 +30,6 @@ function App() {
       </Routes>
     </>
   );
-}
+};
 
 export default App;

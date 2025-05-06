@@ -47,7 +47,7 @@ export default function CustomAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar 
-        position="absolute"
+        position="fixed"
         ref={appBarRef}
         style={{
           marginTop: '20px',

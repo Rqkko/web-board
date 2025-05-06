@@ -1,102 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import logo from '../assets/logo.svg';
-import { api } from '../utils/api';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Home.css';
-import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { api } from 'utils/api';
+import RoomPicker from 'components/RoomPicker';
+import styles from '../styles/Dashboard.module.css';
+import PostCard from '../components/PostCard'; 
 
-function Home() {
-  const [username, setUsername] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
+import profilePicture from '../assets/profilePicture.jpg';
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  user_id: string;
+  image: string | null;
+  room_id: number;
+  imageUrl: string | null;
+  username: string;
+}
+
+const Home = () => {
+  const [username, setUsername] = useState<string | null>(null);
+  const [room, setRoom] = useState<number | null>(null);
+  const [search, setSearch] = useState<string>('');
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    api.get('/api/user/getUsername', {
-      withCredentials: true,
-    })
-      .then(response => response.data)
-      .then(data => setUsername(data.message))
-      .catch((error) => {
-        console.log("Error fetching data: " + error);
-      });
-    api.get('/api/user/getUserId', {
-      withCredentials: true,
-    })
-      .then(response => response.data)
-      .then(data => {
-        setUserId(data.message);
+    api.get('/api/post')
+      .then(response => {
+        setPosts(response.data.data);
       })
-      .catch((error) => {
-        console.log("Error fetching data: " + error);
+      .catch(error => {
+        console.error('Error fetching posts:', error);
       });
-  }, [navigate]);
+
+    api.get('/api/user/getUsername',
+      { withCredentials: true, }
+    )
+      .then(response => {
+        setUsername(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error fetching username:', error);
+        setUsername('Guest');
+      });
+  }, [])
+
+  const filteredPosts = posts.filter(post => {
+    console.log('Search:', search);
+    const matchesRoom = room === null || post.room_id === room;
+    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
+                          post.content?.toLowerCase().includes(search.toLowerCase());
+    return matchesRoom && matchesSearch;
+  });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className={styles.container}>
 
-        {username ? (
-          <div>
-            {/* From Backend */}
-            <h1>Your Username (Response from Backend)</h1>
-            <p>{username}</p>
-          </div>
-        ) : (
-          <>
-            <Button 
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              borderRadius: '8px',
-              backgroundColor: '#1976d2',
-              color: '#fff',
-              textTransform: 'none',
-            }} 
-            onClick={() => navigate('/login')}
-            >
-            Login
-            </Button>
-            <Button 
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              borderRadius: '8px',
-              backgroundColor: '#1976d2',
-              color: '#fff',
-              textTransform: 'none',
-            }} 
-            onClick={() => navigate('/signup')}
-            >
-            Signup
-            </Button>
-          </>
+      {/* Greeting section */}
+      <div className={styles.secondPanel}>
+        <div className={styles.greeting}>
+          {username ? (
+            <h2>Hi {username}!</h2>
+          ) : (
+            <h2>Hi there!</h2>
+          )}
+          <p>What do you want to do today?</p>
+        </div>
+        <div className={styles.avatarContainer}>
+          <img className={styles.avatar} src={profilePicture} alt="Sara" />
+        </div>
+      </div>
+        
+      {/* Rooms section */}
+      <RoomPicker
+        selectedRoom={room}
+        setSelectedRoom={setRoom} 
+      />
+
+      <div className={styles.searchContainer}>
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          className={styles.search} 
+          value={search} 
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button 
+            className={styles.clearButton} 
+            onClick={() => setSearch('')}
+          >
+            X
+          </button>
         )}
-        {userId && (
-          <div>
-            {/* From Backend */}
-            <h1>Your User ID (Response from Backend)</h1>
-            <p>{userId}</p>
-          </div>
-        )}
+      </div>
 
-      </header>
-
+      {/* Posts section */}
+      <div className={styles.postWrapper}>
+        <div style={{ padding: '20px', marginTop: '20px' }}>
+          {filteredPosts.map(post => (
+            <PostCard 
+              key={post.id}
+              id={post.id}
+              username={post.username}
+              profilePic={profilePicture}
+              roomId={post.room_id}
+              title={post.title}
+              description={post.content}
+              image={post.imageUrl}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
+
 
 export default Home;
