@@ -19,6 +19,7 @@ interface Post {
 }
 
 const Home = () => {
+  const [username, setUsername] = useState<string | null>(null);
   const [room, setRoom] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -30,6 +31,17 @@ const Home = () => {
       .catch(error => {
         console.error('Error fetching posts:', error);
       });
+
+    api.get('/api/user/getUsername',
+      { withCredentials: true, }
+    )
+      .then(response => {
+        setUsername(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error fetching username:', error);
+        setUsername('Guest');
+      });
   })
 
   return (
@@ -38,7 +50,11 @@ const Home = () => {
       {/* Greeting section */}
       <div className={styles.secondPanel}>
         <div className={styles.greeting}>
-          <h2>Hi Sara!</h2>
+          {username ? (
+            <h2>Hi {username}!</h2>
+          ) : (
+            <h2>Hi there!</h2>
+          )}
           <p>What do you want to do today?</p>
         </div>
         <div className={styles.avatarContainer}>
