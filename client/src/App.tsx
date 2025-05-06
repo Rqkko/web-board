@@ -6,6 +6,8 @@ import Signup from "./pages/Signup";
 import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
+import Profile from "pages/Profile"
+import Community from "pages/Community";
 import Logout from "./pages/Logout";
 
 function PostWrapper() {
@@ -29,6 +31,8 @@ function App() {
         <Route path="/post/:postId" element={<PostWrapper />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </>
   );

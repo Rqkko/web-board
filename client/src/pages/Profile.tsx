@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Button, Typography } from '@mui/material'
+import { Button, Typography, Avatar } from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,9 +9,9 @@ import { api } from '../utils/api';
 import PostTextField from 'components/PostTextField'
 import RoomPicker from 'components/RoomPicker';
 
-function CreatePost() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+function Profile() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [room, setRoom] = useState<number | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,20 +23,21 @@ function CreatePost() {
   };
 
   async function handleSubmit() {
-    if (!title || room === null) {
-      alert('Please fill in title and select a room.');
-      return;
-    }
+    
 
     const formData = new FormData();
-    formData.append('title', title);
-    if (content) { formData.append('content', content); }
-    formData.append('room_id', room.toString());
-    if (image) { formData.append('image', image); }
+    formData.append('username', username);
+    formData.append('email', email);
+    if (room !== null) {
+        formData.append('room', room.toString());
+    }
+    if (image) { 
+        formData.append('image', image); 
+    }
 
     try {
       const response = await api.post(
-        '/api/post/createPost',
+        '/api/user/updateProfile',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -45,12 +46,12 @@ function CreatePost() {
       );
 
       if (response.status === 200 || response.status === 201) {
-        alert('Post created successfully!');
+        alert('Your infos updated successfully!');
         window.location.href = '/';
       }
     } catch (error) {
-      console.error('Error creating post:', error);
-      alert('Failed to create post. Please try again.');
+      console.error('Error changing infos:', error);
+      alert('Failed to changed personal infos. Please try again.');
     }
   }
 
@@ -59,11 +60,28 @@ function CreatePost() {
       withCredentials: true,
     })
       .then(response => response.data)
+      .then(data => 
+        setUsername(data.message))
       .catch((error) => {
-        alert("Please login to create a post.");
+        alert("Please login to see your Profile Data.");
         window.location.href = '/login';
       });
-  });
+  }, []);
+
+  useEffect(() => {
+    api.get('/api/user/getEmail', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => 
+        setEmail(data.message))
+      .catch((error) => {
+        alert("Could not load email. Please login again.");
+        window.location.href = '/login';
+      });
+  }, []);
+  
+
 
   return (
     <div
@@ -82,13 +100,16 @@ function CreatePost() {
           paddingTop: '100px',
         }}
       >
-        <Typography style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', marginBottom: '15px' }}>
-          What's on your mind?
-        </Typography>
 
-        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '0px' }}>
+        {/* Avatar */}
+        <Avatar
+             sx={{ width: 100, height: 100, mb: 2, fontSize: 18, bgcolor: '#ccc' }}
+        >
+      
+
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '0px' }}>
           <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', marginLeft: '25%', alignSelf: 'center' }}>
-            Image
+            Edit 
           </Typography>
           <IconButton onClick={() => fileInputRef.current?.click()}>
             <AddPhotoAlternateIcon style={{ fontSize: '32px' }} />
@@ -134,33 +155,49 @@ function CreatePost() {
             />
           </div>
         )}
+
+        </Avatar>
+        
+        
+        <Typography style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', marginBottom: '15px' }}>
+          {username || 'Loading...'}
+        </Typography>
+
+        
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '20px' }}>
-          Title
+          Edit Username
         </Typography>
         <PostTextField
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
   
         <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px' }}>
-          Content
+          Edit E-Mail
         </Typography>
         <PostTextField
           type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          multiline={true}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          
         />
-  
-        <Typography style={{ color: 'black', fontSize: '20px', fontWeight: 'bold', alignSelf: 'start', marginLeft: '25%', marginTop: '24px', marginBottom: '24px' }}>
-          Room
+        {/* Delete Account */}
+        <Typography
+            style={{
+            color: '#888',
+            marginTop: '40px',
+            marginBottom: '24px',
+            cursor: 'pointer',
+            }}
+        >
+            Delete Account
         </Typography>
-        <RoomPicker selectedRoom={room} setSelectedRoom={setRoom} />
-  
         
       </div>
+
+       
   
       {/* Fixed Bottom Button */}
       <Button
@@ -178,16 +215,16 @@ function CreatePost() {
           borderRadius: '20px',
           width: '90%',
           maxWidth: '360px',
-          height: '60px',
+          height: '40px',
           zIndex: 1000,
         }}
         onClick={handleSubmit}
       >
-        Create Post
+        Save
       </Button>
     </div>
   );
   
 }
 
-export default CreatePost
+export default Profile

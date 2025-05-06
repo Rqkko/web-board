@@ -31,7 +31,7 @@ export default function PostTextField({ type, value, onChange, multiline }: Post
           style: { fontSize: '16px' }
         },
         input: {
-          style: { fontSize: '16px' }
+          style: { fontSize: '16px' , borderRadius: '20px'}
         }
       }}
       multiline={multiline}
