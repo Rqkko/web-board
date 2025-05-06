@@ -7,6 +7,7 @@ import CreatePost from "pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Profile from "pages/Profile"
+import Community from "pages/Community";
 
 function PostWrapper() {
   const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
@@ -29,6 +30,7 @@ function App() {
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </>
   );
