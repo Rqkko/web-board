@@ -7,12 +7,13 @@ type PostProps = {
   id: string;
   username: string;
   profilePic: string;
+  roomId: number;
   title: string;
   description: string;
-  image: string;
+  image: string | null;
 };
 
-const Post: React.FC<PostProps> = ({ id, username, profilePic, title, description, image }) => {
+const Post: React.FC<PostProps> = ({ id, username, profilePic, roomId, title, description, image }) => {
   const navigate = useNavigate();
   const [room, setRoom] = useState('');
 
@@ -21,7 +22,7 @@ const Post: React.FC<PostProps> = ({ id, username, profilePic, title, descriptio
   };
 
   useEffect(() => {
-    api.get(`/api/room/${id}`)
+    api.get(`/api/room/${roomId}`)
       .then((response) => {
         setRoom(response.data.data.title);
       })
@@ -39,7 +40,9 @@ const Post: React.FC<PostProps> = ({ id, username, profilePic, title, descriptio
       </div>
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.description}>{description}</p>
-      <img src={image} alt={title} className={styles.postImage} />
+      {image && (
+        <img src={image} alt="Post" className={styles.postImage} />
+      )}
     </div>
   );
 };
