@@ -21,6 +21,7 @@ interface Post {
 const Home = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [room, setRoom] = useState<number | null>(null);
+  const [search, setSearch] = useState<string>('');
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
@@ -42,7 +43,15 @@ const Home = () => {
         console.error('Error fetching username:', error);
         setUsername('Guest');
       });
-  })
+  }, [])
+
+  const filteredPosts = posts.filter(post => {
+    console.log('Search:', search);
+    const matchesRoom = room === null || post.room_id === room;
+    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
+                          post.content?.toLowerCase().includes(search.toLowerCase());
+    return matchesRoom && matchesSearch;
+  });
 
   return (
     <div className={styles.container}>
@@ -62,7 +71,23 @@ const Home = () => {
         </div>
       </div>
 
-      <input type="text" placeholder="Search..." className={styles.search} />
+      <div className={styles.searchContainer}>
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          className={styles.search} 
+          value={search} 
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button 
+            className={styles.clearButton} 
+            onClick={() => setSearch('')}
+          >
+            X
+          </button>
+        )}
+      </div>
 
       {/* Rooms section */}
       <RoomPicker
@@ -74,7 +99,7 @@ const Home = () => {
       {/* Posts section */}
       <div className={styles.postWrapper}>
         <div style={{ padding: '20px', marginTop: '60px' }}>
-          {posts.map(post => (
+          {filteredPosts.map(post => (
             <PostCard 
               key={post.id}
               id={post.id}

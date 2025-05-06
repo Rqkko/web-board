@@ -46,8 +46,16 @@
   color: #666;
 }
 
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 35%;
+  justify-self: center;
+}
+
 .search {
-  width: 380px;
+  width: 100%;
   padding: 12px 20px;
   border-radius: 25px;
   border: 1px solid #ccc;
@@ -59,10 +67,19 @@
   margin: 20px auto; /* This centers it horizontally */
 }
 
-
 .search:focus {
   border-color: #888;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clearButton {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /* Third Panel: Rooms */
