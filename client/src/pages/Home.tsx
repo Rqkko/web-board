@@ -1,35 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Dashboard.module.css';
 import PostCard from '../components/PostCard'; 
 
-import avatarImg from '../assets/Sara.jpg';
-import alicePic from '../assets/alice.jpg';
-import bobPic from '../assets/bob.jpg';
-import mountainImg from '../assets/mountain.jpg';
-import reactImg from '../assets/reactcode.jpg';
+import profilePicture from '../assets/profilePicture.jpg';
 
-const samplePosts = [
-  {
-    id: '1',
-    username: 'alice',
-    profilePic: alicePic,
-    title: 'Beautiful View',
-    description: 'I went hiking and saw this amazing view!',
-    image: mountainImg,
-  },
-  {
-    id: '2',
-    username: 'bob123',
-    profilePic: bobPic,
-    title: 'Why React is Awesome',
-    description: 'Hooks, JSX, and components are just 🤯',
-    image: reactImg,
-  },
-];
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  user_id: string;
+  image: string | null;
+  room_id: number;
+  imageUrl: string | null;
+  username: string;
+}
 
 const Home = () => {
   const [room, setRoom] = useState<number | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    api.get('/api/post')
+      .then(response => {
+        setPosts(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+      });
+  })
 
   return (
     <div className={styles.container}>
@@ -41,7 +42,7 @@ const Home = () => {
           <p>What do you want to do today?</p>
         </div>
         <div className={styles.avatarContainer}>
-          <img className={styles.avatar} src={avatarImg} alt="Sara" />
+          <img className={styles.avatar} src={profilePicture} alt="Sara" />
         </div>
       </div>
 
@@ -58,13 +59,23 @@ const Home = () => {
       <div className={styles.postWrapper}>
         <h2 className={styles.postTitle}>Posts in knowledge Room</h2>
         <div style={{ padding: '20px', marginTop: '60px' }}>
-          {samplePosts.map(post => (
-            <PostCard key={post.id} {...post} />
+          {posts.map(post => (
+            <PostCard 
+              key={post.id}
+              id={post.id}
+              username={post.username}
+              profilePic={profilePicture}
+              roomId={post.room_id}
+              title={post.title}
+              description={post.content}
+              image={post.imageUrl}
+            />
           ))}
         </div>
       </div>
     </div>
   );
 };
+
 
 export default Home;
