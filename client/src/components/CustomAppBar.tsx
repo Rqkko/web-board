@@ -18,6 +18,7 @@ const menuItems = [
   // { text: 'Community', icon: GroupsIcon, link: '/community' },
   { text: 'Profile', icon: AccountCircleIcon, link: '/profile' },
   { text: 'Logout', icon: LogoutIcon, link: '/logout' },
+  
 ]
 
 export default function CustomAppBar() {
