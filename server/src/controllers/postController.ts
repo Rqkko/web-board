@@ -49,6 +49,26 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
   res.status(201).json({ message: 'Post created successfully', post: data?.[0] });
 };
 
+export const getPosts = async (_: Request, res: Response): Promise<void> => {
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+
+  const postsWithImageUrls = posts.map(post => {
+    const imageUrl = post.image
+      ? generatePublicUrl('post-image', post.image)
+      : null;
+    return { ...post, imageUrl };
+  });
+  res.status(200).json({ data: postsWithImageUrls });
+};
+
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
