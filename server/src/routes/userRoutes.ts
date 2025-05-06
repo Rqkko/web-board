@@ -92,12 +92,18 @@ router.post('/signup', async (req: Request, res: Response) => {
         display_name: username
       }
     }
-  }).then(({ data, error }) => {
+  }).then(async ({ data, error }) => {
     if (error) {
       res.status(400).json({ error: error.message });
     } else if (!data || !data.session || !data.user) {
       res.status(400).json({ error: 'User creation failed' });
     } else {
+      // Successfully created user
+      await supabase.from('users').insert({
+        id: data.user.id,
+        username: username
+      })
+
       res.cookie('accessToken', data.session.access_token, {
         httpOnly: true,
         secure: true,
