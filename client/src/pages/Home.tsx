@@ -3,24 +3,11 @@ import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Dashboard.module.css';
 import PostCard from '../components/PostCard'; 
 
-import announcementsImg from '../assets/announcements.png';
-import eventsImg from '../assets/events.png';
-import knowledgeImg from '../assets/knowledge.png';
-import clubsImg from '../assets/clubs.png';
-import projectsImg from '../assets/projects.png';
 import avatarImg from '../assets/Sara.jpg';
 import alicePic from '../assets/alice.jpg';
 import bobPic from '../assets/bob.jpg';
 import mountainImg from '../assets/mountain.jpg';
 import reactImg from '../assets/reactcode.jpg';
-
-const rooms = [
-  { name: 'Announcements', image: announcementsImg },
-  { name: 'Events', image: eventsImg },
-  { name: 'Knowledge', image: knowledgeImg },
-  { name: 'Clubs', image: clubsImg },
-  { name: 'Projects', image: projectsImg },
-];
 
 const samplePosts = [
   {
