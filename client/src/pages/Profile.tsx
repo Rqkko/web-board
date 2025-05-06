@@ -66,7 +66,22 @@ function Profile() {
         alert("Please login to see your Profile Data.");
         window.location.href = '/login';
       });
-  });
+  }, []);
+
+  useEffect(() => {
+    api.get('/api/user/getEmail', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .then(data => 
+        setEmail(data.message))
+      .catch((error) => {
+        alert("Could not load email. Please login again.");
+        window.location.href = '/login';
+      });
+  }, []);
+  
+
 
   return (
     <div
