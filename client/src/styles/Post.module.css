@@ -1,0 +1,68 @@
+/* src/styles/Post.module.css */
+
+.postContainer {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.2s ease;
+  }
+  
+  .postContainer:hover {
+    transform: scale(1.01);
+    background-color: rgba(0, 0, 0, 0.12)
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .profilePic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  
+  .username {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .room {
+    margin-left: auto;
+    font-size: 0.9rem;
+    align-self: flex-start;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  
+  .title {
+    font-size: 1.3rem;
+    margin: 10px 0 6px;
+    color: #222;
+  }
+  
+  .description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  .postImage {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    max-height: 400px;
+    margin-top: 10px;
+  }
+  

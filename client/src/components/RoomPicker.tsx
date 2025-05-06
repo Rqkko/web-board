@@ -61,7 +61,13 @@ export default function RoomPicker({ selectedRoom, setSelectedRoom }: RoomPicker
                     '0 4px 12px rgba(0, 0, 0, 0.08)';
                 }
               }}
-              onClick={() => setSelectedRoom(idx+1 )}
+              onClick={() => {
+                if (selectedRoom !== idx+1) {
+                  setSelectedRoom(idx+1)
+                } else {
+                  setSelectedRoom(null)
+                }
+              }}
             >
               <img src={room.image} alt={room.name} style={{
                 width: '100%',

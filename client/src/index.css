@@ -5,12 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #282c34;
-  color: #abb2bf;
-  font-size: 32px;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  background-color: #ffffff; /* changed from dark to white */
+  color: #333; /* changed text to black */
+  font-size: 16px; /* 32px is quite large for body text */
 }
