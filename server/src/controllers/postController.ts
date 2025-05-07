@@ -1,24 +1,7 @@
 import { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
-
-async function getUsername(userId: string): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('users')
-    .select('username')
-    .eq('id', userId)
-    .single();
-
-  if (error) {
-    console.error('Error fetching username:', error.message);
-    return null;
-  }
-
-  const displayName = data?.username || 'Unknown User';
-  console.log('Display Name:', displayName);
-
-  return data?.username || null;
-}
+import { getUsername } from '../utils/usernameGetter';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   const { title, content, room_id } = req.body;
