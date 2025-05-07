@@ -12,7 +12,10 @@ export const createReply = async (req: Request, res: Response): Promise<void> =>
     .from('replies')
     .insert([{ content, post_id: postId, user_id: userId }]);
 
-  if (error) {res.status(400).json({ error: error.message })}
+  if (error) {
+    res.status(400).json({ error: error.message })
+    return;
+  }
 
   res.status(201).json({ message: 'Reply added successfully', data });
 };
