@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
 
@@ -6,7 +6,6 @@ import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
 import { api } from 'utils/api';
 import profilePicture from '../assets/profilePicture.jpg';
-import { profile } from 'console';
 import LargePostCard from 'components/LargePostCard';
 
 interface Post {
@@ -21,28 +20,57 @@ interface Post {
   username: string;
 }
 
+interface Comment {
+  username: string;
+  content: string;
+}
+
 const PostDetails = () => {
   const { id } = useParams<{ id: string }>();
   // const post = samplePosts.find(p => p.id === id);
   const [post, setPost] = useState<Post | null>(null);
 
-  const [comments, setComments] = useState([
-    { user: 'bob123', text: 'Wow! Amazing view!' },
-    { user: 'jane', text: 'Where is this place?' },
-    { user: 'jane', text: 'Lorem ipsumals;dkfjas;dfdssdsafksafnl;asjf;lsj;klsajg;klsajg;opiajsiogjaisogjaosipjgoaisjgoiasjgiosajgpiosjiopgjasogjasdgasgaskgjasl;gjasoipgjasiogjaiosgjaosigjpaosjgsjgaposjgpaosigjopasjoasij' },
-    { user: 'jane', text: 'Lorem ipsumals;dkfjas;dfdssdsafksafnl;asjf;lsj;klsajg;klsajg;opiajsiogjaisogjaosipjgoaisjgoiasjgiosajgpiosjiopgjasogjasdgasgaskgjasl;gjasoipgjasiogjaiosgjaosigjpaosjgsjgaposjgpaosigjopasjoasij' },
-    { user: 'jane', text: 'Lorem ipsumals;dkfjas;dfdssdsafksafnl;asjf;lsj;klsajg;klsajg;opiajsiogjaisogjaosipjgoaisjgoiasjgiosajgpiosjiopgjasogjasdgasgaskgjasl;gjasoipgjasiogjaiosgjaosigjpaosjgsjgaposjgpaosigjopasjoasij' },
-    { user: 'jane', text: 'Lorem ipsumals;dkfjas;dfdssdsafksafnl;asjf;lsj;klsajg;klsajg;opiajsiogjaisogjaosipjgoaisjgoiasjgiosajgpiosjiopgjasogjasdgasgaskgjasl;gjasoipgjasiogjaiosgjaosigjpaosjgsjgaposjgpaosigjopasjoasij' },
-  ]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const [newComment, setNewComment] = useState('');
 
   function handleAddComment() {
+    api.get('/api/user/getUsername', {
+      withCredentials: true,
+    })
+      .then(response => response.data)
+      .catch((error) => {
+        alert("Please login to comment on a post.");
+      });
+    
     if (newComment.trim()) {
-      setComments([...comments, { user: 'you', text: newComment }]);
-      setNewComment('');
+      api.post(`/api/reply/${id}`,
+        { content: newComment },
+        { withCredentials: true }
+      )
+        .then(response => {
+          if (response.status === 200 || response.status === 201) {
+            alert('Comment added successfully!');
+            updateCommentList();
+            setNewComment('');
+          }
+        })
+        .catch(error => {
+          console.error('Error adding comment:', error);
+          alert('Failed to add comment. Please try again.');
+        });
     }
   };
+
+  const updateCommentList = useCallback(() => {
+    api.get(`/api/reply/${id}`)
+      .then(response => {
+        setComments(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching comments:', error);
+      });
+  }, [id]);
 
   useEffect(() => {
     api.get(`/api/post/${id}`)
@@ -53,7 +81,8 @@ const PostDetails = () => {
         console.error('Error fetching posts:', error);
       });
 
-  }, [id])
+    updateCommentList();
+  }, [id, updateCommentList])
 
   if (!post) return <NotFound />;
 
@@ -97,7 +126,7 @@ const PostDetails = () => {
           <ul className={styles.commentList}>
             {comments.map((comment, idx) => (
               <li key={idx} className={styles.comment}>
-                <strong>{comment.user}:</strong> {comment.text}
+                <strong>{comment.username}:</strong> {comment.content}
               </li>
             ))}
           </ul>
