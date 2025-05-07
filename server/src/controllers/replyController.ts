@@ -3,6 +3,7 @@ import supabase from '../supabaseClient';
 import { getUsername } from '../utils/usernameGetter';
 
 export const createReply = async (req: Request, res: Response): Promise<void> => {
+  console.log('Access token from cookie:', req.cookies.accessToken);
   const { content } = req.body;
   const postId = req.params.postId;
   const userId = req.cookies.userId;
