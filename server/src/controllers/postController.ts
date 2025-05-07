@@ -106,6 +106,40 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
   }
 };
 
+export const getPostById = async (req: Request, res: Response): Promise<void> => {
+  const { postId } = req.params;
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', postId)
+    .single();
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+  if (!post) {
+    res.status(404).json({ error: 'Post not found' });
+    return;
+  }
+  try {
+    let username;
+    try {
+      username = await getUsername(post.user_id) || 'Unknown User';
+    } catch (err) {
+      console.error('Error fetching username:', err);
+    } finally {
+      const imageUrl = post.image
+        ? generatePublicUrl('post-image', post.image)
+        : null;
+      post.imageUrl = imageUrl;
+    }
+    res.status(200).json({ data: { ...post, username, imageUrl: post.imageUrl } });
+  } catch (err) {
+    console.error('Error decorating post:', err);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+};
+
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
