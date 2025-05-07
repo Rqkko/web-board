@@ -18,6 +18,7 @@ async function getUsername(userId: string): Promise<string | null> {
 }
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
+  console.log(req.body);
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
   const user_id = req.cookies.userId;
