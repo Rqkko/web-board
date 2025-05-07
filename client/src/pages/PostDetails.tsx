@@ -16,7 +16,7 @@ const samplePosts = [
   },
 ];
 
-const PostDetail = () => {
+const PostDetails = () => {
   const { id } = useParams<{ id: string }>();
   const post = samplePosts.find(p => p.id === id);
 
@@ -72,4 +72,4 @@ const PostDetail = () => {
   );
 };
 
-export default PostDetail;
+export default PostDetails;
