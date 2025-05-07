@@ -46,7 +46,10 @@ const PostDetails = () => {
     if (newComment.trim()) {
       api.post(`/api/reply/${id}`,
         { content: newComment },
-        { withCredentials: true }
+        { 
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true 
+        }
       )
         .then(response => {
           if (response.status === 200 || response.status === 201) {
