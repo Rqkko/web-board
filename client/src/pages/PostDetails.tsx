@@ -1,26 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
 
 import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
-import aliceProfile from '../assets/alice.jpg';
-import mountainImg from '../assets/mountain.jpg';
+import { api } from 'utils/api';
+import profilePicture from '../assets/profilePicture.jpg';
+import { profile } from 'console';
+import LargePostCard from 'components/LargePostCard';
 
-const samplePosts = [
-  {
-    id: '1',
-    username: 'alice',
-    profilePic: aliceProfile,
-    title: 'Beautiful View',
-    description: 'I went hiking and saw this amazing view!',
-    image: mountainImg,
-  },
-];
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  user_id: string;
+  image: string | null;
+  room_id: number;
+  imageUrl: string | null;
+  username: string;
+}
 
 const PostDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const post = samplePosts.find(p => p.id === id);
+  // const post = samplePosts.find(p => p.id === id);
+  const [post, setPost] = useState<Post | null>(null);
 
   const [comments, setComments] = useState([
     { user: 'bob123', text: 'Wow! Amazing view!' },
@@ -33,27 +37,38 @@ const PostDetails = () => {
 
   const [newComment, setNewComment] = useState('');
 
-  const handleAddComment = () => {
+  function handleAddComment() {
     if (newComment.trim()) {
       setComments([...comments, { user: 'you', text: newComment }]);
       setNewComment('');
     }
   };
 
+  useEffect(() => {
+    api.get(`/api/post/${id}`)
+      .then(response => {
+        setPost(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+      });
+
+  }, [id])
+
   if (!post) return <NotFound />;
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <div className={styles.header}>
-          <img src={post.profilePic} alt={post.username} className={styles.avatar} />
-          <span className={styles.username}>{post.username}</span>
-          <div className={styles.room}>Announcement</div>
-        </div>
-        <h2 className={styles.title}>{post.title}</h2>
-        <p className={styles.description}>{post.description}</p>
-        <img src={post.image} alt="Post visual" className={styles.image} />
-
+        <LargePostCard 
+          id={post.id}
+          username={post.username}
+          profilePic={profilePicture}
+          roomId={post.room_id}
+          title={post.title}
+          content={post.content}
+          image={post.imageUrl}
+        />
         <div className={styles.divider}></div>
 
         {/* Comment Section */}
