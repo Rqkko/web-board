@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
-import styles from '../styles/Dashboard.module.css';
+import styles from '../styles/Home.module.css';
 import PostCard from '../components/PostCard'; 
 
 import profilePicture from '../assets/profilePicture.jpg';
