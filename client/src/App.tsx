@@ -6,7 +6,7 @@ import NotFound from "./pages/NotFound";
 import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
-import PostDetail from './pages/PostDetail';
+import PostDetails from './pages/PostDetails';
 
 function App() {
   const location = useLocation();
@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/posts/:id" element={<PostDetail />} /> 
+        <Route path="/posts/:id" element={<PostDetails />} /> 
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
