@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Home.module.css';
 import PostCard from '../components/PostCard'; 
-
 import profilePicture from '../assets/profilePicture.jpg';
 
 interface Post {
@@ -46,10 +46,9 @@ const Home = () => {
   }, [])
 
   const filteredPosts = posts.filter(post => {
-    console.log('Search:', search);
     const matchesRoom = room === null || post.room_id === room;
     const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
-                          post.content?.toLowerCase().includes(search.toLowerCase());
+      post.content?.toLowerCase().includes(search.toLowerCase());
     return matchesRoom && matchesSearch;
   });
 
@@ -115,6 +114,5 @@ const Home = () => {
     </div>
   );
 };
-
 
 export default Home;
