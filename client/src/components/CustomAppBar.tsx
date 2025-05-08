@@ -39,7 +39,7 @@ export default function CustomAppBar() {
       .catch((error) => {
         console.error('User not logged in', error);
       });
-  })
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -1,17 +1,23 @@
 import { Request, Response } from 'express';
-import supabase from '../supabaseClient';
+import supabase, { createSupabaseClient } from '../supabaseClient';
 import { getUsername } from '../utils/usernameGetter';
 
 export const createReply = async (req: Request, res: Response): Promise<void> => {
   const { content } = req.body;
   const postId = req.params.postId;
   const userId = req.cookies.userId;
+  const token = req.cookies.accessToken;
+
+  const supabase = createSupabaseClient(token);
 
   const { data, error } = await supabase
     .from('replies')
     .insert([{ content, post_id: postId, user_id: userId }]);
 
-  if (error) {res.status(400).json({ error: error.message })}
+  if (error) {
+    res.status(400).json({ error: error.message })
+    return;
+  }
 
   res.status(201).json({ message: 'Reply added successfully', data });
 };

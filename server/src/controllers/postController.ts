@@ -1,21 +1,34 @@
 import { Request, Response } from 'express';
-import supabase from '../supabaseClient';
+import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
-import { getUsername } from '../utils/usernameGetter';
+
+async function getUsername(userId: string): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('users')
+    .select('username')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching username:', error.message);
+    return null;
+  }
+
+  return data?.username || null;
+}
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
+  console.log(req.body);
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
   const user_id = req.cookies.userId;
-
-  console.log("Received data:", req.body);
-  console.log('Received file:', imageFile);
 
   if (!title || room_id === undefined) {
     res.status(400).json({ error: 'Missing required fields: title, room' });
     return;
   }
 
+  const supabase = createSupabaseClient(req.cookies.accessToken);
   let imagePath: string | null = null;
 
   // Upload image (if provided)
@@ -77,7 +90,6 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
         return { ...post, username, imageUrl: post.imageUrl };
       })
     );
