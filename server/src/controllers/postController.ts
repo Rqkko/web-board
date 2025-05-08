@@ -313,3 +313,44 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 };
+
+export const deletePost = async (req: Request, res: Response): Promise<void> => {
+  const { postId } = req.params;
+  const userId = req.cookies.userId;
+
+  // Check if the post exists
+  const { data: post, error: fetchError } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', postId)
+    .single();
+
+  if (fetchError) {
+    res.status(400).json({ error: fetchError.message });
+    return;
+  }
+
+  if (!post) {
+    res.status(404).json({ error: 'Post not found' });
+    return;
+  }
+
+  // Check if the user is the owner of the post
+  if (post.user_id !== userId) {
+    res.status(403).json({ error: 'Post Deletion Unauthorized' });
+    return;
+  }
+
+  // Delete the post
+  const { error: deleteError } = await supabase
+    .from('posts')
+    .delete()
+    .eq('id', postId);
+
+  if (deleteError) {
+    res.status(400).json({ error: deleteError.message });
+    return;
+  }
+
+  res.status(200).json({ message: 'Post deleted successfully' });
+}
