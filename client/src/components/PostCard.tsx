@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/Post.module.css';
-import { api } from 'utils/api';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import styles from '../styles/Post.module.css';
+import { api } from 'utils/api';
 
 type PostProps = {
   id: string;
