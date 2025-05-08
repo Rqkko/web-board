@@ -27,11 +27,8 @@ interface Comment {
 
 const PostDetails = () => {
   const { id } = useParams<{ id: string }>();
-  // const post = samplePosts.find(p => p.id === id);
   const [post, setPost] = useState<Post | null>(null);
-
   const [comments, setComments] = useState<Comment[]>([]);
-
   const [newComment, setNewComment] = useState('');
 
   function handleAddComment() {

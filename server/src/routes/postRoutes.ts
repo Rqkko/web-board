@@ -51,6 +51,18 @@ router.get('/', asyncHandler(getPosts));
 
 /**
  * @swagger
+ * /api/post/user/:
+ *   get:
+ *     summary: Get all posts of a user
+ *     tags: [Posts]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
+ */
+router.get('/user', asyncHandler(getPostsOfUser));
+
+/**
+ * @swagger
  * /api/post/{postId}:
  *   get:
  *     summary: Get a post by ID
@@ -66,19 +78,8 @@ router.get('/', asyncHandler(getPosts));
  *       200:
  *         description: Successfully retrieved post
  */
-router.get('/:postId', asyncHandler(getPostsOfUser));
+router.get('/:postId', asyncHandler(getPostById));
 
-/**
- * @swagger
- * /api/post/user/:
- *   get:
- *     summary: Get all posts of a user
- *     tags: [Posts]
- *     responses:
- *       200:
- *         description: Successfully retrieved posts
- */
-router.get('/user', asyncHandler(getPostsOfUser));
 
 /**
  * @swagger

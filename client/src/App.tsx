@@ -7,6 +7,8 @@ import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
 import PostDetails from './pages/PostDetails';
+import Profile from "pages/Profile";
+import Community from "pages/Community";
 
 function App() {
   const location = useLocation();
@@ -20,11 +22,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/posts/:id" element={<PostDetails />} /> 
+        <Route path="/post/:id" element={<PostDetails />} /> 
         <Route path="/create-post" element={<CreatePost />} />
-        <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/community" element={<Community />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
