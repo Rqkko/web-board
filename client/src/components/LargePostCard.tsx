@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
+
 import styles from '../styles/PostDetail.module.css';
 import { api } from 'utils/api';
 
 type LargePostCardProps = {
-  id: string;
   username: string;
   profilePic: string;
   roomId: number;
@@ -12,7 +12,7 @@ type LargePostCardProps = {
   image: string | null;
 };
 
-const LargePostCard: React.FC<LargePostCardProps> = ({ id, username, profilePic, roomId, title, content, image }) => {
+const LargePostCard: React.FC<LargePostCardProps> = ({ username, profilePic, roomId, title, content, image }) => {
   const [room, setRoom] = React.useState('');
 
     useEffect(() => {

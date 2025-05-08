@@ -6,7 +6,6 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
-// import GroupsIcon from '@mui/icons-material/Groups';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
@@ -15,7 +14,6 @@ import { api } from 'utils/api';
 const menuItems = [
   { text: 'Home', icon: HomeIcon, link: '/' },
   { text: 'Create Post', icon: PostAddIcon, link: '/create-post' },
-  // { text: 'Community', icon: GroupsIcon, link: '/community' },
   { text: 'Profile', icon: AccountCircleIcon, link: '/profile' },
   { text: 'Logout', icon: LogoutIcon, link: '/logout' },
   
