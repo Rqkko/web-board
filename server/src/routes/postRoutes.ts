@@ -1,7 +1,8 @@
 import express from 'express';
 import multer from 'multer';
-import asyncHandler from '../utils/asyncHandler'; // ✅ Import asyncHandler
-import { createPost, deletePost, getPostById, getPosts, getPostsInRoom, getPostsOfUser, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
+
+import asyncHandler from '../utils/asyncHandler';
+import { createPost, deletePost, getPostById, getPosts, getPostsInRoom, getPostsOfUser, searchPosts, searchPostsInRoom } from '../controllers/postController';
 
 const router = express.Router();
 const upload = multer();
@@ -35,7 +36,7 @@ const upload = multer();
  *       200:
  *         description: Post created successfully
  */
-router.post('/createPost', upload.single('image'), asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
+router.post('/createPost', upload.single('image'), asyncHandler(createPost));
 
 /**
  * @swagger
@@ -98,7 +99,7 @@ router.get('/:postId', asyncHandler(getPostById));
  *       200:
  *         description: Successfully retrieved posts
  */
-router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncHandler
+router.get('/room/:roomId', asyncHandler(getPostsInRoom));
 
 /**
  * @swagger
@@ -117,7 +118,7 @@ router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncH
  *       200:
  *         description: Successfully retrieved posts
  */
-router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
+router.get('/search', asyncHandler(searchPosts));
 
 /**
  * @swagger
@@ -142,7 +143,7 @@ router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
  *       200:
  *         description: Successfully retrieved posts
  */
-router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom)); // ✅ WRAP IN asyncHandler
+router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom));
 
 /**
  * @swagger
