@@ -18,16 +18,24 @@ const router = express.Router();
  *         description: Internal server error 
  */
 router.get('/getEmail', (req: Request, res: Response) => {
-  const email = req.cookies.email;
+  const token = req.cookies.accessToken;
 
-  if (!email) {
+  if (!token) {
     res.status(401).json({ error: 'No token provided' });
     return;
   }
-  res.status(200).json({ message: email });
+
+  supabase.auth.getUser(token)
+  .then(({ data, error }) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else if (!data.user) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      res.status(200).json({ message: data.user.email });
+    }
+  });
 });
-
-
 
 /**
  * @swagger
@@ -136,11 +144,6 @@ router.post('/signup', async (req: Request, res: Response) => {
         maxAge: 3600000 // 1 hour
       });
       res.cookie('userId', data.user.id, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3600000 // 1 hour
-      });
-      res.cookie('email', data.user.email, {
         httpOnly: true,
         secure: true,
         maxAge: 3600000 // 1 hour
