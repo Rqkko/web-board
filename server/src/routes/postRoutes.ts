@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import asyncHandler from '../utils/asyncHandler'; // ✅ Import asyncHandler
-import { createPost, getPostById, getPosts, getPostsInRoom, getPostsOfUser, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
+import { createPost, deletePost, getPostById, getPosts, getPostsInRoom, getPostsOfUser, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
 
 const router = express.Router();
 const upload = multer();
@@ -51,6 +51,18 @@ router.get('/', asyncHandler(getPosts));
 
 /**
  * @swagger
+ * /api/post/user/:
+ *   get:
+ *     summary: Get all posts of a user
+ *     tags: [Posts]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved posts
+ */
+router.get('/user', asyncHandler(getPostsOfUser));
+
+/**
+ * @swagger
  * /api/post/{postId}:
  *   get:
  *     summary: Get a post by ID
@@ -68,24 +80,6 @@ router.get('/', asyncHandler(getPosts));
  */
 router.get('/:postId', asyncHandler(getPostById));
 
-/**
- * @swagger
- * /api/post/user/{userId}:
- *   get:
- *     summary: Get all posts of a user
- *     tags: [Posts]
- *     parameters:
- *       - name: userId
- *         in: path
- *         required: true
- *         description: ID of the user to get posts from
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved posts
- */
-router.get('/user/:userId', asyncHandler(getPostsOfUser));
 
 /**
  * @swagger
@@ -149,5 +143,24 @@ router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
  *         description: Successfully retrieved posts
  */
 router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom)); // ✅ WRAP IN asyncHandler
+
+/**
+ * @swagger
+ * /api/post/{postId}:
+ *   delete:
+ *     summary: Delete a post by ID
+ *     tags: [Posts]
+ *     parameters:
+ *       - name: postId
+ *         in: path
+ *         required: true
+ *         description: ID of the post to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully deleted post
+ */
+router.delete('/:postId', asyncHandler(deletePost))
 
 export default router;

@@ -5,6 +5,40 @@ const router = express.Router();
 
 /**
  * @swagger
+ * /api/user/getEmail:
+ *   get:
+ *     summary: Get the email of user
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved email
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error 
+ */
+router.get('/getEmail', (req: Request, res: Response) => {
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    res.status(401).json({ error: 'No token provided' });
+    return;
+  }
+
+  supabase.auth.getUser(token)
+  .then(({ data, error }) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else if (!data.user) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      res.status(200).json({ message: data.user.email });
+    }
+  });
+});
+
+/**
+ * @swagger
  * /api/user/getUsername:
  *   get:
  *     summary: Get the name of user
@@ -89,7 +123,7 @@ router.post('/signup', async (req: Request, res: Response) => {
     password,
     options: {
       data: {
-        display_name: username
+        display_name: username,
       }
     }
   }).then(async ({ data, error }) => {
@@ -155,6 +189,11 @@ router.post('/login', async (req: Request, res: Response) => {
         maxAge: 3600000 // 1 hour
       });
       res.cookie('userId', data.user.id, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600000 // 1 hour
+      });
+      res.cookie('email', data.user.email, {
         httpOnly: true,
         secure: true,
         maxAge: 3600000 // 1 hour
