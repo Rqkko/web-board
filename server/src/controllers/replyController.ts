@@ -15,7 +15,6 @@ export const createReply = async (req: Request, res: Response): Promise<void> =>
     .insert([{ content, post_id: postId, user_id: userId }]);
 
   if (error) {
-    console.log('Error inserting reply:', error);
     res.status(400).json({ error: error.message })
     return;
   }
