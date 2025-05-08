@@ -84,69 +84,6 @@
   cursor: pointer;
 }
 
-/* Third Panel: Rooms */
-.thirdPanel {
-  margin-top: 20px;
-}
-
-.thirdPanel h3 {
-  font-size: 1.75rem;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  width: fit-content;        /* Keep the text only as wide as needed */
-  transform: translateX(-175%);
-}
-
-.rooms {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: medium;
-  justify-content: center;
-}
-
-.roomCard {
-  width: 120px;
-  background: white;
-  padding: 15px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-
-.roomCard:hover {
-  transform: translateY(-4px);
-}
-
-.roomCard img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 8px;
-}
-
-.roomCard p {
-  margin: 0;
-  font-weight: 500;
-  color: #333;
-}
-
-.postFeedSection {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-}
-
-.postTitle {
-  margin-top: 100px;
-  text-align: center;
-}
-
 .postWrapper {
   margin-top: 20px;
   padding: 0 20px;
