@@ -135,6 +135,46 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+export const getPostsOfUser = async (req: Request, res: Response): Promise<void> => {
+  const { userId } = req.params;
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+
+  try {
+    const decoratedPosts = await Promise.all(
+      posts.map(async (post) => {
+        let username;
+
+        try {
+          username = await getUsername(post.user_id) || 'Unknown User';
+        } catch (err) {
+          console.error('Error fetching username:', err);
+        } finally {
+          const imageUrl = post.image
+            ? generatePublicUrl('post-image', post.image)
+            : null;
+
+          post.imageUrl = imageUrl;
+        }
+        return { ...post, username, imageUrl: post.imageUrl };
+      })
+    );
+
+    res.status(200).json({ data: decoratedPosts });
+  } catch (err) {
+    console.error('Error decorating posts:', err);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+}
+
 export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
   const { roomId } = req.params;
 
