@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button, Typography, Avatar, Divider, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material'
 // import IconButton from '@mui/material/IconButton';
 // import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -35,8 +35,6 @@ function Profile() {
   const [deletingPostId, setDeletingPostId] = useState<string>('');
 
   function handleDeletePopup(postId: string, title: string) {
-    // POPUP
-    console.log(postId, title);
     setDeletingPostTitle(title);
     setDeletingPostId(postId);
     setOpen(true);
@@ -49,7 +47,18 @@ function Profile() {
   }
 
   function handlePostDelete(postId: string, ) {
-    alert(`Post with ID ${postId} deleted!`);
+    api.delete(`/api/post/${postId}`, {
+      withCredentials: true,
+    })
+      .then(_ => {
+        alert("Post deleted successfully!");
+        fetchUserPosts();
+      })
+      .catch(error => {
+        alert('Error deleting post: ' + error);
+      });
+
+    handleClose();
   }
 
   // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +100,18 @@ function Profile() {
   //   }
   // }
 
+  const fetchUserPosts = useCallback(() => {
+    api.get('/api/post/user', {
+      withCredentials: true,
+    })
+      .then(response => {
+        setPosts(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+      });
+  }, []);
+
   useEffect(() => {
     api.get('/api/user/getUsername', {
       withCredentials: true,
@@ -102,9 +123,7 @@ function Profile() {
         alert("Please login to see your Profile Data.");
         window.location.href = '/login';
       });
-  }, []);
 
-  useEffect(() => {
     api.get('/api/user/getEmail', {
       withCredentials: true,
     })
@@ -115,7 +134,9 @@ function Profile() {
         alert("Could not load email. Please login again.");
         window.location.href = '/login';
       });
-  }, []);
+
+    fetchUserPosts();
+  }, [fetchUserPosts]);
 
   useEffect(() => {
     api.get(`/api/post/user`, {
