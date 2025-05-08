@@ -66,26 +66,19 @@ router.get('/', asyncHandler(getPosts));
  *       200:
  *         description: Successfully retrieved post
  */
-router.get('/:postId', asyncHandler(getPostById));
+router.get('/:postId', asyncHandler(getPostsOfUser));
 
 /**
  * @swagger
- * /api/post/user/{userId}:
+ * /api/post/user/:
  *   get:
  *     summary: Get all posts of a user
  *     tags: [Posts]
- *     parameters:
- *       - name: userId
- *         in: path
- *         required: true
- *         description: ID of the user to get posts from
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Successfully retrieved posts
  */
-router.get('/user/:userId', asyncHandler(getPostsOfUser));
+router.get('/user', asyncHandler(getPostsOfUser));
 
 /**
  * @swagger

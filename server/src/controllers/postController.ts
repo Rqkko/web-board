@@ -136,7 +136,8 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getPostsOfUser = async (req: Request, res: Response): Promise<void> => {
-  const { userId } = req.params;
+  const userId = req.cookies.userId;
+  
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
