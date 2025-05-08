@@ -18,7 +18,7 @@
 .header {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .profilePic {
@@ -45,8 +45,9 @@
 
 .title {
   font-size: 1.3rem;
-  margin: 10px 0 6px;
+  margin: 0;
   color: #222;
+  align-self: center;
 }
 
 .description {

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Post.module.css';
 import { api } from 'utils/api';
+import { Button, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type PostProps = {
   id: string;
@@ -11,14 +13,16 @@ type PostProps = {
   title: string;
   description: string;
   image: string | null;
+  allowDelete?: boolean;
+  onDelete?: () => void;
 };
 
-const Post: React.FC<PostProps> = ({ id, username, profilePic, roomId, title, description, image }) => {
+const Post: React.FC<PostProps> = ({ id, username, profilePic, roomId, title, description, image, allowDelete, onDelete }) => {
   const navigate = useNavigate();
   const [room, setRoom] = useState('');
 
   const handleClick = () => {
-    navigate(`/posts/${id}`);
+    navigate(`/post/${id}`);
   };
 
   useEffect(() => {
@@ -38,7 +42,22 @@ const Post: React.FC<PostProps> = ({ id, username, profilePic, roomId, title, de
         <span className={styles.username}>{username}</span>
         <div className={styles.room}>{room}</div>
       </div>
-      <h3 className={styles.title}>{title}</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', height: '50px' }}>
+        <h3 className={styles.title}>{title}</h3>
+        {allowDelete && (
+          <IconButton
+            sx={{ color: 'red' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onDelete) {
+                onDelete();
+              }
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}  
+      </div>
       <p className={styles.description}>{description}</p>
       {image && (
         <img src={image} alt="Post" className={styles.postImage} />
