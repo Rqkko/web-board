@@ -318,6 +318,8 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
   const { postId } = req.params;
   const userId = req.cookies.userId;
 
+  const supabase = createSupabaseClient(req.cookies.accessToken);
+
   // Check if the post exists
   const { data: post, error: fetchError } = await supabase
     .from('posts')
