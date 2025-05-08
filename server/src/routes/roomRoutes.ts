@@ -1,5 +1,6 @@
 import express from 'express';
-import asyncHandler from '../utils/asyncHandler'; // import the async handler
+
+import asyncHandler from '../utils/asyncHandler';
 import { getAllRooms, getRoomById } from '../controllers/roomController';
 
 const router = express.Router();
