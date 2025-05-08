@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
-import supabase from '../supabaseClient';
+import supabase, { createSupabaseClient } from '../supabaseClient';
 import { getUsername } from '../utils/usernameGetter';
 
 export const createReply = async (req: Request, res: Response): Promise<void> => {
   const { content } = req.body;
   const postId = req.params.postId;
   const userId = req.cookies.userId;
+  const token = req.cookies.accessToken;
+
+  const supabase = createSupabaseClient(token);
 
   const { data, error } = await supabase
     .from('replies')
