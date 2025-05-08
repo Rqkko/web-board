@@ -229,7 +229,7 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
-    .ilike('title', `%${query}%`) // ilike = case-insensitive search
+    .ilike('title', `%${query}%`)
     .order('created_at', { ascending: false });
 
   if (error) {

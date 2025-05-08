@@ -89,8 +89,7 @@ const PostDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <LargePostCard 
-          id={post.id}
+        <LargePostCard
           username={post.username}
           profilePic={profilePicture}
           roomId={post.room_id}

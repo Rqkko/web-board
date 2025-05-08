@@ -5,7 +5,6 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { api } from '../utils/api';
-
 import PostTextField from 'components/PostTextField'
 import RoomPicker from 'components/RoomPicker';
 
