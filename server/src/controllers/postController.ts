@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import supabase from '../supabaseClient';
+import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
 
 async function getUsername(userId: string): Promise<string | null> {
@@ -22,9 +22,6 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
   const user_id = req.cookies.userId;
-
-  console.log("Received data:", req.body);
-  console.log('Received file:', imageFile);
 
   if (!title || room_id === undefined) {
     res.status(400).json({ error: 'Missing required fields: title, room' });
@@ -51,6 +48,8 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     imagePath = uploadData?.path;
     console.log('Image uploaded to:', imagePath);
   }
+
+  const supabase = createSupabaseClient(req.cookies.accessToken);
 
   const { data, error } = await supabase
     .from('posts')
