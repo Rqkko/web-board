@@ -7,8 +7,6 @@ import CustomAppBar from "components/CustomAppBar";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
 import PostDetails from './pages/PostDetails';
-import Profile from "pages/Profile"
-import Community from "pages/Community";
 
 function App() {
   const location = useLocation();
