@@ -28,6 +28,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     return;
   }
 
+  const supabase = createSupabaseClient(req.cookies.accessToken);
   let imagePath: string | null = null;
 
   // Upload image (if provided)
@@ -48,8 +49,6 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     imagePath = uploadData?.path;
     console.log('Image uploaded to:', imagePath);
   }
-
-  const supabase = createSupabaseClient(req.cookies.accessToken);
 
   const { data, error } = await supabase
     .from('posts')
