@@ -161,7 +161,10 @@ export default function CustomAppBar() {
           </Box>
 
           {username ? (
-            <>
+            <Button 
+              style={{ display: 'flex', alignItems: 'center', textTransform: 'none' }}
+              onClick={() => {window.location.href='/profile'}}
+            >
               <Typography
                 variant="body1"
                 sx={{
@@ -176,7 +179,7 @@ export default function CustomAppBar() {
               <Box sx={{ color: '#000' }} >
                   <PersonIcon />
               </Box>
-            </>
+            </Button>
           ) :
             <Button
               sx={{ color: "#000" }}
