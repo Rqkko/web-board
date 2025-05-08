@@ -14,6 +14,7 @@ import { api } from 'utils/api';
 const menuItems = [
   { text: 'Home', icon: HomeIcon, link: '/' },
   { text: 'Create Post', icon: PostAddIcon, link: '/create-post' },
+  // { text: 'Community', icon: GroupsIcon, link: '/community' },
   { text: 'Profile', icon: AccountCircleIcon, link: '/profile' },
   { text: 'Logout', icon: LogoutIcon, link: '/logout' },
 ]
