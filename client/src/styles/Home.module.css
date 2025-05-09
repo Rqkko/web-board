@@ -23,7 +23,7 @@
 .secondPanel {
   margin-top: 40px;
   display: flex;
-  align-items: flex-start; /* Aligning content in one row */
+  align-items: start;
   gap: 20px;
   justify-content: center;
   gap: 20px;
@@ -35,7 +35,8 @@
 }
 
 .secondPanel .greeting {
-  flex-grow: 1; /* Allow the greeting to take more space */
+  flex-grow: 1;
+  text-align: center;
 }
 
 .secondPanel h2 {
