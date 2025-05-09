@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 
 import asyncHandler from '../utils/asyncHandler';
-import { createPost, deletePost, getPostById, getPosts, getPostsInRoom, getPostsOfUser, searchPosts, searchPostsInRoom } from '../controllers/postController';
+import { createPost, deletePost, getPostById, getPosts, getPostsOfUser } from '../controllers/postController';
 
 const router = express.Router();
 const upload = multer();
@@ -80,70 +80,6 @@ router.get('/user', asyncHandler(getPostsOfUser));
  *         description: Successfully retrieved post
  */
 router.get('/:postId', asyncHandler(getPostById));
-
-
-/**
- * @swagger
- * /api/post/room/{roomId}:
- *   get:
- *     summary: Get all posts in a room
- *     tags: [Posts]
- *     parameters:
- *       - name: roomId
- *         in: path
- *         required: true
- *         description: ID of the room to get posts from
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved posts
- */
-router.get('/room/:roomId', asyncHandler(getPostsInRoom));
-
-/**
- * @swagger
- * /api/post/search:
- *   get:
- *     summary: Search posts across all rooms
- *     tags: [Posts]
- *     parameters:
- *       - name: query
- *         in: query
- *         required: true
- *         description: Search query
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved posts
- */
-router.get('/search', asyncHandler(searchPosts));
-
-/**
- * @swagger
- * /api/post/room/{roomId}/search:
- *   get:
- *     summary: Search posts in a specific room
- *     tags: [Posts]
- *     parameters:
- *       - name: roomId
- *         in: path
- *         required: true
- *         description: ID of the room to search in
- *         schema:
- *           type: string
- *       - name: query
- *         in: query
- *         required: true
- *         description: Search query
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved posts
- */
-router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom));
 
 /**
  * @swagger

@@ -142,28 +142,6 @@ router.get('/:id', async (req: Request, res: Response) => {
   res.status(200).json({ username, profilePicture });
 })
 
-
-/**
- * @swagger
- * /api/user/getUserId:
- *  get:
- *    summary: Get the ID of user
- *    tags: [Users]
- *    responses:
- *     200:
- *      description: Successfully retrieved user ID
- *     404:
- *      description: User not found
- */
-router.get('/getUserId', (req: Request, res: Response) => {
-  const userId = req.cookies.userId;
-  if (!userId) {
-    res.status(401).json({ error: 'No user ID provided' });
-    return;
-  }
-  res.status(200).json({ message: userId });
-});
-
 /**
  * @swagger
  * /api/user/signup:
@@ -193,7 +171,6 @@ router.get('/getUserId', (req: Request, res: Response) => {
 router.post('/signup', upload.single('profile_picture'), async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
   const imageFile = req.file;
-  console.log("Image file:", imageFile);
 
   supabase.auth.signUp({
     email,
@@ -227,7 +204,6 @@ router.post('/signup', upload.single('profile_picture'), async (req: Request, re
         }
 
         imagePath = uploadData?.path;
-        console.log('Profile picture to:', imagePath);
       }
       
       const { error: insertError } = await supabase.from('users').insert({
