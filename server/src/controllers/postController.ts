@@ -351,6 +351,18 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
     return;
   }
 
+  // Delete Image
+  if (post.image) {
+    const { error: deleteImageError } = await supabase.storage
+      .from('post-image')
+      .remove([post.image]);
+      
+    if (deleteImageError) {
+      res.status(400).json({ error: deleteImageError.message });
+      return;
+    }
+  }
+
   // Delete the post
   const { error: deleteError } = await supabase
     .from('posts')
