@@ -13,6 +13,7 @@ function Signup() {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const redirectPath = new URLSearchParams(window.location.search).get('redirect');
 
   function handleSignup(e: React.FormEvent) {
     if (password !== confirmPassword) {
@@ -38,7 +39,10 @@ function Signup() {
     )
       .then((response) => {
         if (response.status === 201) {
-          alert('Signup successful! Redirecting to Home Page...');
+          if (redirectPath) {
+            window.location.href = redirectPath;
+            return;
+          }
           window.location.href = '/';
         }
       })

@@ -84,7 +84,7 @@ function Profile() {
         })
         .catch(() => {
           alert("Please login to see your Profile Data.");
-          window.location.href = '/login';
+          window.location.href = '/login?redirect=/profile';
         }),
       api.get('/api/user/getEmail', {
         withCredentials: true,
