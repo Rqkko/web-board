@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import supabase, { createSupabaseClient } from '../supabaseClient';
-import { getUsername } from '../utils/usernameGetter';
+import { getUsername } from '../utils/userGetter';
 
 export const createReply = async (req: Request, res: Response): Promise<void> => {
   const { content } = req.body;

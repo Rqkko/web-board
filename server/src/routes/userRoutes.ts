@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import multer from 'multer';
 
 import supabase from '../supabaseClient';
+import { getUser } from '../utils/userGetter';
 
 const router = express.Router();
 const upload = multer();
@@ -73,6 +74,74 @@ router.get('/getUsername', (req: Request, res: Response) => {
     }
   });
 });
+
+/**
+ * @swagger
+ * /api/user/getSessionUser:
+ *   get:
+ *     summary: Get the session user
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved session user
+ *       404:
+ *         description: User not found
+ */
+router.get('/getSessionUser', async (req: Request, res: Response) => {
+  const userId = req.cookies.userId;
+
+  if (!userId) {
+    res.status(401).json({ error: 'User Not Logged In' });
+    return;
+  }
+
+  const user = await getUser(userId);
+  if (!user) {
+    res.status(404).json({ error: 'User not found' });
+    return;
+  }
+  const { username, profilePicture } = user;
+
+  res.status(200).json({ username, profilePicture });
+})
+
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the user to retrieve
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user
+ *       404:
+ *         description: User not found
+ */
+router.get('/:id', async (req: Request, res: Response) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    res.status(401).json({ error: 'User Not Logged In' });
+    return;
+  }
+
+  const user = await getUser(userId);
+  if (!user) {
+    res.status(404).json({ error: 'User not found' });
+    return;
+  }
+  const { username, profilePicture } = user;
+
+  res.status(200).json({ username, profilePicture });
+})
+
 
 /**
  * @swagger
