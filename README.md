@@ -53,4 +53,4 @@ Web browser should open automatically, if not, go to `localhost:3000`
 - Check your code for errors and make sure to follow the coding conventions
 
 ### 4. Open a pull request to the dev branch
-- Write a description of your changes before submitting the pull request  
+- Write a description of your changes before submitting the pull request

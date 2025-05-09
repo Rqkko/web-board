@@ -3,18 +3,27 @@ import cors from "cors";
 import { config } from "./config";
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
+import replyRoutes from "./routes/replyRoutes";
+import roomRoutes from "./routes/roomRoutes";
 import { setupSwagger } from "./swagger";
 import path from "path";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 if (config.nodeEnv === "development") {
-    app.use(cors());
+    app.use(cors({
+        origin: "http://localhost:3000",
+        credentials: true
+    }));
 }
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
+app.use("/api/reply", replyRoutes);
+app.use("/api/room", roomRoutes);
 
 // Setup Swagger
 if (config.nodeEnv === "development") {

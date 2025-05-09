@@ -7,11 +7,16 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'My API',
+      title: 'OrcaBoard API',
       version: '1.0.0',
-      description: 'API documentation for my project',
+      description: 'API documentation for OrcaBoard',
     },
-    servers: [{ url: `${config.protocol}://${config.hostName}${process.env.RAILWAY_PUBLIC_DOMAIN ? "" : ":"+config.port}` }],
+    servers: [{ url: `http://localhost:${config.port}` }],
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./src/routes/*.ts'], // Read all route files
 };

@@ -1,0 +1,90 @@
+.container {
+  min-height: 100vh;
+  padding: 60px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.avatarContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.avatar {
+  margin-top: 25px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+/* Second Panel - Align in a row */
+.secondPanel {
+  margin-top: 40px;
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  justify-content: center;
+  gap: 20px;
+  max-width: 400px;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.secondPanel .greeting {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.secondPanel h2 {
+  font-size: 2rem;
+}
+
+.secondPanel p {
+  color: #666;
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 35%;
+  justify-self: center;
+  margin-top: 30px;
+}
+
+.search {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: 0.3s ease;
+  display: block;   /* Important to allow centering */
+  margin: 20px auto; /* This centers it horizontally */
+}
+
+.search:focus {
+  border-color: #888;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clearButton {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.postWrapper {
+  margin-top: 20px;
+  padding: 0 20px;
+}

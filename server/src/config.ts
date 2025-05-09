@@ -7,6 +7,5 @@ export const config = {
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY || "",
     port: process.env.PORT || "3001",
     nodeEnv: process.env.NODE_ENV || "",
-    hostName: process.env.RAILWAY_PUBLIC_DOMAIN || process.env.HOSTNAME || 'localhost',
-    protocol: process.env.NODE_ENV === 'development' ? 'http' : 'https',
+    sessionKey: process.env.SESSION_KEY || "default_session_key",
 };

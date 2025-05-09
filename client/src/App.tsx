@@ -1,22 +1,33 @@
-import { Routes, Route, useParams } from "react-router-dom";
-import Home from "./pages/Home";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import CreatePost from "./pages/CreatePost"; 
 import NotFound from "./pages/NotFound";
-import Post from "pages/Post";
-
-function PostWrapper() {
-  const { postId } = useParams<{ postId: string }>(); // Extract postId from the URL
-
-  return <Post postId={postId} />;
-}
+import CustomAppBar from "components/CustomAppBar";
+import Logout from "./pages/Logout";
+import Home from './pages/Home';
+import PostDetails from './pages/PostDetails';
+import Profile from "pages/Profile";
 
 function App() {
+  const location = useLocation();
+  const hideAppBar = location.pathname === "/login" || location.pathname === "/signup";
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/post/:postId" element={<PostWrapper />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      {!hideAppBar && <CustomAppBar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/post/:id" element={<PostDetails />} /> 
+        <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
-}
+};
 
 export default App;

@@ -1,46 +1,130 @@
-import React, { useEffect, useState } from 'react';
-import logo from '../assets/logo.svg';
-import { api } from '../utils/api';
-import '../styles/Home.css';
+import { useEffect, useState } from 'react';
 
-function Home() {
-  const [data, setData] = useState(null);
+import { api } from 'utils/api';
+import RoomPicker from 'components/RoomPicker';
+import styles from '../styles/Home.module.css';
+import PostCard from '../components/PostCard';
+import Loader from 'components/Loader';
+import { Typography } from '@mui/material';
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  user_id: string;
+  imageUrl: string | null;
+  room_id: number;
+  username: string;
+  profilePicture: string | null;
+}
+
+const Home = () => {
+  const [username, setUsername] = useState<string | null>(null);
+  const [room, setRoom] = useState<number | null>(null);
+  const [search, setSearch] = useState<string>('');
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    api.get('/api/user/getUsername')
-      .then((response) => {
-        console.log("FOund: ", response);
-        return response.data
+    api.get('/api/post')
+      .then(response => {
+        setPosts(response.data.data);
+        setIsLoading(false)
       })
-      .then(data => setData(data.message));
-  }, []);
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+        setIsLoading(false);
+      });
+
+    api.get('/api/user/getUsername',
+      { withCredentials: true, }
+    )
+      .then(response => {
+        setUsername(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error fetching username:', error);
+        setUsername('Guest');
+      });
+  }, [])
+
+  const filteredPosts = posts.filter(post => {
+    const matchesRoom = room === null || post.room_id === room;
+    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
+    post.content?.toLowerCase().includes(search.toLowerCase());
+    return matchesRoom && matchesSearch;
+  });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className={styles.container}>
 
-        {/* From Backend */}
-        <div>
-          <h1>Backend Response</h1>
-          <p>{data}</p>
+      {/* Greeting section */}
+      <div className={styles.secondPanel}>
+        <div className={styles.greeting}>
+          {username ? (
+            <h2>Hi {username}!</h2>
+          ) : (
+            <h2>Hi there!</h2>
+          )}
+          <p>What do you want to do today?</p>
         </div>
+      </div>
+        
+      {/* Rooms section */}
+      <RoomPicker
+        selectedRoom={room}
+        setSelectedRoom={setRoom} 
+      />
 
-      </header>
+      <div className={styles.searchContainer}>
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          className={styles.search} 
+          value={search} 
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button 
+            className={styles.clearButton} 
+            onClick={() => setSearch('')}
+          >
+            X
+          </button>
+        )}
+      </div>
+
+      {/* Posts section */}
+      {isLoading ? (
+        <div style={{ marginTop: '40px' }}>
+          <Loader />
+        </div>
+      ) : filteredPosts.length === 0 ? (
+        <Typography sx={{ justifySelf: 'center', marginTop: '40px' }} variant="h5">
+          Posts not found
+        </Typography>
+      ) : (
+        <div className={styles.postWrapper}>
+          <div style={{ padding: '20px', marginTop: '20px' }}>
+            {filteredPosts.map(post => (
+              <PostCard 
+                key={post.id}
+                id={post.id}
+                username={post.username}
+                profilePicture={post.profilePicture}
+                roomId={post.room_id}
+                title={post.title}
+                description={post.content}
+                postImage={post.imageUrl}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
     </div>
   );
-}
+};
 
 export default Home;
