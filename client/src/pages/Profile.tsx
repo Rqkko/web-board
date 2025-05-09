@@ -6,6 +6,7 @@ import RoomPicker from 'components/RoomPicker';
 import profilePicture from '../assets/profilePicture.jpg';
 import styles from '../styles/Home.module.css';
 import PostCard from 'components/PostCard';
+import Loader from 'components/Loader';
 
 interface Post {
   id: string;
@@ -28,6 +29,7 @@ function Profile() {
   const [open, setOpen] = useState(false);
   const [deletingPostTitle, setDeletingPostTitle] = useState<string>('');
   const [deletingPostId, setDeletingPostId] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
 
   function handleDeletePopup(postId: string, title: string) {
     setDeletingPostTitle(title);
@@ -69,26 +71,30 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    api.get('/api/user/getUsername', {
-      withCredentials: true,
+    Promise.all([
+      api.get('/api/user/getUsername', {
+        withCredentials: true,
+      })
+        .then(response => response.data)
+        .then(data => 
+          setUsername(data.message))
+        .catch(() => {
+          alert("Please login to see your Profile Data.");
+          window.location.href = '/login';
+        }),
+      api.get('/api/user/getEmail', {
+        withCredentials: true,
+      })
+        .then(response => response.data)
+        .then(data => 
+          setEmail(data.message))
+        .catch(() => {
+          console.log("Error fetching email");
+        })
+    ])
+    .then(() => {
+      setIsLoading(false);
     })
-      .then(response => response.data)
-      .then(data => 
-        setUsername(data.message))
-      .catch(() => {
-        alert("Please login to see your Profile Data.");
-        window.location.href = '/login';
-      });
-
-    api.get('/api/user/getEmail', {
-      withCredentials: true,
-    })
-      .then(response => response.data)
-      .then(data => 
-        setEmail(data.message))
-      .catch(() => {
-        console.log("Error fetching email");
-      });
 
     fetchUserPosts();
   }, [fetchUserPosts]);
@@ -113,7 +119,11 @@ function Profile() {
     return matchesRoom && matchesSearch;
   });
 
-  return (
+  return ( isLoading ? (
+    <div style={{ marginTop: '150px' }}>
+      <Loader />
+    </div>
+  ) : (
     <div
       style={{
         position: 'relative',
@@ -148,11 +158,11 @@ function Profile() {
       
         </Avatar>
 
-        <Typography style={{ color: 'black', fontSize: '20px', alignSelf: 'start', marginLeft: '25%', marginTop: '24px' }}>
+        <Typography style={{ color: 'black', fontSize: '20px', alignSelf: 'center', marginTop: '24px' }}>
           <span style={{ fontWeight: 'bold' }}>Username:</span> {username}
         </Typography>
 
-        <Typography style={{ color: 'black', fontSize: '20px', alignSelf: 'start', marginLeft: '25%', marginTop: '24px', marginBottom: '24px' }}>
+        <Typography style={{ color: 'black', fontSize: '20px', alignSelf: 'center', marginTop: '24px', marginBottom: '24px' }}>
           <span style={{ fontWeight: 'bold' }}>Email:</span> {email}
         </Typography>
       </div>
@@ -196,46 +206,54 @@ function Profile() {
       </div>
 
       {/* Posts section */}
-      <div className={styles.postWrapper}>
-        <div style={{ padding: '20px', marginTop: '20px' }}>
-          {filteredPosts.map(post => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              username={post.username}
-              profilePic={profilePicture}
-              roomId={post.room_id}
-              title={post.title}
-              description={post.content}
-              image={post.imageUrl}
-              allowDelete
-              onDelete={() => handleDeletePopup(post.id, post.title)}
-            />
-          ))}
-        </div>
-      </div>
+      {filteredPosts.length === 0 ? (
+        <Typography sx={{ justifySelf: 'center', marginTop: '40px' }} variant="h5">
+          Posts not found
+        </Typography>
+      ) : (
+        <>
+          <div className={styles.postWrapper}>
+            <div style={{ padding: '20px', marginTop: '20px' }}>
+              {filteredPosts.map(post => (
+                <PostCard
+                  key={post.id}
+                  id={post.id}
+                  username={post.username}
+                  profilePic={profilePicture}
+                  roomId={post.room_id}
+                  title={post.title}
+                  description={post.content}
+                  image={post.imageUrl}
+                  allowDelete
+                  onDelete={() => handleDeletePopup(post.id, post.title)}
+                />
+              ))}
+            </div>
+          </div>
 
-      <Dialog
-        open={open}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>Delete?</DialogTitle>
+          <Dialog
+            open={open}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>Delete?</DialogTitle>
 
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Are you sure you want to delete post "{deletingPostTitle}"?
-          </DialogContentText>
-        </DialogContent>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Are you sure you want to delete post "{deletingPostTitle}"?
+              </DialogContentText>
+            </DialogContent>
 
-        <DialogActions>
-          <Button onClick={handleClose}>No</Button>
-          <Button onClick={() => handlePostDelete(deletingPostId)}>Yes</Button>
-        </DialogActions>
-      </Dialog>
+            <DialogActions>
+              <Button onClick={handleClose}>No</Button>
+              <Button onClick={() => handlePostDelete(deletingPostId)}>Yes</Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
     </div>
-  );
+  ));
 }
 
 export default Profile

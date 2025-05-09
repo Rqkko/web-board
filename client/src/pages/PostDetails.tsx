@@ -7,6 +7,7 @@ import NotFound from './NotFound';
 import { api } from 'utils/api';
 import profilePicture from '../assets/profilePicture.jpg';
 import LargePostCard from 'components/LargePostCard';
+import Loader from 'components/Loader';
 
 interface Post {
   id: string;
@@ -30,6 +31,7 @@ const PostDetails = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   function handleAddComment() {
     api.get('/api/user/getUsername', {
@@ -76,17 +78,23 @@ const PostDetails = () => {
     api.get(`/api/post/${id}`)
       .then(response => {
         setPost(response.data.data);
+        setIsLoading(false);
       })
       .catch(error => {
         console.error('Error fetching posts:', error);
+        setIsLoading(false);
       });
 
     updateCommentList();
   }, [id, updateCommentList])
 
-  if (!post) return <NotFound />;
-
-  return (
+  return isLoading ? (
+    <div style={{ marginTop: '150px' }}>
+      <Loader />
+    </div>
+  ) : !post ? (
+    <NotFound />
+  ) : (
     <div className={styles.container}>
       <div className={styles.card}>
         <LargePostCard
@@ -132,7 +140,7 @@ const PostDetails = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default PostDetails;
