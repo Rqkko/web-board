@@ -5,7 +5,6 @@ import { generatePublicUrl } from '../utils/publicUrlGenerator';
 import { getUser, getUsername } from '../utils/userGetter';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
-  console.log(req.body);
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
   const user_id = req.cookies.userId;
@@ -34,7 +33,6 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     }
 
     imagePath = uploadData?.path;
-    console.log('Image uploaded to:', imagePath);
   }
 
   const { data, error } = await supabase
@@ -214,7 +212,6 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
         return { ...post, username, imageUrl: post.imageUrl };
       })
     );
@@ -261,7 +258,6 @@ export const searchPosts = async (req: Request, res: Response): Promise<void> =>
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
         return { ...post, username, imageUrl: post.imageUrl };
       })
     );
@@ -310,7 +306,6 @@ export const searchPostsInRoom = async (req: Request, res: Response): Promise<vo
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
         return { ...post, username, imageUrl: post.imageUrl };
       })
     );

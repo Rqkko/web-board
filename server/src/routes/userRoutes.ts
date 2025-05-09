@@ -193,7 +193,6 @@ router.get('/getUserId', (req: Request, res: Response) => {
 router.post('/signup', upload.single('profile_picture'), async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
   const imageFile = req.file;
-  console.log("Image file:", imageFile);
 
   supabase.auth.signUp({
     email,
@@ -227,7 +226,6 @@ router.post('/signup', upload.single('profile_picture'), async (req: Request, re
         }
 
         imagePath = uploadData?.path;
-        console.log('Profile picture to:', imagePath);
       }
       
       const { error: insertError } = await supabase.from('users').insert({

@@ -50,7 +50,6 @@ const Home = () => {
   }, [])
 
   const filteredPosts = posts.filter(post => {
-    console.log('Post:', post);
     const matchesRoom = room === null || post.room_id === room;
     const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
     post.content?.toLowerCase().includes(search.toLowerCase());

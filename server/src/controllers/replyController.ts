@@ -54,7 +54,6 @@ export const getReplies = async (req: Request, res: Response): Promise<void> => 
         } catch (err) {
           console.error('Error fetching username:', err);
         }
-        console.log('username:', username);
         return { ...reply, username, profilePicture };
       })
     );
