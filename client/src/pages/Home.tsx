@@ -4,7 +4,7 @@ import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Home.module.css';
 import PostCard from '../components/PostCard'; 
-import profilePicture from '../assets/profilePicture.jpg';
+import profilePicture from '../assets/profilePicture.png';
 import Loader from 'components/Loader';
 import { Typography } from '@mui/material';
 
