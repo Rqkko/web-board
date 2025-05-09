@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 
 import asyncHandler from '../utils/asyncHandler';
-import { createPost, deletePost, getPostById, getPosts, getPostsOfUser, searchPostsInRoom } from '../controllers/postController';
+import { createPost, deletePost, getPostById, getPosts, getPostsOfUser } from '../controllers/postController';
 
 const router = express.Router();
 const upload = multer();
