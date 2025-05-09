@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
 import { getUser, getUsername } from '../utils/userGetter';
-import { profile } from 'console';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   console.log(req.body);
