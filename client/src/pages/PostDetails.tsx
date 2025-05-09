@@ -5,7 +5,7 @@ import { TextField, Button } from '@mui/material';
 import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
 import { api } from 'utils/api';
-import profilePicture from '../assets/profilePicture.jpg';
+import profilePicture from '../assets/profilePicture.png';
 import LargePostCard from 'components/LargePostCard';
 import Loader from 'components/Loader';
 

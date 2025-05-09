@@ -3,7 +3,7 @@ import { Button, Typography, Avatar, Divider, Dialog, DialogTitle, DialogActions
 
 import { api } from '../utils/api';
 import RoomPicker from 'components/RoomPicker'; 
-import profilePicture from '../assets/profilePicture.jpg';
+import profilePicture from '../assets/profilePicture.png';
 import styles from '../styles/Home.module.css';
 import PostCard from 'components/PostCard';
 import Loader from 'components/Loader';

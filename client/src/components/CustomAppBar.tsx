@@ -5,11 +5,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
-import profilePicture from '../assets/profilePicture.jpg';
+import profilePicture from '../assets/profilePicture.png';
 import { api } from 'utils/api';
 
 const menuItems = [
