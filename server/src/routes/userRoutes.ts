@@ -212,7 +212,7 @@ router.post('/signup', upload.single('profile_picture'), async (req: Request, re
       // Successfully created user
       let imagePath: string | null = null;
       if (imageFile) {
-        const strippedUsername = username.replace(/\s+/g, '');
+        const strippedUsername = username.replace(/\s+/g, '').toLowerCase();
         const fileName = `${strippedUsername}-${Date.now()}.jpg`;
 
         const { data: uploadData, error: uploadError } = await supabase.storage
