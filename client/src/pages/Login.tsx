@@ -7,6 +7,7 @@ import AuthTextField from 'components/AuthTextField';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const redirectPath = new URLSearchParams(window.location.search).get('redirect');
 
   function handleLogin(e: React.FormEvent) {
     api.post(
@@ -16,6 +17,11 @@ function Login() {
     )
       .then((response) => {
         if (response.status === 200) {
+  
+          if (redirectPath) {
+            window.location.href = redirectPath
+            return;
+          }
           window.location.href = '/';
         }
       })
@@ -27,6 +33,14 @@ function Login() {
         }
       });
   };
+
+  function handleSignupClick() {
+    if (redirectPath) {
+      window.location.href = '/signup?redirect=' + redirectPath;
+      return;
+    }
+    window.location.href = '/signup';
+  }
 
   return (
     <>
@@ -76,7 +90,7 @@ function Login() {
         <Typography style={{ color: 'black', fontSize: '20px', marginTop: '20px' }}>
           Don't have an account? 
           <Button 
-            onClick={() => {window.location.href="/signup"}}
+            onClick={handleSignupClick}
             style={{ color: '#305CDE', fontSize: '20px', textTransform: 'none' }}
           >
             Signup Here

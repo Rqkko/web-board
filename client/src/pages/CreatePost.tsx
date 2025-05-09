@@ -64,7 +64,7 @@ function CreatePost() {
       .then(response => response.data)
       .catch((error) => {
         alert("Please login to create a post.");
-        window.location.href = '/login';
+        window.location.href = '/login?redirect=/create-post';
       });
   });
 
