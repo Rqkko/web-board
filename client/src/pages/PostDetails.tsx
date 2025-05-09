@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Avatar } from '@mui/material';
 
 import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
@@ -25,6 +25,7 @@ interface Post {
 interface Comment {
   username: string;
   content: string;
+  profilePicture: string | null;
 }
 
 const PostDetails = () => {
@@ -133,9 +134,14 @@ const PostDetails = () => {
           </div>
           <ul className={styles.commentList}>
             {comments.map((comment, idx) => (
-              <li key={idx} className={styles.comment}>
+              <div key={idx} className={styles.comment}>
+                <Avatar
+                  src={comment.profilePicture ? comment.profilePicture : defaultProfilePicture}
+                  alt={comment.username}
+                  style={{ width: '30px', height: '30px', marginRight: '10px' }}
+                />
                 <strong>{comment.username}:</strong> {comment.content}
-              </li>
+              </div>
             ))}
           </ul>
         </div>
