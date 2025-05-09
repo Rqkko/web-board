@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
-import { getUser, getUsername } from '../utils/userGetter';
+import { getUser } from '../utils/userGetter';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   const { title, content, room_id } = req.body;

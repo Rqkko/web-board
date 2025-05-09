@@ -27,18 +27,3 @@ export async function getUser(userId: string): Promise<UserProfile | null> {
 
   return { username: displayName, profilePicture: pictureUrl };
 }
-
-export async function getUsername(userId: string): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('users')
-    .select('username')
-    .eq('id', userId)
-    .single();
-
-  if (error) {
-    console.error('Error fetching username:', error.message);
-    return null;
-  }
-
-  return data?.username || null;
-}
