@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
 import styles from '../styles/Home.module.css';
-import PostCard from '../components/PostCard'; 
-import profilePicture from '../assets/profilePicture.jpg';
+import PostCard from '../components/PostCard';
 import Loader from 'components/Loader';
 import { Typography } from '@mui/material';
 
@@ -14,10 +13,10 @@ interface Post {
   content: string;
   created_at: string;
   user_id: string;
-  image: string | null;
-  room_id: number;
   imageUrl: string | null;
+  room_id: number;
   username: string;
+  profilePicture: string | null;
 }
 
 const Home = () => {
@@ -71,9 +70,6 @@ const Home = () => {
           )}
           <p>What do you want to do today?</p>
         </div>
-        <div className={styles.avatarContainer}>
-          <img className={styles.avatar} src={profilePicture} alt="Sara" />
-        </div>
       </div>
         
       {/* Rooms section */}
@@ -117,11 +113,11 @@ const Home = () => {
                 key={post.id}
                 id={post.id}
                 username={post.username}
-                profilePic={profilePicture}
+                profilePicture={post.profilePicture}
                 roomId={post.room_id}
                 title={post.title}
                 description={post.content}
-                image={post.imageUrl}
+                postImage={post.imageUrl}
               />
             ))}
           </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Avatar, Button, IconButton, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { api } from '../utils/api';
 import AuthTextField from 'components/AuthTextField';
@@ -9,6 +10,9 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   function handleSignup(e: React.FormEvent) {
     if (password !== confirmPassword) {
@@ -16,10 +20,21 @@ function Signup() {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    if (profilePicture) {
+      formData.append('profile_picture', profilePicture);
+    }
+
     api.post(
       '/api/user/signup',
-      { username, email, password },
-      { withCredentials: true }
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
+      }
     )
       .then((response) => {
         if (response.status === 201) {
@@ -36,6 +51,13 @@ function Signup() {
       });
   }
 
+  function handleProfilePictureChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
+      setProfilePicture(e.target.files[0]);
+      setPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  }
+
   return (
     <div
       style={{
@@ -48,6 +70,62 @@ function Signup() {
       }}
     >
       <Typography style={{ color: 'black', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>Signup</Typography>
+
+      {/* Profile Picture Upload */}
+      <div
+        style={{
+          position: 'relative',
+          marginBottom: '20px',
+        }}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: 'pointer',
+            borderRadius: '50%',
+          }}
+          ref={fileInputRef}
+          onChange={handleProfilePictureChange}
+        />
+        <Avatar
+          src={preview || undefined}
+          alt="Profile Picture"
+          sx={{
+            width: 100,
+            height: 100,
+            backgroundColor: '#ccc',
+            cursor: 'pointer',
+            transition: '0.3s',
+            '&:hover': { 
+              backgroundColor: '#ddd',
+              boxShadow: '0 0 5px 5px rgba(0, 0, 0, 0.2)'
+            },
+          }}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          {!preview && 'Upload'}
+        </Avatar>
+
+        {preview && (
+          <IconButton style={{ position: 'absolute', left: 100, top: 60}}>
+            <DeleteIcon
+              style={{ fontSize: '32px', color: 'red', justifyItems: 'end' }}
+              onClick={() => {
+                setProfilePicture(null);
+                setPreview(null);
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = '';
+                }
+              }}
+            />
+          </IconButton>
+        )}
+      </div>
 
       <AuthTextField
         label="Username"

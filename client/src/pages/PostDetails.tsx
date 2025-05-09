@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Avatar } from '@mui/material';
 
 import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
 import { api } from 'utils/api';
-import profilePicture from '../assets/profilePicture.jpg';
+import defaultProfilePicture from '../assets/defaultProfilePicture.png';
 import LargePostCard from 'components/LargePostCard';
 import Loader from 'components/Loader';
 
@@ -19,11 +19,13 @@ interface Post {
   room_id: number;
   imageUrl: string | null;
   username: string;
+  profilePicture: string | null;
 }
 
 interface Comment {
   username: string;
   content: string;
+  profilePicture: string | null;
 }
 
 const PostDetails = () => {
@@ -38,7 +40,7 @@ const PostDetails = () => {
       withCredentials: true,
     })
       .then(response => response.data)
-      .catch((error) => {
+      .catch(() => {
         alert("Please login to comment on a post.");
       });
     
@@ -99,7 +101,7 @@ const PostDetails = () => {
       <div className={styles.card}>
         <LargePostCard
           username={post.username}
-          profilePic={profilePicture}
+          profilePic={post.profilePicture ? post.profilePicture : defaultProfilePicture}
           roomId={post.room_id}
           title={post.title}
           content={post.content}
@@ -132,9 +134,14 @@ const PostDetails = () => {
           </div>
           <ul className={styles.commentList}>
             {comments.map((comment, idx) => (
-              <li key={idx} className={styles.comment}>
+              <div key={idx} className={styles.comment}>
+                <Avatar
+                  src={comment.profilePicture ? comment.profilePicture : defaultProfilePicture}
+                  alt={comment.username}
+                  style={{ width: '30px', height: '30px', marginRight: '10px' }}
+                />
                 <strong>{comment.username}:</strong> {comment.content}
-              </li>
+              </div>
             ))}
           </ul>
         </div>

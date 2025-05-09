@@ -3,7 +3,7 @@ import { Button, Typography, Avatar, Divider, Dialog, DialogTitle, DialogActions
 
 import { api } from '../utils/api';
 import RoomPicker from 'components/RoomPicker'; 
-import profilePicture from '../assets/profilePicture.jpg';
+import defaultProfilePicture from '../assets/defaultProfilePicture.png';
 import styles from '../styles/Home.module.css';
 import PostCard from 'components/PostCard';
 import Loader from 'components/Loader';
@@ -18,6 +18,7 @@ interface Post {
   room_id: number;
   imageUrl: string | null;
   username: string;
+  profilePicture: string | null;
 }
 
 function Profile() {
@@ -30,6 +31,7 @@ function Profile() {
   const [deletingPostTitle, setDeletingPostTitle] = useState<string>('');
   const [deletingPostId, setDeletingPostId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   function handleDeletePopup(postId: string, title: string) {
     setDeletingPostTitle(title);
@@ -72,12 +74,14 @@ function Profile() {
 
   useEffect(() => {
     Promise.all([
-      api.get('/api/user/getUsername', {
+      api.get('/api/user/getSessionUser', {
         withCredentials: true,
       })
         .then(response => response.data)
-        .then(data => 
-          setUsername(data.message))
+        .then((data) => {
+          setUsername(data.username)
+          setProfilePicture(data.profilePicture)
+        })
         .catch(() => {
           alert("Please login to see your Profile Data.");
           window.location.href = '/login';
@@ -153,7 +157,7 @@ function Profile() {
         {/* Avatar */}
         <Avatar
           sx={{ width: 80, height: 80, mb: 2, fontSize: 18, bgcolor: '#ccc' }}
-          src={profilePicture}
+          src={profilePicture ? profilePicture : defaultProfilePicture}
         >
       
         </Avatar>
@@ -219,11 +223,11 @@ function Profile() {
                   key={post.id}
                   id={post.id}
                   username={post.username}
-                  profilePic={profilePicture}
+                  profilePicture={post.profilePicture ? post.profilePicture : defaultProfilePicture}
                   roomId={post.room_id}
                   title={post.title}
                   description={post.content}
-                  image={post.imageUrl}
+                  postImage={post.imageUrl}
                   allowDelete
                   onDelete={() => handleDeletePopup(post.id, post.title)}
                 />
