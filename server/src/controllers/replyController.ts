@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import supabase, { createSupabaseClient } from '../supabaseClient';
-import { getUsername } from '../utils/userGetter';
+import { getUser } from '../utils/userGetter';
 
 export const createReply = async (req: Request, res: Response): Promise<void> => {
   const { content } = req.body;
@@ -40,14 +40,22 @@ export const getReplies = async (req: Request, res: Response): Promise<void> => 
     const decoratedPosts = await Promise.all(
       replies.map(async (reply) => {
         let username;
+        let profilePicture;
 
         try {
-          username = await getUsername(reply.user_id) || 'Unknown User';
+          const user = await getUser(reply.user_id);
+
+          if (!user) {
+            throw new Error('User not found');
+          }
+
+          username = user.username;
+          profilePicture = user.profilePicture;
         } catch (err) {
           console.error('Error fetching username:', err);
         }
         console.log('username:', username);
-        return { ...reply, username };
+        return { ...reply, username, profilePicture };
       })
     );
 
