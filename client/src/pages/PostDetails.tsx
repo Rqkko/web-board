@@ -5,7 +5,7 @@ import { TextField, Button } from '@mui/material';
 import styles from '../styles/PostDetail.module.css';
 import NotFound from './NotFound';
 import { api } from 'utils/api';
-import profilePicture from '../assets/profilePicture.png';
+import defaultProfilePicture from '../assets/defaultProfilePicture.png';
 import LargePostCard from 'components/LargePostCard';
 import Loader from 'components/Loader';
 
@@ -19,6 +19,7 @@ interface Post {
   room_id: number;
   imageUrl: string | null;
   username: string;
+  profilePicture: string | null;
 }
 
 interface Comment {
@@ -38,7 +39,7 @@ const PostDetails = () => {
       withCredentials: true,
     })
       .then(response => response.data)
-      .catch((error) => {
+      .catch(() => {
         alert("Please login to comment on a post.");
       });
     
@@ -99,7 +100,7 @@ const PostDetails = () => {
       <div className={styles.card}>
         <LargePostCard
           username={post.username}
-          profilePic={profilePicture}
+          profilePic={post.profilePicture ? post.profilePicture : defaultProfilePicture}
           roomId={post.room_id}
           title={post.title}
           content={post.content}
