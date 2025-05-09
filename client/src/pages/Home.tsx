@@ -71,9 +71,6 @@ const Home = () => {
           )}
           <p>What do you want to do today?</p>
         </div>
-        <div className={styles.avatarContainer}>
-          <img className={styles.avatar} src={profilePicture} alt="Sara" />
-        </div>
       </div>
         
       {/* Rooms section */}
