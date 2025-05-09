@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 
 import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
-import { getUsername } from '../utils/userGetter';
+import { getUser, getUsername } from '../utils/userGetter';
+import { profile } from 'console';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   console.log(req.body);
@@ -65,9 +66,16 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
     const decoratedPosts = await Promise.all(
       posts.map(async (post) => {
         let username;
+        let profilePicture;
 
         try {
-          username = await getUsername(post.user_id) || 'Unknown User';
+          const user = await getUser(post.user_id);
+          if (!user) {
+            throw new Error('User not found');
+          }
+          username = user.username;
+          profilePicture = user.profilePicture;
+
         } catch (err) {
           console.error('Error fetching username:', err);
         } finally {
@@ -77,7 +85,7 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
 
           post.imageUrl = imageUrl;
         }
-        return { ...post, username, imageUrl: post.imageUrl };
+        return { ...post, username, profilePicture, imageUrl: post.imageUrl };
       })
     );
 
@@ -105,8 +113,14 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
   }
   try {
     let username;
+    let profilePicture;
     try {
-      username = await getUsername(post.user_id) || 'Unknown User';
+      const user = await getUser(post.user_id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      username = user.username;
+      profilePicture = user.profilePicture;
     } catch (err) {
       console.error('Error fetching username:', err);
     } finally {
@@ -115,7 +129,7 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
         : null;
       post.imageUrl = imageUrl;
     }
-    res.status(200).json({ data: { ...post, username, imageUrl: post.imageUrl } });
+    res.status(200).json({ data: { ...post, username, profilePicture, imageUrl: post.imageUrl } });
   } catch (err) {
     console.error('Error decorating post:', err);
     res.status(500).json({ error: 'Failed to fetch post' });
@@ -140,9 +154,17 @@ export const getPostsOfUser = async (req: Request, res: Response): Promise<void>
     const decoratedPosts = await Promise.all(
       posts.map(async (post) => {
         let username;
+        let profilePicture;
 
         try {
-          username = await getUsername(post.user_id) || 'Unknown User';
+          const user = await getUser(post.user_id);
+
+          if (!user) {
+            throw new Error('User not found');
+          }
+
+          username = user.username;
+          profilePicture = user.profilePicture;
         } catch (err) {
           console.error('Error fetching username:', err);
         } finally {
@@ -152,7 +174,7 @@ export const getPostsOfUser = async (req: Request, res: Response): Promise<void>
 
           post.imageUrl = imageUrl;
         }
-        return { ...post, username, imageUrl: post.imageUrl };
+        return { ...post, username, profilePicture, imageUrl: post.imageUrl };
       })
     );
 

@@ -8,7 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
-import profilePicture from '../assets/profilePicture.png';
+import defaultProfilePicture from '../assets/defaultProfilePicture.png';
 import { api } from 'utils/api';
 
 const menuItems = [
@@ -23,7 +23,7 @@ export default function CustomAppBar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const appBarRef = useRef<HTMLElement | null>(null);
   const [username, setUsername] = useState<string | null>(null);
-  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   function handleMenuOpen() {
     setIsMenuOpen(true);
@@ -39,7 +39,7 @@ export default function CustomAppBar() {
     })
       .then((response) => { 
         setUsername(response.data.username); 
-        setProfilePic(response.data.profilePicture);
+        setProfilePicture(response.data.profilePicture);
       })
       .catch((error) => {
         console.error('User not logged in', error);
@@ -183,7 +183,7 @@ export default function CustomAppBar() {
               </Box> */}
               <Avatar
                 alt={username}
-                src={profilePic ? profilePic : profilePicture}
+                src={profilePicture ? profilePicture : defaultProfilePicture}
               />
 
             </Button>
