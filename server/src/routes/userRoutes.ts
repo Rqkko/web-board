@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
+import multer from 'multer';
 
 import supabase from '../supabaseClient';
 
 const router = express.Router();
+const upload = multer();
 
 /**
  * @swagger
@@ -102,7 +104,7 @@ router.get('/getUserId', (req: Request, res: Response) => {
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -111,13 +113,18 @@ router.get('/getUserId', (req: Request, res: Response) => {
  *               email:
  *                 type: string
  *               password:
-*                  type: string
+ *                 type: string
+ *               profile_picture:
+ *                 type: string
+ *                 format: binary
  *     responses:
- *       201:
- *         description: User created successfully
+ *       200:
+ *         description: Post created successfully
  */
-router.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup', upload.single('profile_picture'), async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
+  const imageFile = req.file;
+  console.log("Image file:", imageFile);
 
   supabase.auth.signUp({
     email,
@@ -134,10 +141,36 @@ router.post('/signup', async (req: Request, res: Response) => {
       res.status(400).json({ error: 'User creation failed' });
     } else {
       // Successfully created user
-      await supabase.from('users').insert({
+      let imagePath: string | null = null;
+      if (imageFile) {
+        const strippedUsername = username.replace(/\s+/g, '');
+        const fileName = `${strippedUsername}-${Date.now()}.jpg`;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('profile-pictures')
+          .upload(fileName, imageFile.buffer, {
+            contentType: imageFile.mimetype,
+          });
+
+        if (uploadError) {
+          res.status(400).json({ error: uploadError.message });
+          return;
+        }
+
+        imagePath = uploadData?.path;
+        console.log('Profile picture to:', imagePath);
+      }
+      
+      const { error: insertError } = await supabase.from('users').insert({
         id: data.user.id,
-        username: username
-      })
+        username: username,
+        profile_picture: imagePath
+      });
+
+      if (insertError) {
+        res.status(400).json({ error: insertError.message });
+        return;
+      }
 
       res.cookie('accessToken', data.session.access_token, {
         httpOnly: true,
