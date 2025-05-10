@@ -39,32 +39,40 @@ const PostDetails = () => {
     api.get('/api/user/getUsername', {
       withCredentials: true,
     })
-      .then(response => response.data)
+      .then(response => {
+        if (response.data) {
+          // User is logged in, proceed with adding the comment
+          if (newComment.trim()) {
+            api.post(`/api/reply/${id}`,
+              { content: newComment },
+              { 
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true 
+              }
+            )
+              .then(response => {
+                if (response.status === 200 || response.status === 201) {
+                  alert('Comment added successfully!');
+                  updateCommentList();
+                  setNewComment('');
+                }
+              })
+              .catch(error => {
+                console.error('Error adding comment:', error);
+                alert('Failed to add comment. Please try again.');
+              });
+          } else {
+            alert('Comment cannot be empty.');
+          }
+        } else {
+          // User is not logged in
+          alert("Please login to comment on a post.");
+        }
+      })
       .catch(() => {
         alert("Please login to comment on a post.");
       });
-    
-    if (newComment.trim()) {
-      api.post(`/api/reply/${id}`,
-        { content: newComment },
-        { 
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true 
-        }
-      )
-        .then(response => {
-          if (response.status === 200 || response.status === 201) {
-            alert('Comment added successfully!');
-            updateCommentList();
-            setNewComment('');
-          }
-        })
-        .catch(error => {
-          console.error('Error adding comment:', error);
-          alert('Failed to add comment. Please try again.');
-        });
-    }
-  };
+  }
 
   const updateCommentList = useCallback(() => {
     api.get(`/api/reply/${id}`)
