@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu, MenuItem, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Button, IconButton, ButtonBase, Menu, MenuItem, Typography, Avatar } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
@@ -10,6 +10,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 
 import orcaBoardLogo from '../assets/orcaBoard_logo_noText.png';
 import orcaBoardText from '../assets/orcaBoard_logo_textOnly.png';
+import defaultProfilePicture from '../assets/defaultProfilePicture.png';
 import { api } from 'utils/api';
 
 const menuItems = [
@@ -25,6 +26,7 @@ export default function CustomAppBar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const appBarRef = useRef<HTMLElement | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   function handleMenuOpen() {
     setIsMenuOpen(true);
@@ -35,14 +37,17 @@ export default function CustomAppBar() {
   }
 
   useEffect(() => {
-    api.get('/api/user/getUsername', {
+    api.get('/api/user/getSessionUser', {
       withCredentials: true,
     })
-      .then((response) => { setUsername(response.data.message); })
+      .then((response) => { 
+        setUsername(response.data.username); 
+        setProfilePicture(response.data.profilePicture);
+      })
       .catch((error) => {
         console.error('User not logged in', error);
       });
-  })
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -161,7 +166,10 @@ export default function CustomAppBar() {
           </Box>
 
           {username ? (
-            <>
+            <Button 
+              style={{ display: 'flex', alignItems: 'center', textTransform: 'none' }}
+              onClick={() => {window.location.href='/profile'}}
+            >
               <Typography
                 variant="body1"
                 sx={{
@@ -173,10 +181,15 @@ export default function CustomAppBar() {
               >
                 {username}
               </Typography>
-              <Box sx={{ color: '#000' }} >
+              {/* <Box sx={{ color: '#000' }} >
                   <PersonIcon />
-              </Box>
-            </>
+              </Box> */}
+              <Avatar
+                alt={username}
+                src={profilePicture ? profilePicture : defaultProfilePicture}
+              />
+
+            </Button>
           ) :
             <Button
               sx={{ color: "#000" }}

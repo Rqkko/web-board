@@ -5,7 +5,6 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { api } from '../utils/api';
-
 import PostTextField from 'components/PostTextField'
 import RoomPicker from 'components/RoomPicker';
 
@@ -15,6 +14,7 @@ function CreatePost() {
   const [room, setRoom] = useState<number | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -23,8 +23,10 @@ function CreatePost() {
   };
 
   async function handleSubmit() {
+    setButtonDisabled(true);
     if (!title || room === null) {
       alert('Please fill in title and select a room.');
+      setButtonDisabled(false);
       return;
     }
 
@@ -51,6 +53,7 @@ function CreatePost() {
     } catch (error) {
       console.error('Error creating post:', error);
       alert('Failed to create post. Please try again.');
+      setButtonDisabled(false);
     }
   }
 
@@ -61,7 +64,7 @@ function CreatePost() {
       .then(response => response.data)
       .catch((error) => {
         alert("Please login to create a post.");
-        window.location.href = '/login';
+        window.location.href = '/login?redirect=/create-post';
       });
   });
 
@@ -182,6 +185,7 @@ function CreatePost() {
           zIndex: 1000,
         }}
         onClick={handleSubmit}
+        disabled={buttonDisabled}
       >
         Create Post
       </Button>

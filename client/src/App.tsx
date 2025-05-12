@@ -8,7 +8,8 @@ import Profile from "pages/Profile"
 import Community from "pages/Community";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
-import PostDetail from './pages/PostDetail';
+import PostDetails from './pages/PostDetails';
+import Profile from "pages/Profile";
 
 function App() {
   const location = useLocation();
@@ -22,8 +23,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/posts/:id" element={<PostDetail />} /> 
+        <Route path="/post/:id" element={<PostDetails />} /> 
         <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/community" element={<Community />} />

@@ -1,38 +1,20 @@
 import { Request, Response } from 'express';
-import supabase from '../supabaseClient';
+
+import supabase, { createSupabaseClient } from '../supabaseClient';
 import { generatePublicUrl } from '../utils/publicUrlGenerator';
-
-async function getUsername(userId: string): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('users')
-    .select('username')
-    .eq('id', userId)
-    .single();
-
-  if (error) {
-    console.error('Error fetching username:', error.message);
-    return null;
-  }
-
-  const displayName = data?.username || 'Unknown User';
-  console.log('Display Name:', displayName);
-
-  return data?.username || null;
-}
+import { getUser } from '../utils/userGetter';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   const { title, content, room_id } = req.body;
   const imageFile = req.file;
   const user_id = req.cookies.userId;
 
-  console.log("Received data:", req.body);
-  console.log('Received file:', imageFile);
-
   if (!title || room_id === undefined) {
     res.status(400).json({ error: 'Missing required fields: title, room' });
     return;
   }
 
+  const supabase = createSupabaseClient(req.cookies.accessToken);
   let imagePath: string | null = null;
 
   // Upload image (if provided)
@@ -51,7 +33,6 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     }
 
     imagePath = uploadData?.path;
-    console.log('Image uploaded to:', imagePath);
   }
 
   const { data, error } = await supabase
@@ -82,9 +63,16 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
     const decoratedPosts = await Promise.all(
       posts.map(async (post) => {
         let username;
+        let profilePicture;
 
         try {
-          username = await getUsername(post.user_id) || 'Unknown User';
+          const user = await getUser(post.user_id);
+          if (!user) {
+            throw new Error('User not found');
+          }
+          username = user.username;
+          profilePicture = user.profilePicture;
+
         } catch (err) {
           console.error('Error fetching username:', err);
         } finally {
@@ -94,8 +82,7 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
-        return { ...post, username, imageUrl: post.imageUrl };
+        return { ...post, username, profilePicture, imageUrl: post.imageUrl };
       })
     );
 
@@ -106,13 +93,53 @@ export const getPosts = async (_: Request, res: Response): Promise<void> => {
   }
 };
 
-export const getPostsInRoom = async (req: Request, res: Response): Promise<void> => {
-  const { roomId } = req.params;
+export const getPostById = async (req: Request, res: Response): Promise<void> => {
+  const { postId } = req.params;
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', postId)
+    .single();
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+  if (!post) {
+    res.status(404).json({ error: 'Post not found' });
+    return;
+  }
+  try {
+    let username;
+    let profilePicture;
+    try {
+      const user = await getUser(post.user_id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      username = user.username;
+      profilePicture = user.profilePicture;
+    } catch (err) {
+      console.error('Error fetching username:', err);
+    } finally {
+      const imageUrl = post.image
+        ? generatePublicUrl('post-image', post.image)
+        : null;
+      post.imageUrl = imageUrl;
+    }
+    res.status(200).json({ data: { ...post, username, profilePicture, imageUrl: post.imageUrl } });
+  } catch (err) {
+    console.error('Error decorating post:', err);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+};
 
+export const getPostsOfUser = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.cookies.userId;
+  
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('room_id', roomId)
+    .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -124,9 +151,17 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
     const decoratedPosts = await Promise.all(
       posts.map(async (post) => {
         let username;
+        let profilePicture;
 
         try {
-          username = await getUsername(post.user_id) || 'Unknown User';
+          const user = await getUser(post.user_id);
+
+          if (!user) {
+            throw new Error('User not found');
+          }
+
+          username = user.username;
+          profilePicture = user.profilePicture;
         } catch (err) {
           console.error('Error fetching username:', err);
         } finally {
@@ -136,8 +171,7 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
 
           post.imageUrl = imageUrl;
         }
-        console.log('username:', username);
-        return { ...post, username, imageUrl: post.imageUrl };
+        return { ...post, username, profilePicture, imageUrl: post.imageUrl };
       })
     );
 
@@ -146,100 +180,59 @@ export const getPostsInRoom = async (req: Request, res: Response): Promise<void>
     console.error('Error decorating posts:', err);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
-};
+}
 
-export const searchPosts = async (req: Request, res: Response): Promise<void> => {
-  const query = req.query.query as string;
+export const deletePost = async (req: Request, res: Response): Promise<void> => {
+  const { postId } = req.params;
+  const userId = req.cookies.userId;
 
-  if (!query) {
-    res.status(400).json({ error: 'Query parameter is required' });
-    return;
-  }
+  const supabase = createSupabaseClient(req.cookies.accessToken);
 
-  const { data: posts, error } = await supabase
+  // Check if the post exists
+  const { data: post, error: fetchError } = await supabase
     .from('posts')
     .select('*')
-    .ilike('title', `%${query}%`) // ilike = case-insensitive search
-    .order('created_at', { ascending: false });
+    .eq('id', postId)
+    .single();
 
-  if (error) {
-    res.status(400).json({ error: error.message });
+  if (fetchError) {
+    res.status(400).json({ error: fetchError.message });
     return;
   }
 
-  try {
-    const decoratedPosts = await Promise.all(
-      posts.map(async (post) => {
-        let username;
-
-        try {
-          username = await getUsername(post.user_id) || 'Unknown User';
-        } catch (err) {
-          console.error('Error fetching username:', err);
-        } finally {
-          const imageUrl = post.image
-            ? generatePublicUrl('post-image', post.image)
-            : null;
-
-          post.imageUrl = imageUrl;
-        }
-        console.log('username:', username);
-        return { ...post, username, imageUrl: post.imageUrl };
-      })
-    );
-
-    res.status(200).json({ data: decoratedPosts });
-  } catch (err) {
-    console.error('Error decorating posts:', err);
-    res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
-
-export const searchPostsInRoom = async (req: Request, res: Response): Promise<void> => {
-  const { roomId } = req.params;
-  const query = req.query.query as string;
-
-  if (!query) {
-    res.status(400).json({ error: 'Query parameter is required' });
+  if (!post) {
+    res.status(404).json({ error: 'Post not found' });
     return;
   }
 
-  const { data: posts, error } = await supabase
+  // Check if the user is the owner of the post
+  if (post.user_id !== userId) {
+    res.status(403).json({ error: 'Post Deletion Unauthorized' });
+    return;
+  }
+
+  // Delete Image
+  if (post.image) {
+    const { error: deleteImageError } = await supabase.storage
+      .from('post-image')
+      .remove([post.image]);
+      
+    if (deleteImageError) {
+      res.status(400).json({ error: deleteImageError.message });
+      return;
+    }
+  }
+
+  // Delete the post
+  const { error: deleteError } = await supabase
     .from('posts')
-    .select('*')
-    .eq('room_id', roomId)
-    .ilike('title', `%${query}%`)
-    .order('created_at', { ascending: false });
+    .delete()
+    .eq('id', postId);
 
-  if (error) {
-    res.status(400).json({ error: error.message });
+  if (deleteError) {
+    res.status(400).json({ error: deleteError.message });
     return;
   }
 
-  try {
-    const decoratedPosts = await Promise.all(
-      posts.map(async (post) => {
-        let username;
-
-        try {
-          username = await getUsername(post.user_id) || 'Unknown User';
-        } catch (err) {
-          console.error('Error fetching username:', err);
-        } finally {
-          const imageUrl = post.image
-            ? generatePublicUrl('post-image', post.image)
-            : null;
-
-          post.imageUrl = imageUrl;
-        }
-        console.log('username:', username);
-        return { ...post, username, imageUrl: post.imageUrl };
-      })
-    );
-
-    res.status(200).json({ data: decoratedPosts });
-  } catch (err) {
-    console.error('Error decorating posts:', err);
-    res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
+  res.status(200).json({ message: 'Post deleted successfully' });
+}

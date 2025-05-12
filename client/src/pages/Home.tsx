@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+
 import { api } from 'utils/api';
 import RoomPicker from 'components/RoomPicker';
-import styles from '../styles/Dashboard.module.css';
-import PostCard from '../components/PostCard'; 
-
-import profilePicture from '../assets/profilePicture.jpg';
+import styles from '../styles/Home.module.css';
+import PostCard from '../components/PostCard';
+import Loader from 'components/Loader';
+import { Typography } from '@mui/material';
 
 interface Post {
   id: string;
@@ -12,10 +13,10 @@ interface Post {
   content: string;
   created_at: string;
   user_id: string;
-  image: string | null;
-  room_id: number;
   imageUrl: string | null;
+  room_id: number;
   username: string;
+  profilePicture: string | null;
 }
 
 const Home = () => {
@@ -23,14 +24,17 @@ const Home = () => {
   const [room, setRoom] = useState<number | null>(null);
   const [search, setSearch] = useState<string>('');
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     api.get('/api/post')
       .then(response => {
         setPosts(response.data.data);
+        setIsLoading(false)
       })
       .catch(error => {
         console.error('Error fetching posts:', error);
+        setIsLoading(false);
       });
 
     api.get('/api/user/getUsername',
@@ -46,10 +50,9 @@ const Home = () => {
   }, [])
 
   const filteredPosts = posts.filter(post => {
-    console.log('Search:', search);
     const matchesRoom = room === null || post.room_id === room;
     const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
-                          post.content?.toLowerCase().includes(search.toLowerCase());
+    post.content?.toLowerCase().includes(search.toLowerCase());
     return matchesRoom && matchesSearch;
   });
 
@@ -65,9 +68,6 @@ const Home = () => {
             <h2>Hi there!</h2>
           )}
           <p>What do you want to do today?</p>
-        </div>
-        <div className={styles.avatarContainer}>
-          <img className={styles.avatar} src={profilePicture} alt="Sara" />
         </div>
       </div>
         
@@ -96,25 +96,35 @@ const Home = () => {
       </div>
 
       {/* Posts section */}
-      <div className={styles.postWrapper}>
-        <div style={{ padding: '20px', marginTop: '20px' }}>
-          {filteredPosts.map(post => (
-            <PostCard 
-              key={post.id}
-              id={post.id}
-              username={post.username}
-              profilePic={profilePicture}
-              roomId={post.room_id}
-              title={post.title}
-              description={post.content}
-              image={post.imageUrl}
-            />
-          ))}
+      {isLoading ? (
+        <div style={{ marginTop: '40px' }}>
+          <Loader />
         </div>
-      </div>
+      ) : filteredPosts.length === 0 ? (
+        <Typography sx={{ justifySelf: 'center', marginTop: '40px' }} variant="h5">
+          Posts not found
+        </Typography>
+      ) : (
+        <div className={styles.postWrapper}>
+          <div style={{ padding: '20px', marginTop: '20px' }}>
+            {filteredPosts.map(post => (
+              <PostCard 
+                key={post.id}
+                id={post.id}
+                username={post.username}
+                profilePicture={post.profilePicture}
+                roomId={post.room_id}
+                title={post.title}
+                description={post.content}
+                postImage={post.imageUrl}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
-
 
 export default Home;

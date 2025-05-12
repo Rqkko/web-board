@@ -1,7 +1,8 @@
 import express from 'express';
 import multer from 'multer';
-import asyncHandler from '../utils/asyncHandler'; // ✅ Import asyncHandler
-import { createPost, getPosts, getPostsInRoom, searchPosts, searchPostsInRoom } from '../controllers/postController'; // 👈 assume you have these controllers
+
+import asyncHandler from '../utils/asyncHandler';
+import { createPost, deletePost, getPostById, getPosts, getPostsOfUser } from '../controllers/postController';
 
 const router = express.Router();
 const upload = multer();
@@ -35,7 +36,7 @@ const upload = multer();
  *       200:
  *         description: Post created successfully
  */
-router.post('/createPost', upload.single('image'), asyncHandler(createPost)); // ✅ WRAP IN asyncHandler
+router.post('/createPost', upload.single('image'), asyncHandler(createPost));
 
 /**
  * @swagger
@@ -51,65 +52,52 @@ router.get('/', asyncHandler(getPosts));
 
 /**
  * @swagger
- * /api/post/room/{roomId}:
+ * /api/post/user/:
  *   get:
- *     summary: Get all posts in a room
+ *     summary: Get all posts of a user
  *     tags: [Posts]
- *     parameters:
- *       - name: roomId
- *         in: path
- *         required: true
- *         description: ID of the room to get posts from
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Successfully retrieved posts
  */
-router.get('/room/:roomId', asyncHandler(getPostsInRoom)); // ✅ WRAP IN asyncHandler
+router.get('/user', asyncHandler(getPostsOfUser));
 
 /**
  * @swagger
- * /api/post/search:
+ * /api/post/{postId}:
  *   get:
- *     summary: Search posts across all rooms
+ *     summary: Get a post by ID
  *     tags: [Posts]
  *     parameters:
- *       - name: query
- *         in: query
+ *       - name: postId
+ *         in: path
  *         required: true
- *         description: Search query
+ *         description: ID of the post to retrieve
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully retrieved posts
+ *         description: Successfully retrieved post
  */
-router.get('/search', asyncHandler(searchPosts)); // ✅ WRAP IN asyncHandler
+router.get('/:postId', asyncHandler(getPostById));
 
 /**
  * @swagger
- * /api/post/room/{roomId}/search:
- *   get:
- *     summary: Search posts in a specific room
+ * /api/post/{postId}:
+ *   delete:
+ *     summary: Delete a post by ID
  *     tags: [Posts]
  *     parameters:
- *       - name: roomId
+ *       - name: postId
  *         in: path
  *         required: true
- *         description: ID of the room to search in
- *         schema:
- *           type: string
- *       - name: query
- *         in: query
- *         required: true
- *         description: Search query
+ *         description: ID of the post to delete
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully retrieved posts
+ *         description: Successfully deleted post
  */
-router.get('/room/:roomId/search', asyncHandler(searchPostsInRoom)); // ✅ WRAP IN asyncHandler
+router.delete('/:postId', asyncHandler(deletePost))
 
 export default router;

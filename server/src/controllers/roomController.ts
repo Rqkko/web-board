@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import supabase from '../supabaseClient';
 
-export const getAllRooms = async (req: Request, res: Response): Promise<void> => {
+export const getAllRooms = async (_: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase.from('rooms').select('*');
 
   if (error) {
