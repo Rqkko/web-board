@@ -35,7 +35,12 @@ export default function AuthTextField({ label, type, value, onChange }: AuthText
       type={type}
       value={value}
       onChange={onChange}
-      style={{ margin: '20px', width: '600px' }}
+      //responive AuthTextField
+      style={{
+         margin: '20px 0',
+          width: '100%', 
+          maxWidth: '600px'
+        }}
       slotProps={{
         inputLabel: {
           style: { fontSize: '24px' }

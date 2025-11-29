@@ -50,8 +50,11 @@ function Login() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100vh',
+          minHeight: '100vh',
+          padding: '0 20px',
           backgroundColor: '#FFFFFF',
+          overflowX: 'hidden',
+          boxSizing: 'border-box',
         }}
       >
         <Typography style={{ color: 'black', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>Login</Typography>
