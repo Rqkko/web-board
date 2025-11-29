@@ -105,7 +105,7 @@ function Login() {
           <span>Don&apos;t have an account?</span>
 
           <Button
-            onClick={() => { window.location.href = "/signup"; }}
+            onClick={handleSignupClick}
             style={{
               color: '#305CDE',
               fontSize: '20px',
