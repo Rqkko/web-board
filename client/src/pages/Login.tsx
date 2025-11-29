@@ -90,11 +90,29 @@ function Login() {
           Login
         </Button>
 
-        <Typography style={{ color: 'black', fontSize: '20px', marginTop: '20px' }}>
-          Don't have an account? 
-          <Button 
-            onClick={handleSignupClick}
-            style={{ color: '#305CDE', fontSize: '20px', textTransform: 'none' }}
+        <Typography
+          style={{
+            color: 'black',
+            fontSize: '20px',
+            marginTop: '20px',
+            display: 'flex',
+            justifyContent: 'center',   // center whole row
+            alignItems: 'center',
+            gap: '4px',                  // space between text and button
+            textAlign: 'center',
+          }}
+        >
+          <span>Don&apos;t have an account?</span>
+
+          <Button
+            onClick={() => { window.location.href = "/signup"; }}
+            style={{
+              color: '#305CDE',
+              fontSize: '20px',
+              textTransform: 'none',
+              padding: 0,
+              minWidth: 0,               // keeps it link-sized
+            }}
           >
             Signup Here
           </Button>
