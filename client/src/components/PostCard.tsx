@@ -44,7 +44,7 @@ const Post: React.FC<PostProps> = ({ id, username, profilePicture, roomId, title
         <span className={styles.username}>{username}</span>
         <div className={styles.room}>{room}</div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', height: '50px' }}>
+      <div className={styles.titleRow}>
         <h3 className={styles.title}>{title}</h3>
         {allowDelete && (
           <IconButton

@@ -50,6 +50,13 @@
   align-self: center;
 }
 
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 50px;            
+}
+
 .description {
   font-size: 1rem;
   color: #555;
@@ -63,4 +70,39 @@
   object-fit: cover;
   max-height: 400px;
   margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;          /* allow a 2nd line inside header */
+  }
+
+  .room {
+    order: 1;                 /* move after avatar + username */
+    width: 100%;              /* full width line */
+    margin-left: 0;           /* no auto push to the right */
+    margin-top: 4px;
+    font-size: 0.8rem;        /* smaller label on mobile */
+    text-align: left;         /* align with username */
+  }
+
+  .title {
+    font-size: 1.1rem;        /* optional: slightly smaller on mobile */
+  }
+
+  .titleRow {
+    height: auto;           /* allow row to grow with wrapped title */
+  }
+
+  .description {
+    font-size: 0.95rem;     /* slightly smaller, more comfortable */
+  }
+
+
+  .postContainer {
+    min-width: 250px;
+    max-width: none;                 /* allow it to grow with screen */
+    width: calc(100% - 70px);        /* full width minus 20px on each side */
+    margin: 0 20px 20px;             /* 20px left + right margin → symmetric */
+  }
 }

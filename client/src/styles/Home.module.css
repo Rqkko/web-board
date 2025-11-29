@@ -88,3 +88,78 @@
   margin-top: 20px;
   padding: 0 20px;
 }
+
+/* === Room picker cards under "What do you want to do today?" === */
+
+.roomPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: medium;
+  justify-content: center;
+}
+
+
+.roomCard {
+  width: 120px;
+  background: white;
+  padding: 15px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.roomCardSelected {
+  background: #f0f0f0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+/* --- MOBILE: turn into horizontal scroll row --- */
+@media (max-width: 768px) {
+  .roomPicker {
+    flex-wrap: nowrap;             
+    overflow-x: auto;    
+    overflow-y: visible;          
+    justify-content: flex-start;
+    width: '100%';
+    max-width: '100%';
+    box-sizing: border-box;
+    padding: 12px 16px;
+    margin: 0 auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .roomCard {
+    flex: 0 0 auto;                /* prevent shrinking */
+  }
+
+  .searchContainer {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;      /* space to left/right */
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .search {
+    margin: 10px 0;       /* no auto horizontal margin needed anymore */
+  }
+
+
+  .postWrapper {
+    display: flex;
+    justify-content: center; /* center the inner wrapper */
+    padding: 0 16px;         /* symmetric left/right spacing */
+  }
+
+  .clearButton{
+    right: 25px;
+  }
+
+
+}
